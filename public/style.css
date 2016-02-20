@@ -41,6 +41,18 @@ body {
   margin-left: 16px;
 }
 
-#Status > .energy {
+#Status > .energy-bar {
+  border: 2px solid #EEE;
+  border-radius: 2px;
   float: right;
+  height: 20px;
+  padding: 2px;
+  width: 96px;
+}
+
+#Status > .energy-bar > .energy {
+  background-color: #684;
+  display: block;
+  height: 100%;
+  width: 100%;
 }

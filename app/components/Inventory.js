@@ -10,6 +10,7 @@ module.exports = {
   add,
   create,
   empty,
+  isEmpty,
   remove,
   type: INVENTORY
 };
@@ -29,6 +30,10 @@ function create(contents = []) {
 
 function empty(entity) {
   return Entity.update(entity, INVENTORY, () => []);
+}
+
+function isEmpty(entity) {
+  return Entity.get(entity, INVENTORY).length === 0;
 }
 
 function remove(entity, item) {

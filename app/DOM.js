@@ -15,7 +15,7 @@ function find(selector, context = document) {
   return context.querySelector(selector);
 }
 
-function html(type, attributes, children) {
+function html(type, attributes, children = []) {
   const element = document.createElement(type);
 
   Object.keys(attributes).forEach(name => {

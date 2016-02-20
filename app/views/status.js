@@ -6,8 +6,8 @@ export default function renderStatus(model) {
   const carl = Entity.properties(model.carl);
   const cpu = Entity.properties(carl.cpuSlot.cpu);
 
-  // FIXME: This value should factor in Carl's equipment
-  const numSteps = Math.floor(carl.energy / 20);
+  const energySpan = html('span', { class: 'energy' });
+  energySpan.style.width = `${100 * carl.energy / carl.maxEnergy}%`;
 
   const statusEl = html('div', { id: 'Status' }, [
     html('span', { class: 'stats' }, [
@@ -17,9 +17,7 @@ export default function renderStatus(model) {
       ]),
       `${cpu.clockSpeed.toFixed(1)}GHz`
     ]),
-    html('span', { class: 'energy' }, [
-      `${Format.number(carl.energy)}J (${Format.number(numSteps)} steps)`
-    ])
+    html('span', { class: 'energy-bar' }, [energySpan])
   ]);
   document.body.replaceChild(statusEl, find('#Status'));
 }

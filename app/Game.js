@@ -1,8 +1,8 @@
 import Carl from 'entities/Carl';
+import World from 'World';
 import renderField from 'views/field';
 import renderMessage from 'views/message';
 import renderStatus from 'views/status';
-import World from 'World';
 import { find, html, text } from 'DOM';
 
 // Data ------------------------------------------------------------------------
@@ -16,10 +16,12 @@ module.exports = {
 // Functions -------------------------------------------------------------------
 
 function getInitialModel() {
+  const world = World.generate(1024, 1024);
+
   return {
-    carl: Carl.create(),
+    carl: Carl.create(World.emptyLandPosition(world)),
     message: 'You are Carl, a time-traveling robot.',
-    world: World.generate(1024, 1024)
+    world,
   };
 }
 

@@ -5,6 +5,7 @@ import Energy from 'components/Energy';
 import Entity from 'Entity';
 import Health from 'components/Health';
 import Inventory from 'components/Inventory';
+import MaxEnergy from 'components/MaxEnergy';
 import Position from 'components/Position';
 
 // Data ------------------------------------------------------------------------
@@ -17,13 +18,16 @@ module.exports = {
 
 // Functions -------------------------------------------------------------------
 
-function create() {
+function create(position) {
+  const maxEnergy = 60000;
+
   return Entity.create([
     Avatar.create('@', '#f8f8f8'),
     CPUSlot.create(CPU.create(1.0)),
-    Energy.create(60000),
+    Energy.create(maxEnergy),
     Health.create(100),
     Inventory.create([]),
-    Position.create()
+    MaxEnergy.create(maxEnergy),
+    Position.create(position.x, position.y)
   ]);
 }
