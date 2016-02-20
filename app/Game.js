@@ -1,8 +1,8 @@
 import Carl from 'entities/Carl';
-import Entity from 'Entity';
-import Random from 'Random';
+import renderField from 'views/field';
+import renderMessage from 'views/message';
+import renderStatus from 'views/status';
 import World from 'World';
-import { HEALTH } from 'components/Health';
 import { find, html, text } from 'DOM';
 
 // Data ------------------------------------------------------------------------
@@ -43,37 +43,10 @@ function load() {
   return JSON.parse(localStorage.getItem('state'));
 }
 
-function renderView({ carl, message, world }) {
-  const messageEl = html('div', { id: 'Message' }, [message]);
-  document.body.replaceChild(messageEl, find('#Message'));
-
-  const fieldCanvas = find('#Field');
-  const fieldContext = fieldCanvas.getContext('2d');
-  fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
-  fieldContext.font = '20px monospace';
-  fieldContext.fillStyle = '#ccc';
-  for (let x = 0; x < fieldCanvas.width / 20; x ++) {
-    for (let y = 0; y < fieldCanvas.height / 20; y++) {
-      const character = world[x][y] > 0.1 ? 'X' : '.';
-      fieldContext.fillText(character, x * 20, 16 + y * 20);
-    }
-  }
-
-  console.log(Entity.get(carl, HEALTH));
-
-  const statusEl = html('div', { id: 'Status' }, [
-    html('span', { class: 'stats' }, [
-      `${Entity.get(carl, HEALTH).current}/${Entity.get(carl, HEALTH).max}HP`,
-      html('span', { class: 'cpu' }, [
-        text('CPU:'),
-      ]),
-      `?GHz`
-    ]),
-    html('span', { class: 'energy' }, [
-      `?J (? steps)`
-    ])
-  ]);
-  document.body.replaceChild(statusEl, find('#Status'));
+function renderView(model) {
+  renderMessage(model);
+  renderField(model);
+  renderStatus(model);
 }
 
 function resizeField(width, height) {
