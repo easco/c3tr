@@ -21,7 +21,7 @@ function getInitialModel() {
   return {
     carl: Carl.create(World.emptyLandPosition(world)),
     message: 'You are Carl, a time-traveling robot.',
-    world,
+    world
   };
 }
 

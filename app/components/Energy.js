@@ -15,17 +15,20 @@ module.exports = {
 
 // Functions -------------------------------------------------------------------
 
-function create(level) {
+function create(max) {
   return {
     type: ENERGY,
-    value: level
+    value: {
+      current: max,
+      max: max
+    }
   };
 }
 
 function drain(entity, amount) {
-  return Entity.update(entity, ENERGY, value => value - amount);
+  return Entity.update(entity, ENERGY, value => Math.max(0, value.current - amount));
 }
 
 function fill(entity, amount) {
-  return Entity.update(entity, ENERGY, value => value + amount);
+  return Entity.update(entity, ENERGY, value => Math.min(value.max, value.current + amount));
 }
