@@ -1,5 +1,6 @@
 import Entity from 'Entity';
 import Occupant from 'components/Occupant';
+import Position from 'components/Position';
 import { find, html } from 'DOM';
 
 export default function renderField(model) {
@@ -8,31 +9,45 @@ export default function renderField(model) {
 
   fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
   fieldContext.font = '20px monospace';
-  fieldContext.fillStyle = '#ccc';
 
-  const maxWidth = fieldCanvas.width / 20;
-  const maxHeight = fieldCanvas.height / 20;
+  const carlPos = Entity.get(model.carl, Position.type);
+  const centerX = fieldCanvas.width / 2;
+  const centerY = fieldCanvas.height / 2;
 
-  const start = Date.now();
-  let avatar, tile, tileProps, x, y;
-  for (let i = 0; i < maxWidth; i ++) {
-    for (let j = 0; j < maxHeight; j++) {
-      x = 20 * i;
-      y = 20 * j;
+  const offsetX = Math.floor(fieldCanvas.width % 20) - 10;
+  const offsetY = Math.floor(fieldCanvas.height % 20) - 10;
 
-      tile = model.world.tiles[i][j];
+  const columns = Math.ceil(fieldCanvas.width / 20);
+  const rows = Math.ceil(fieldCanvas.height / 20);
+
+  const colSpan = Math.ceil((columns - 1) / 2);
+  const rowSpan = Math.ceil((rows - 1) / 2);
+
+  let avatar, i, j, tile, tileProps, x, y;
+  for (let column = 0; column < columns; column++) {
+    for (let row = 0; row < rows; row++) {
+      x = carlPos.x + column - colSpan;
+      y = carlPos.y + row - rowSpan;
+      i = 20 * column + offsetX;
+      j = 20 * row + offsetY;
+
+      // TODO: Handle horizontal wrapping of map
+      if ( x < 0 || x >= model.world.width || y < 0 || y >= model.world.height) {
+        continue;
+      }
+
+      tile = model.world.tiles[x][y];
       tileProps = Entity.properties(tile);
 
       fieldContext.fillStyle = tileProps.backgroundColor;
-      fieldContext.fillRect(x, y, 20, 20);
+      fieldContext.fillRect(i, j, 20, 20);
 
       avatar = Occupant.isOccupied(tile)
         ? Entity.properties(tileProps.occupant).avatar
         : tileProps.avatar;
 
       fieldContext.fillStyle = avatar.style;
-      fieldContext.fillText(avatar.character, x + 4, y + 16);
+      fieldContext.fillText(avatar.character, i + 4, j + 16);
     }
   }
-  console.log('Rendered in', Date.now() - start, 'ms');
 }

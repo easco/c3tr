@@ -10,7 +10,8 @@ module.exports = {
   get,
   has,
   properties,
-  remove
+  remove,
+  update
 }
 
 // Functions -------------------------------------------------------------------
@@ -70,9 +71,14 @@ function remove(entity, componentType) {
 function update(entity, componentType, fn) {
   return Object.assign({}, entity, {
     components: entity.components
-      .filter(component => component.type === componentType)
-      .map(component => Object.assign({}, component, {
-        value: fn(component.value)
-      }))
+      .map(component => {
+        if (component.type === componentType) {
+          return Object.assign({}, component, {
+            value: fn(component.value)
+          });
+        }
+
+        return component;
+      })
   });
 }

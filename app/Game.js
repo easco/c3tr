@@ -1,4 +1,6 @@
 import Carl from 'entities/Carl';
+import Occupant from 'components/Occupant';
+import Tile from 'entities/Tile';
 import World from 'World';
 import renderField from 'views/field';
 import renderMessage from 'views/message';
@@ -16,17 +18,25 @@ module.exports = {
 // Functions -------------------------------------------------------------------
 
 function getInitialModel() {
-  const world = World.generate(1024, 1024);
+  const world = World.generate(1024, 768);
+
+  const carlPos = World.emptyLandPosition(world);
+  const carl = Carl.create(carlPos);
+  const carlTile = world.tiles[carlPos.x][carlPos.y];
+
+  // TODO: Improve this...
+  world.tiles[carlPos.x][carlPos.y] = Occupant.place(carlTile, carl);
 
   return {
-    carl: Carl.create(World.emptyLandPosition(world)),
+    carl,
     message: 'You are Carl, a time-traveling robot.',
     world,
   };
 }
 
 function init() {
-  let model = load() || getInitialModel();
+  let model = getInitialModel();
+
   resizeField(window.innerWidth, window.innerHeight);
   renderView(model);
 
