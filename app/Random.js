@@ -7,6 +7,7 @@ const almostOne = 1 - 1e-16; // The highest float less than 1
 
 module.exports = {
   character,
+  float,
   from,
   integer
 };
@@ -21,6 +22,10 @@ function character() {
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
   ]);
+}
+
+function float(min = 0, max = Number.MAX_VALUE) {
+  return (Math.random() * (max - min)) + min;
 }
 
 function from(enumerable) {
