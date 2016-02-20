@@ -3,7 +3,7 @@
 
 // Exports ---------------------------------------------------------------------
 
-export default {
+module.exports = {
   find,
   html,
   text
@@ -19,7 +19,7 @@ function html(type, attributes, children) {
   const element = document.createElement(type);
 
   Object.keys(attributes).forEach(name => {
-    element.setAttribute(name, attribute[name]);
+    element.setAttribute(name, attributes[name]);
   });
 
   children.map(
