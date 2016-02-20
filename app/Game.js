@@ -6,17 +6,16 @@ import { find, html, text } from 'DOM';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  init,
-  load,
-  save,
-  update,
-  view
+  init
 };
 
 // Functions -------------------------------------------------------------------
 
 function getInitialModel() {
-  const maxHealth = Random.integer(20, 100); // FIXME: Temporary!
+  // TODO: Generate world
+  // TODO: Generate Carl
+
+  const maxHealth = Random.integer(20, 100);
 
   return {
     field: '------',
@@ -32,11 +31,18 @@ function getInitialModel() {
 }
 
 function init() {
-  view(load() || getInitialModel());
+  let model = load() || getInitialModel();
+  resizeField(window.innerWidth, window.innerHeight);
+  renderView(model);
 
   window.addEventListener('keydown', event => {
-    // TODO: Handle keydown event
-    console.log('Keydown:', event);
+    model = update(event.code, model);
+    renderView(model);
+  });
+
+  window.addEventListener('resize', () => {
+    resizeField(window.innerWidth, window.innerHeight);
+    renderView(model);
   });
 }
 
@@ -44,22 +50,20 @@ function load() {
   return JSON.parse(localStorage.getItem('state'));
 }
 
-function save(state) {
-  localStorage.setItem('state', JSON.stringify(state));
-}
-
-function update(action, model) {
-  // TODO: Define `newModel` base on `action`
-  // TODO: `save(newModel);`
-  // TODO: `return newModel;`
-
-  return model; // FIXME: Temp
-}
-
-function view({ field, message, status }) {
-  console.log(field, message, status);
+function renderView({ field, message, status }) {
   const messageEl = html('div', { id: 'Message' }, [message]);
-  const fieldEl = html('pre', { id: 'Field' }, [field]);
+  document.body.replaceChild(messageEl, find('#Message'));
+
+  const fieldCanvas = find('#Field');
+  const fieldContext = fieldCanvas.getContext('2d');
+  fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
+  fieldContext.font = '20px monospace';
+  fieldContext.fillStyle = '#ccc';
+  for (let x = 0; x < fieldCanvas.width; x += 20) {
+    for (let y = 16; y < fieldCanvas.height; y += 20) {
+      fieldContext.fillText(Random.character(), x, y);
+    }
+  }
 
   const statusEl = html('div', { id: 'Status' }, [
     html('span', { class: 'stats' }, [
@@ -73,8 +77,24 @@ function view({ field, message, status }) {
       `${status.energy}J (${status.steps} steps)`
     ])
   ]);
-
-  document.body.replaceChild(messageEl, find('#Message'));
-  document.body.replaceChild(fieldEl, find('#Field'));
   document.body.replaceChild(statusEl, find('#Status'));
+}
+
+function resizeField(width, height) {
+  const field = find('#Field');
+
+  field.setAttribute('width', width);
+  field.setAttribute('height', height - 80);
+}
+
+function save(state) {
+  localStorage.setItem('state', JSON.stringify(state));
+}
+
+function update(action, model) {
+  // TODO: Define `newModel` based on `action`
+  // TODO: `save(newModel);`
+  // TODO: `return newModel;`
+
+  return model; // FIXME: Temp
 }

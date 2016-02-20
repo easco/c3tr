@@ -14,11 +14,9 @@ body {
 }
 
 #Field {
-  height: 100%;
-  padding: 2.5em 0;
+  margin: 2.5em auto;
   text-align: center;
   vertical-align: middle;
-  width: 100%;
 }
 
 #Message {
