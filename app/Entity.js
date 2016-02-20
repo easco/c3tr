@@ -1,3 +1,4 @@
+import Format from 'Format';
 
 // Data ------------------------------------------------------------------------
 
@@ -8,6 +9,7 @@ module.exports = {
   create,
   get,
   has,
+  properties,
   remove
 }
 
@@ -46,6 +48,16 @@ function has(entity, componentType) {
   return entity.components
     .filter(component => component.type === componentType)
     .length > 0;
+}
+
+function properties(entity) {
+  let props = {};
+
+  entity.components.forEach(component => {
+    props[Format.propName(component.type)] = component.value;
+  });
+
+  return props;
 }
 
 function remove(entity, componentType) {
