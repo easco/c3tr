@@ -1,25 +1,14 @@
-import Entity from 'Entity';
 
 // Data ------------------------------------------------------------------------
-
-const POSITION = 'POSITION';
 
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  create,
-  type: POSITION
+  unique
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(x, y) {
-  return {
-    type: POSITION,
-    value: { x, y }
-  };
-}
-
-function move(entity, x, y) {
-  return Entity.update(entity, POSITION, value => ({ x, y }));
+function unique(value, index, values) {
+  return values.indexOf(value) === index;
 }

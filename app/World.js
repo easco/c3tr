@@ -5,6 +5,7 @@ import FastSimplexNoise from 'fast-simplex-noise';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
+  generate
 };
 
 // Functions -------------------------------------------------------------------

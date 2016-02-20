@@ -1,4 +1,8 @@
+import Carl from 'entities/Carl';
+import Entity from 'Entity';
 import Random from 'Random';
+import World from 'World';
+import { HEALTH } from 'components/Health';
 import { find, html, text } from 'DOM';
 
 // Data ------------------------------------------------------------------------
@@ -12,21 +16,10 @@ module.exports = {
 // Functions -------------------------------------------------------------------
 
 function getInitialModel() {
-  // TODO: Generate world
-  // TODO: Generate Carl
-
-  const maxHealth = Random.integer(20, 100);
-
   return {
-    field: '------',
+    carl: Carl.create(),
     message: 'You are Carl, a time-traveling robot.',
-    status: {
-      cpuSpeed: Random.integer(1, 5) / 10,
-      energy: 64800,
-      health: maxHealth,
-      maxHealth,
-      steps: 5400
-    }
+    world: World.generate(1024, 1024)
   };
 }
 
@@ -50,7 +43,7 @@ function load() {
   return JSON.parse(localStorage.getItem('state'));
 }
 
-function renderView({ field, message, status }) {
+function renderView({ carl, message, world }) {
   const messageEl = html('div', { id: 'Message' }, [message]);
   document.body.replaceChild(messageEl, find('#Message'));
 
@@ -59,22 +52,25 @@ function renderView({ field, message, status }) {
   fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
   fieldContext.font = '20px monospace';
   fieldContext.fillStyle = '#ccc';
-  for (let x = 0; x < fieldCanvas.width; x += 20) {
-    for (let y = 16; y < fieldCanvas.height; y += 20) {
-      fieldContext.fillText(Random.character(), x, y);
+  for (let x = 0; x < fieldCanvas.width / 20; x ++) {
+    for (let y = 0; y < fieldCanvas.height / 20; y++) {
+      const character = world[x][y] > 0.1 ? 'X' : '.';
+      fieldContext.fillText(character, x * 20, 16 + y * 20);
     }
   }
 
+  console.log(Entity.get(carl, HEALTH));
+
   const statusEl = html('div', { id: 'Status' }, [
     html('span', { class: 'stats' }, [
-      `${status.health}/${status.maxHealth}HP`,
+      `${Entity.get(carl, HEALTH).current}/${Entity.get(carl, HEALTH).max}HP`,
       html('span', { class: 'cpu' }, [
         text('CPU:'),
       ]),
-      `${status.cpuSpeed}GHz`
+      `?GHz`
     ]),
     html('span', { class: 'energy' }, [
-      `${status.energy}J (${status.steps} steps)`
+      `?J (? steps)`
     ])
   ]);
   document.body.replaceChild(statusEl, find('#Status'));

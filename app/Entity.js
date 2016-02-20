@@ -4,35 +4,63 @@
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  Entity
+  attach,
+  create,
+  get,
+  has,
+  remove
 }
 
 // Functions -------------------------------------------------------------------
 
-function Entity() {
+function create(components = []) {
+  // An entity should only have one component of each type, so filter to uniques
   return {
-    id: createId(),
-    components: {},
-    '__proto__': {
-      addComponent: addComponent,
-      removeComponent: removeComponent
-    }
+    components: components
+      .filter((component, index) =>
+        components.indexOf(components.find(cmp =>
+          cmp.type === component.type
+        )) === index
+      )
+  };
+}
+
+function attach(entity, component) {
+  if (has(entity, component.type)) {
+    console.error(`The entity already has a ${component.type} component.`);
+    return entity;
   }
+
+  return Object.assign({}, entity, {
+    components: entity.components.concat(component)
+  });
 }
 
-function createId() {
-  //@TODO: this could be more gooder
-  return  '_' + Math.random().toString(36).substr(2, 9);
+function get(entity, componentType) {
+  return entity.components
+    .find(component => component.type === componentType)
+    .value;
 }
 
-function addComponent(cmp) {
-  this.components[cmp.name] = cmp;
-
-  return this;
+function has(entity, componentType) {
+  return entity.components
+    .filter(component => component.type === componentType)
+    .length > 0;
 }
 
-function removeComponent(cmpName) {
-  delete this.components[cmpName];
+function remove(entity, componentType) {
+  return Object.assign({}, entity, {
+    components: entity.components
+      .filter(component => component.type !== componentType)
+  });
+}
 
-  return this;
+function update(entity, componentType, fn) {
+  return Object.assign({}, entity, {
+    components: entity.components
+      .filter(component => component.type === componentType)
+      .map(component => Object.assign({}, component, {
+        value: fn(component.value)
+      }))
+  });
 }

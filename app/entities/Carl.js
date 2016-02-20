@@ -1,25 +1,22 @@
+import Character from 'components/Character';
 import Entity from 'Entity';
+import Health from 'components/Health';
+import Position from 'components/Position';
 
 // Data ------------------------------------------------------------------------
-
-const POSITION = 'POSITION';
 
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  create,
-  type: POSITION
+  create
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(x, y) {
-  return {
-    type: POSITION,
-    value: { x, y }
-  };
-}
-
-function move(entity, x, y) {
-  return Entity.update(entity, POSITION, value => ({ x, y }));
+function create() {
+  return Entity.create([
+    Character.create('@'),
+    Health.create(100),
+    Position.create()
+  ]);
 }

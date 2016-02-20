@@ -1,25 +1,20 @@
-import Entity from 'Entity';
 
 // Data ------------------------------------------------------------------------
 
-const POSITION = 'POSITION';
+const CHARACTER = 'CHARACTER';
 
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
   create,
-  type: POSITION
+  type: CHARACTER
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(x, y) {
+function create(character) {
   return {
-    type: POSITION,
-    value: { x, y }
+    type: CHARACTER,
+    value: character
   };
-}
-
-function move(entity, x, y) {
-  return Entity.update(entity, POSITION, value => ({ x, y }));
 }
