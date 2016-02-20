@@ -1,4 +1,9 @@
 {
+  "name": "ss16-c3tr",
+  "scripts": {
+    "build": "webpack --optimize-minimize",
+    "watch": "webpack --progress --watch"
+  },
   "devDependencies": {
     "babel-core": "6.5.2",
     "babel-loader": "6.2.3",
