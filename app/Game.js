@@ -30,7 +30,7 @@ function getInitialModel() {
   return {
     carl,
     message: 'You are Carl, a time-traveling robot.',
-    world,
+    world
   };
 }
 

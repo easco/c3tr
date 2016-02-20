@@ -7,7 +7,7 @@ export default function renderStatus(model) {
   const cpu = Entity.properties(carl.cpuSlot.cpu);
 
   const energySpan = html('span', { class: 'energy' });
-  energySpan.style.width = `${100 * carl.energy / carl.maxEnergy}%`;
+  energySpan.style.width = `${100 * carl.energy.current / carl.energy.max}%`;
 
   const statusEl = html('div', { id: 'Status' }, [
     html('span', { class: 'stats' }, [
