@@ -62,9 +62,13 @@ function view({ field, message, status }) {
   const fieldEl = html('pre', { id: 'Field' }, [field]);
 
   const statusEl = html('div', { id: 'Status' }, [
-    `${status.health}/${status.maxHealth}`,
-    text('&nbsp;&nbsp;CPU:'),
-    `${status.cpuSpeed}GHz`,
+    html('span', { class: 'stats' }, [
+      `${status.health}/${status.maxHealth}HP`,
+      html('span', { class: 'cpu' }, [
+        text('CPU:'),
+      ]),
+      `${status.cpuSpeed}GHz`
+    ]),
     html('span', { class: 'energy' }, [
       `${status.energy}J (${status.steps} steps)`
     ])

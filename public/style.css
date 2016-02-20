@@ -38,3 +38,11 @@ body {
   position: fixed;
   width: 100%;
 }
+
+#Status > .stats > .cpu {
+  margin-left: 16px;
+}
+
+#Status > .energy {
+  float: right;
+}
