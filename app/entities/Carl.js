@@ -23,7 +23,7 @@ function create(position) {
   return Entity.create([
     Avatar.create('@', '#f8f8f8'),
     CPUSlot.create(CPU.create(1.0)),
-    Energy.create(10000),
+    Energy.create(6000),
     Health.create(100),
     Inventory.create([]),
     Position.create(position.x, position.y)
@@ -31,7 +31,7 @@ function create(position) {
 }
 
 function finishMove(carl, tile) {
-  const energyCost = Tile.isLand(tile) ? 10 : 1000;
+  const energyCost = Tile.isLand(tile) ? 10 : 100;
 
   return Energy.drain(carl, energyCost);
 }
