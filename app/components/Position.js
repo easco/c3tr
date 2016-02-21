@@ -8,6 +8,7 @@ const POSITION = 'POSITION';
 
 module.exports = {
   create,
+  match,
   move,
   type: POSITION
 };
@@ -19,6 +20,10 @@ function create(x, y) {
     type: POSITION,
     value: { x, y }
   };
+}
+
+function match(a, b) {
+  return a.x === b.x && a.y === b.y;
 }
 
 function move(entity, x, y) {

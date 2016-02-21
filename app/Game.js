@@ -1,5 +1,8 @@
 import Carl from 'entities/Carl';
-import Occupant from 'components/Occupant';
+import Elevation from 'components/Elevation';
+import Entity from 'Entity';
+import Position from 'components/Position';
+import Random from 'Random';
 import Tile from 'entities/Tile';
 import World from 'World';
 import renderField from 'views/field';
@@ -12,23 +15,34 @@ import { find, html, text } from 'DOM';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
+  entitiesAt,
+  findEntities,
   init
 };
 
 // Functions -------------------------------------------------------------------
 
+function entitiesAt(model, position) {
+  return findEntities(model, entity => {
+    const entityPosition = Entity.get(entity, Position.type);
+    return entity.position.x === position.x
+      && entity.position.y === position.y;
+  });
+}
+
+function findEntities(model, fn) {
+  return model.entities.filter(fn);
+}
+
 function getInitialModel() {
   const world = World.generate(1024, 768);
 
-  const carlPos = World.emptyLandPosition(world);
+  const carlPos = randomLandPosition(world);
   const carl = Carl.create(carlPos);
-  const carlTile = world.tiles[carlPos.x][carlPos.y];
-
-  // TODO: Improve this...
-  world.tiles[carlPos.x][carlPos.y] = Occupant.place(carlTile, carl);
 
   return {
     carl,
+    entities: [carl],
     message: 'You are Carl, a time-traveling robot.',
     world
   };
@@ -53,6 +67,19 @@ function init() {
 
 function load() {
   return JSON.parse(localStorage.getItem('state'));
+}
+
+function randomLandPosition(world) {
+  let tile, x, y;
+  while (true) {
+    x = Random.integer(0, world.width);
+    y = Random.integer(0, world.height);
+    tile = world.tiles[x][y];
+
+    if (Elevation.isLand(tile)) {
+      return { x, y };
+    }
+  }
 }
 
 function renderView(model) {

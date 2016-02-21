@@ -1,6 +1,7 @@
 import Elevation from 'components/Elevation';
 import Entity from 'Entity';
 import FastSimplexNoise from 'fast-simplex-noise';
+import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'entities/Tile';
 
@@ -9,24 +10,11 @@ import Tile from 'entities/Tile';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  emptyLandPosition,
-  generate
+  generate,
+  tileAt
 };
 
 // Functions -------------------------------------------------------------------
-
-function emptyLandPosition(world) {
-  let tile, x, y;
-  while (true) {
-    x = Random.integer(0, world.width);
-    y = Random.integer(0, world.height);
-    tile = world.tiles[x][y];
-
-    if (Elevation.isLand(tile) && Tile.isEmpty(tile)) {
-      return { x,y };
-    }
-  }
-}
 
 function generate(width, height) {
   const elevationNoise = new FastSimplexNoise({
@@ -49,4 +37,8 @@ function generate(width, height) {
     tiles,
     width
   };
+}
+
+function tileAt(world, { x, y }) {
+  return world.tiles[x][y];
 }
