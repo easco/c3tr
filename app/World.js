@@ -1,6 +1,6 @@
 import Entity from 'Entity';
 import FastSimplexNoise from 'fast-simplex-noise';
-import { Direction } from 'components/Move';
+import Move from 'components/Move';
 import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'Tile';
@@ -10,7 +10,6 @@ import Tile from 'Tile';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  Direction,
   generate,
   tileAt,
   tileTo
@@ -48,40 +47,11 @@ function tileAt(world, { x, y }) {
 }
 
 function tileTo(world, direction, source) {
-  let destination;
-  switch (direction) {
-    case Direction.EAST:
-      destination = { x: source.x, y: source.y + 1 };
-      break;
-
-    case Direction.NORTH:
-      destination = { x: source.x - 1, y: source.y };
-      break;
-
-    case Direction.NORTHEAST:
-      destination = { x: source.x - 1, y: source.y + 1 };
-      break;
-
-    case Direction.NORTHWEST:
-      destination = { x: source.x - 1, y: source.y - 1 };
-      break;
-
-    case Direction.SOUTH:
-      destination = { x: source.x + 1, y: source.y };
-      break;
-
-    case Direction.SOUTHEAST:
-      destination = { x: source.x + 1, y: source.y + 1 };
-      break;
-
-    case Direction.SOUTHWEST:
-      destination = { x: source.x + 1, y: source.y - 1 };
-      break;
-
-    case Direction.WEST:
-      destination = { x: source.x, y: source.y - 1 };
-      break;
-  }
+  const offset = Move.Offset[direction];
+  const destination = {
+    x: source.x + offset.x,
+    y: source.y + offset.y
+  };
 
   if (
     destination.x < 0 || destination.x >= world.width

@@ -16,10 +16,22 @@ const Direction = Object.freeze({
   WEST: 'WEST'
 });
 
+const Offset = Object.freeze({
+  EAST: { x: +1, y: 0 },
+  NORTH: { x: 0, y: -1 },
+  NORTHEAST: { x: +1, y: -1 },
+  NORTHWEST: { x: -1, y: -1 },
+  SOUTH: { x: 0, y: +1 },
+  SOUTHEAST: { x: +1, y: +1 },
+  SOUTHWEST: { x: -1, y: +1 },
+  WEST: { x: -1, y: 0 }
+});
+
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
   Direction,
+  Offset,
   create,
   perform,
   type: MOVE
@@ -35,40 +47,11 @@ function create(direction) {
 }
 
 function perform(entity) {
-  let position;
-  switch (entity.move) {
-    case Direction.EAST:
-      position = { x: entity.position.x + 1, y: entity.position.y };
-      break;
-
-    case Direction.NORTH:
-      position = { x: entity.position.x, y: entity.position.y - 1 };
-      break;
-
-    case Direction.NORTHEAST:
-      position = { x: entity.position.x + 1, y: entity.position.y - 1 };
-      break;
-
-    case Direction.NORTHWEST:
-      position = { x: entity.position.x - 1, y: entity.position.y - 1 };
-      break;
-
-    case Direction.SOUTH:
-      position = { x: entity.position.x, y: entity.position.y + 1 };
-      break;
-
-    case Direction.SOUTHEAST:
-      position = { x: entity.position.x + 1, y: entity.position.y + 1 };
-      break;
-
-    case Direction.SOUTHWEST:
-      position = { x: entity.position.x - 1, y: entity.position.y + 1 };
-      break;
-
-    case Direction.WEST:
-      position = { x: entity.position.x - 1, y: entity.position.y };
-      break;
-  }
+  const offset = Offset[entity.move];
+  const position = {
+    x: entity.position.x + offset.x,
+    y: entity.position.y + offset.y
+  };
 
   if (position) entity = Position.move(entity, position);
 
