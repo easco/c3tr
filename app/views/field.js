@@ -1,4 +1,5 @@
 import Entity from 'Entity';
+import World from 'World';
 import { find, html } from 'DOM';
 
 function entitiesVisible(entities, min, max) {
@@ -13,14 +14,14 @@ function entitiesVisible(entities, min, max) {
     });
 }
 
-export default function renderField(model) {
+export default function renderField({ state, world }) {
   const fieldCanvas = find('#Field');
   const fieldContext = fieldCanvas.getContext('2d');
 
   fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
   fieldContext.font = '20px monospace';
 
-  const carlPos = model.carl.position;
+  const carlPos = state.carl.position;
 
   const remX = fieldCanvas.width % 20;
   const remY = fieldCanvas.height % 20;
@@ -36,7 +37,7 @@ export default function renderField(model) {
   const startPos = { x: carlPos.x - colSpan, y: carlPos.y - rowSpan };
   const endPos = { x: startPos.x + columns - 1, y: startPos.y + rows - 1 };
   const visibleEntities = entitiesVisible(
-    model.entities.concat(model.carl), startPos, endPos
+    state.entities.concat(state.carl), startPos, endPos
   );
 
   const start = Date.now();
@@ -49,11 +50,11 @@ export default function renderField(model) {
       j = 20 * row + offsetY;
 
       // TODO: Handle horizontal wrapping of map
-      if ( x < 0 || x >= model.world.width || y < 0 || y >= model.world.height) {
+      if ( x < 0 || x >= world.width || y < 0 || y >= world.height) {
         continue;
       }
 
-      tile = model.world.tiles[x][y];
+      tile = World.tileAt(world, { x, y });
 
       fieldContext.fillStyle = tile.backgroundColor;
       fieldContext.fillRect(i, j, 20, 20);
@@ -62,10 +63,7 @@ export default function renderField(model) {
         entity.position.x === x && entity.position.y === y
       );
 
-      avatar = visibleEntity
-        ? visibleEntity.avatar
-        : tile.avatar;
-
+      avatar = visibleEntity ? visibleEntity.avatar : tile.avatar;
       fieldContext.fillStyle = avatar.style;
       fieldContext.fillText(avatar.character, i + 4, j + 16);
     }

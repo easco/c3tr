@@ -23,24 +23,10 @@ const CarlAction = Object.freeze({
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  entitiesAt,
-  findEntities,
   init
 };
 
 // Functions -------------------------------------------------------------------
-
-function entitiesAt(model, position) {
-  return findEntities(model, entity => {
-    const entityPosition = Entity.get(entity, Position.type);
-    return entity.position.x === position.x
-      && entity.position.y === position.y;
-  });
-}
-
-function findEntities(model, fn) {
-  return model.entities.filter(fn);
-}
 
 function getInitialEntities(world, count) {
   const types = [Monster];
@@ -55,15 +41,19 @@ function getInitialEntities(world, count) {
 }
 
 function getInitialModel() {
-  const world = World.generate(1024, 768);
-
+  const worldHeight = 768;
+  const worldWidth = 1024;
+  const world = World.generate(worldWidth, worldHeight); // TODO: Pass seed
   const carlPos = randomLandPosition(world);
-  const carl = Carl.create(carlPos);
 
   return {
-    carl,
-    entities: getInitialEntities(world, 5000),
-    message: 'You are Carl, a time-traveling robot.',
+    state: {
+      carl: Carl.create(carlPos),
+      entities: getInitialEntities(world, 5000),
+      message: 'You are Carl, a time-traveling robot.',
+      worldHeight,
+      worldWidth
+    },
     world
   };
 }
@@ -144,12 +134,12 @@ function save(state) {
   localStorage.setItem('state', JSON.stringify(state));
 }
 
-function update(action, model) {
-  let carl = model.carl;
+function update(action, { state, world }) {
+  let carl = state.carl;
   let dest;
   switch (action) {
     case CarlAction.MOVE_EAST:
-      dest = World.tileTo(model.world, World.Direction.EAST, carl.position);
+      dest = World.tileTo(world, World.Direction.EAST, carl.position);
       if (Carl.canAffordMoveTo(carl, dest)) {
         carl = Position.moveEast(carl);
         carl = Carl.finishMove(carl, dest);
@@ -157,7 +147,7 @@ function update(action, model) {
       break;
 
     case CarlAction.MOVE_NORTH:
-      dest = World.tileTo(model.world, World.Direction.NORTH, carl.position);
+      dest = World.tileTo(world, World.Direction.NORTH, carl.position);
       if (Carl.canAffordMoveTo(carl, dest)) {
         carl = Position.moveNorth(carl);
         carl = Carl.finishMove(carl, dest);
@@ -165,7 +155,7 @@ function update(action, model) {
       break;
 
     case CarlAction.MOVE_SOUTH:
-      dest = World.tileTo(model.world, World.Direction.SOUTH, carl.position);
+      dest = World.tileTo(world, World.Direction.SOUTH, carl.position);
       if (Carl.canAffordMoveTo(carl, dest)) {
         carl = Position.moveSouth(carl);
         carl = Carl.finishMove(carl, dest);
@@ -173,7 +163,7 @@ function update(action, model) {
       break;
 
     case CarlAction.MOVE_WEST:
-      dest = World.tileTo(model.world, World.Direction.WEST, carl.position);
+      dest = World.tileTo(world, World.Direction.WEST, carl.position);
       if (Carl.canAffordMoveTo(carl, dest)) {
         carl = Position.moveWest(carl);
         carl = Carl.finishMove(carl, dest);
@@ -186,10 +176,10 @@ function update(action, model) {
   // TODO: Combat round(s)
 
   const newModel = {
-    carl,
-    entities: model.entities,
-    message: model.message,
-    world: model.world
+    state: Object.assign({}, state, {
+      carl
+    }),
+    world
   };
 
   // TODO: save(newModel);

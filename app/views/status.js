@@ -2,8 +2,8 @@ import Entity from 'Entity';
 import Format from 'Format';
 import { find, html, text } from 'DOM';
 
-export default function renderStatus(model) {
-  const carl = model.carl;
+export default function renderStatus({ state }) {
+  const carl = state.carl;
 
   const energySpan = html('span', { class: 'energy' });
   energySpan.style.width = `${100 * carl.energy.current / carl.energy.max}%`;

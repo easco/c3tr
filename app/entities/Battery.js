@@ -21,7 +21,7 @@ function create(level, position = null) {
     Energy.create(level)
   ];
 
-  if ( position ) {
+  if (position) {
     battery.push(Position.create(position.x, position.y));
   }
 
