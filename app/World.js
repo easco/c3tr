@@ -1,4 +1,3 @@
-import Elevation from 'components/Elevation';
 import Entity from 'Entity';
 import FastSimplexNoise from 'fast-simplex-noise';
 import Position from 'components/Position';

@@ -1,26 +1,22 @@
 import Entity from 'Entity';
+import Move from 'components/Move';
 
 // Data ------------------------------------------------------------------------
-
-const ELEVATION = 'ELEVATION';
 
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  create,
-  isLand,
-  type: ELEVATION
+  run
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(level) {
-  return {
-    type: ELEVATION,
-    value: level
-  };
-}
+function run({ state, world }) {
+  state.entities
+    .filter(entity => Entity.has(entity, Move.type))
+    .forEach(entity => {
+      console.log(entity);
+    });
 
-function isLand(entity) {
-  return Entity.get(entity, ELEVATION) > 0;
+  return Object.assign({}, state);
 }

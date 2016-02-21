@@ -1,7 +1,8 @@
 import Carl from 'entities/Carl';
-import Elevation from 'components/Elevation';
 import Entity from 'Entity';
 import Monster from 'entities/Monster';
+import Move from 'components/Move';
+import MovementSystem from 'systems/Movement';
 import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'Tile';
@@ -13,7 +14,7 @@ import { find, html, text } from 'DOM';
 
 // Data ------------------------------------------------------------------------
 
-const CarlAction = Object.freeze({
+const Action = Object.freeze({
   MOVE_EAST: 'MOVE_EAST',
   MOVE_NORTH: 'MOVE_NORTH',
   MOVE_SOUTH: 'MOVE_SOUTH',
@@ -69,22 +70,22 @@ function init() {
     switch (event.keyCode) {
       case 39: // ArrowRight
       case 76: // KeyL
-        action = CarlAction.MOVE_EAST;
+        action = Action.MOVE_EAST;
         break;
 
       case 38: // ArrowUp
       case 75: // KeyK
-        action = CarlAction.MOVE_NORTH;
+        action = Action.MOVE_NORTH;
         break;
 
       case 40: // ArrowDown
       case 74: // KeyJ
-        action = CarlAction.MOVE_SOUTH;
+        action = Action.MOVE_SOUTH;
         break;
 
       case 37: // ArrowLeft
       case 72: // KeyH
-        action = CarlAction.MOVE_WEST;
+        action = Action.MOVE_WEST;
         break;
     }
 
@@ -111,7 +112,7 @@ function randomLandPosition(world) {
     y = Random.integer(0, world.height - 1);
     tile = world.tiles[x][y];
 
-    if (Elevation.isLand(tile)) {
+    if (Tile.isLand(tile)) {
       return { x, y };
     }
   }
@@ -134,42 +135,28 @@ function save(state) {
   localStorage.setItem('state', JSON.stringify(state));
 }
 
-function update(action, { state, world }) {
+function update(action, model) {
+  let state = model.state;
   let carl = state.carl;
-  let dest;
   switch (action) {
-    case CarlAction.MOVE_EAST:
-      dest = World.tileTo(world, World.Direction.EAST, carl.position);
-      if (Carl.canAffordMoveTo(carl, dest)) {
-        carl = Position.moveEast(carl);
-        carl = Carl.finishMove(carl, dest);
-      }
+    case Action.MOVE_EAST:
+      carl = Entity.attach(carl, Move.create(Move.Direction.EAST));
       break;
 
-    case CarlAction.MOVE_NORTH:
-      dest = World.tileTo(world, World.Direction.NORTH, carl.position);
-      if (Carl.canAffordMoveTo(carl, dest)) {
-        carl = Position.moveNorth(carl);
-        carl = Carl.finishMove(carl, dest);
-      }
+    case Action.MOVE_NORTH:
+      carl = Entity.attach(carl, Move.create(Move.Direction.NORTH));
       break;
 
-    case CarlAction.MOVE_SOUTH:
-      dest = World.tileTo(world, World.Direction.SOUTH, carl.position);
-      if (Carl.canAffordMoveTo(carl, dest)) {
-        carl = Position.moveSouth(carl);
-        carl = Carl.finishMove(carl, dest);
-      }
+    case Action.MOVE_SOUTH:
+      carl = Entity.attach(carl, Move.create(Move.Direction.SOUTH));
       break;
 
-    case CarlAction.MOVE_WEST:
-      dest = World.tileTo(world, World.Direction.WEST, carl.position);
-      if (Carl.canAffordMoveTo(carl, dest)) {
-        carl = Position.moveWest(carl);
-        carl = Carl.finishMove(carl, dest);
-      }
+    case Action.MOVE_WEST:
+      carl = Entity.attach(carl, Move.create(Move.Direction.WEST));
       break;
   }
+
+  state = MovementSystem.run(model);
 
   // TODO: Entities with Logic make decisions based on `model`
 
@@ -179,7 +166,7 @@ function update(action, { state, world }) {
     state: Object.assign({}, state, {
       carl
     }),
-    world
+    world: model.world
   };
 
   // TODO: save(newModel);
