@@ -43,7 +43,6 @@ export default function renderField({ state, world }) {
   const endPos = { x: startPos.x + columns - 1, y: startPos.y + rows - 1 };
   const visibleEntities = entitiesVisible(state.entities, startPos, endPos);
 
-  const start = Date.now();
   let avatar, i, j, presentEntities, tile, visibleEntity, x, y;
   for (let column = 0; column < columns; column++) {
     for (let row = 0; row < rows; row++) {
@@ -76,5 +75,4 @@ export default function renderField({ state, world }) {
       fieldContext.fillText(avatar.character, i + 4, j + 16);
     }
   }
-  console.log('Rendering took', Date.now() - start, 'ms');
 }
