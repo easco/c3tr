@@ -8,7 +8,11 @@ const MOVE = 'MOVE';
 const Direction = Object.freeze({
   EAST: 'EAST',
   NORTH: 'NORTH',
+  NORTHEAST: 'NORTHEAST',
+  NORTHWEST: 'NORTHWEST',
   SOUTH: 'SOUTH',
+  SOUTHEAST: 'SOUTHEAST',
+  SOUTHWEST: 'SOUTHWEST',
   WEST: 'WEST'
 });
 
@@ -41,8 +45,24 @@ function perform(entity) {
       position = { x: entity.position.x, y: entity.position.y - 1 };
       break;
 
+    case Direction.NORTHEAST:
+      position = { x: entity.position.x + 1, y: entity.position.y - 1 };
+      break;
+
+    case Direction.NORTHWEST:
+      position = { x: entity.position.x - 1, y: entity.position.y - 1 };
+      break;
+
     case Direction.SOUTH:
       position = { x: entity.position.x, y: entity.position.y + 1 };
+      break;
+
+    case Direction.SOUTHEAST:
+      position = { x: entity.position.x + 1, y: entity.position.y + 1 };
+      break;
+
+    case Direction.SOUTHWEST:
+      position = { x: entity.position.x - 1, y: entity.position.y + 1 };
       break;
 
     case Direction.WEST:

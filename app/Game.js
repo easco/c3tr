@@ -19,7 +19,11 @@ import { find, html, text } from 'DOM';
 const Action = Object.freeze({
   MOVE_EAST: 'MOVE_EAST',
   MOVE_NORTH: 'MOVE_NORTH',
+  MOVE_NORTHEAST: 'MOVE_NORTHEAST',
+  MOVE_NORTHWEST: 'MOVE_NORTHWEST',
   MOVE_SOUTH: 'MOVE_SOUTH',
+  MOVE_SOUTHEAST: 'MOVE_SOUTHEAST',
+  MOVE_SOUTHWEST: 'MOVE_SOUTHWEST',
   MOVE_WEST: 'MOVE_WEST'
 });
 
@@ -80,9 +84,25 @@ function init() {
         action = Action.MOVE_NORTH;
         break;
 
+      case 85: // KeyU
+        action = Action.MOVE_NORTHEAST;
+        break;
+
+      case 89: // KeyY
+        action = Action.MOVE_NORTHWEST;
+        break;
+
       case 40: // ArrowDown
       case 74: // KeyJ
         action = Action.MOVE_SOUTH;
+        break;
+
+      case 78: // KeyN
+        action = Action.MOVE_SOUTHEAST;
+        break;
+
+      case 66: // KeyB
+        action = Action.MOVE_SOUTHWEST;
         break;
 
       case 37: // ArrowLeft
@@ -142,26 +162,21 @@ function update(action, model) {
   let entities = state.entities;
   let carl = Carl.find(state.entities);
 
+  let moveDirection;
   switch (action) {
-    case Action.MOVE_EAST:
-      carl = Entity.attach(carl, Move.create(Move.Direction.EAST));
-      entities = Entity.listReplace(entities, Carl.findFn, carl);
-      break;
+    case Action.MOVE_EAST: moveDirection = Move.Direction.EAST; break;
+    case Action.MOVE_NORTH: moveDirection = Move.Direction.NORTH; break;
+    case Action.MOVE_NORTHEAST: moveDirection = Move.Direction.NORTHEAST; break;
+    case Action.MOVE_NORTHWEST: moveDirection = Move.Direction.NORTHWEST; break;
+    case Action.MOVE_SOUTH: moveDirection = Move.Direction.SOUTH; break;
+    case Action.MOVE_SOUTHEAST: moveDirection = Move.Direction.SOUTHEAST; break;
+    case Action.MOVE_SOUTHWEST: moveDirection = Move.Direction.SOUTHWEST; break;
+    case Action.MOVE_WEST: moveDirection = Move.Direction.WEST; break;
+  }
 
-    case Action.MOVE_NORTH:
-      carl = Entity.attach(carl, Move.create(Move.Direction.NORTH));
-      entities = Entity.listReplace(entities, Carl.findFn, carl);
-      break;
-
-    case Action.MOVE_SOUTH:
-      carl = Entity.attach(carl, Move.create(Move.Direction.SOUTH));
-      entities = Entity.listReplace(entities, Carl.findFn, carl);
-      break;
-
-    case Action.MOVE_WEST:
-      carl = Entity.attach(carl, Move.create(Move.Direction.WEST));
-      entities = Entity.listReplace(entities, Carl.findFn, carl);
-      break;
+  if (moveDirection) {
+    carl = Entity.attach(carl, Move.create(moveDirection));
+    entities = Entity.listReplace(entities, Carl.findFn, carl);
   }
 
   state = Object.assign({}, model.state, { entities });

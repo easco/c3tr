@@ -19,7 +19,7 @@ module.exports = {
 
 function create(position) {
   return Entity.create([
-    Avatar.create('e', '#e86b6b'),
+    Avatar.create('m', '#e86b6b'),
     Health.create(100),
     Inventory.create([]),
     Logic.create(Logic.Mode.HOSTILE),

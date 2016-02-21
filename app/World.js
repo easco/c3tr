@@ -1,17 +1,11 @@
 import Entity from 'Entity';
 import FastSimplexNoise from 'fast-simplex-noise';
+import { Direction } from 'components/Move';
 import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'Tile';
 
 // Data ------------------------------------------------------------------------
-
-const Direction = Object.freeze({
-  EAST: 'EAST',
-  NORTH: 'NORTH',
-  SOUTH: 'SOUTH',
-  WEST: 'WEST'
-});
 
 // Exports ---------------------------------------------------------------------
 
@@ -64,8 +58,24 @@ function tileTo(world, direction, source) {
       destination = { x: source.x - 1, y: source.y };
       break;
 
+    case Direction.NORTHEAST:
+      destination = { x: source.x - 1, y: source.y + 1 };
+      break;
+
+    case Direction.NORTHWEST:
+      destination = { x: source.x - 1, y: source.y - 1 };
+      break;
+
     case Direction.SOUTH:
       destination = { x: source.x + 1, y: source.y };
+      break;
+
+    case Direction.SOUTHEAST:
+      destination = { x: source.x + 1, y: source.y + 1 };
+      break;
+
+    case Direction.SOUTHWEST:
+      destination = { x: source.x + 1, y: source.y - 1 };
       break;
 
     case Direction.WEST:
