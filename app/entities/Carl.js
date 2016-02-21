@@ -10,6 +10,7 @@ import MoveEvent from 'components/MoveEvent';
 import MoveRestriction from 'components/MoveRestriction';
 import Position from 'components/Position';
 import Tile from 'Tile';
+import Suckle from 'components/Suckle';
 
 // Data ------------------------------------------------------------------------
 
@@ -38,7 +39,8 @@ function create(position) {
     Inventory.create([]),
     MoveEvent.create(finishMove),
     MoveRestriction.create(canAffordMoveTo),
-    Position.create(position.x, position.y)
+    Position.create(position.x, position.y),
+    Suckle.create(suckleFn)
   ]);
 }
 
@@ -56,4 +58,8 @@ function finishMove(carl, tile) {
 
 function moveCost(tile) {
   return Tile.isLand(tile) ? 10 : 100;
+}
+
+function suckleFn(carl, battery) {
+  Energy.fill(carl, battery.energy.current);
 }

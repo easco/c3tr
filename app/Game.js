@@ -1,3 +1,4 @@
+import Battery from 'entities/Battery';
 import Carl from 'entities/Carl';
 import CombatSystem from 'systems/Combat';
 import Entity from 'Entity';
@@ -41,12 +42,36 @@ function entitiesAt(model, position) {
 }
 
 function getInitialEntities(world, count) {
-  const types = [Monster];
-  let entityPos, entities = [];
+  const types = [
+    {
+      type: Monster,
+      weight: 3
+    },
+    {
+      type: Battery,
+      weight: 1
+    }
+  ];
+  let entityPos, entities = [], type, weightedTypes = [];
+
+  types.forEach(item => {
+    for (let i = 0; i < item.weight; i++) {
+      weightedTypes = [].concat.call(weightedTypes, item.type);
+    }
+  });
 
   for (let i = 0; i < count; i++) {
     entityPos = randomLandPosition(world);
-    entities = entities.concat(Random.from(types).create(entityPos));
+    type = Random.from(weightedTypes);
+
+    switch (type) {
+      case Monster:
+        entities = entities.concat(Monster.create(entityPos));
+        break;
+      case Battery:
+        entities = entities.concat(Battery.generate(entityPos));
+        break;
+    }
   }
 
   return entities;

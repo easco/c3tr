@@ -6,18 +6,21 @@ import Random from 'Random';
 
 // Data ------------------------------------------------------------------------
 
+const BATTERY = 'BATTERY';
+
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
   create,
-  generate
+  generate,
+  type: BATTERY
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(level, position = null) {
   let battery = [
-    Avatar.create('%', '#ff0'),
+    Avatar.create('%', '#E6E69C'),
     Energy.create(level)
   ];
 
@@ -28,6 +31,6 @@ function create(level, position = null) {
   return Entity.create(battery);
 }
 
-function generate() {
-  return create(Random.integer(5000, 25000));
+function generate(position = null) {
+  return create(Random.integer(600, 1800), position);
 }
