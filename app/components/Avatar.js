@@ -12,11 +12,12 @@ module.exports = {
 
 // Functions -------------------------------------------------------------------
 
-function create(character, style = '#ccc') {
+function create(character, style = '#ccc', importance = 0) {
   return {
     type: AVATAR,
     value: {
       character,
+      importance,
       style
     }
   };

@@ -6,7 +6,10 @@ import { find, html } from 'DOM';
 function entitiesVisible(entities, min, max) {
   return entities
     .filter(entity => {
-      if (!entity.hasOwnProperty('position')) return false;
+      if (
+        !entity.hasOwnProperty('avatar')
+        || !entity.hasOwnProperty('position')
+      ) return false;
 
       const pos = entity.position;
       return (
@@ -41,7 +44,7 @@ export default function renderField({ state, world }) {
   const visibleEntities = entitiesVisible(state.entities, startPos, endPos);
 
   const start = Date.now();
-  let avatar, i, j, tile, visibleEntity, x, y;
+  let avatar, i, j, presentEntities, tile, visibleEntity, x, y;
   for (let column = 0; column < columns; column++) {
     for (let row = 0; row < rows; row++) {
       x = carlPos.x + column - colSpan;
@@ -59,9 +62,14 @@ export default function renderField({ state, world }) {
       fieldContext.fillStyle = tile.backgroundColor;
       fieldContext.fillRect(i, j, 20, 20);
 
-      visibleEntity = visibleEntities.find(entity =>
-        entity.position.x === x && entity.position.y === y
-      );
+      presentEntities = visibleEntities
+        .filter(e => e.position.x === x && e.position.y === y);
+
+      const visibleEntity = presentEntities.length > 0
+        ? presentEntities.reduce((imp, e) =>
+            e.avatar.importance > imp.avatar.importance ? e : imp
+          )
+        : null;
 
       avatar = visibleEntity ? visibleEntity.avatar : tile.avatar;
       fieldContext.fillStyle = avatar.style;

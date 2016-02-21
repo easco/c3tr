@@ -31,7 +31,7 @@ function canAffordMoveTo(carl, tile) {
 
 function create(position) {
   return Entity.create([
-    Avatar.create('@', '#f8f8f8'),
+    Avatar.create('@', '#f8f8f8', 100),
     CPUSlot.create(CPU.create(1.0)),
     Energy.create(6000),
     Health.create(100),
