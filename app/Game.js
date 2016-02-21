@@ -59,12 +59,10 @@ function getInitialModel() {
 
   const carlPos = randomLandPosition(world);
   const carl = Carl.create(carlPos);
-  const initialEntities = getInitialEntities(world, 5000);
-  const entities = [].concat.call(carl, initialEntities);
 
   return {
     carl,
-    entities: entities,
+    entities: getInitialEntities(world, 5000),
     message: 'You are Carl, a time-traveling robot.',
     world
   };
@@ -147,9 +145,7 @@ function save(state) {
 }
 
 function update(action, model) {
-  let entities;
   let carl = model.carl;
-  model.entities.shift();
   switch (action) {
     case CarlAction.MOVE_EAST:
       carl = Position.moveEast(carl);
@@ -168,15 +164,13 @@ function update(action, model) {
       break;
   }
 
-  entities = [].concat.call(carl, model.entities);
-
   // TODO: Entities with Logic make decisions based on `model`
 
   // TODO: Combat round(s)
 
   const newModel = {
     carl,
-    entities,
+    entities: model.entities,
     message: model.message,
     world: model.world
   };

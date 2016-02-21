@@ -35,7 +35,9 @@ export default function renderField(model) {
 
   const startPos = { x: carlPos.x - colSpan, y: carlPos.y - rowSpan };
   const endPos = { x: startPos.x + columns - 1, y: startPos.y + rows - 1 };
-  const visibleEntities = entitiesVisible(model.entities, startPos, endPos);
+  const visibleEntities = entitiesVisible(
+    model.entities.concat(model.carl), startPos, endPos
+  );
 
   const start = Date.now();
   let avatar, i, j, tile, visibleEntity, x, y;
