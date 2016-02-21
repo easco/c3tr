@@ -1,4 +1,8 @@
-# SS16 | C3TR
+# SS16 | C3TR : A roguelike adventure
+
+**C**ARL **t**he **T**ime-**T**raveling **R**obot
+
+## Building
 
 - `npm install` : Install dependencies
 - `npm run build` : Build production-level (minified) application
