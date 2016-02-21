@@ -164,11 +164,9 @@ function update(action, model) {
       break;
   }
 
-  // TODO: Improve passing state between systems
-  state = MovementSystem.run(Object.assign({}, model, {
-    state: Object.assign({}, model.state, { entities })
-  }));
+  state = Object.assign({}, model.state, { entities });
   state = LogicSystem.run(Object.assign({}, model, { state }));
+  state = MovementSystem.run(Object.assign({}, model, { state }));
   state = CombatSystem.run(Object.assign({}, model, { state }));
 
   const newModel = {

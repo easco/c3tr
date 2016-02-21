@@ -23,12 +23,12 @@ function run({ state, world }) {
 
       const destination = World.tileTo(world, entity.move, entity.position);
 
-      if (destination === null) return entity;
+      if (destination === null) return Entity.detach(entity, Move.type);
 
       if (
         Entity.has(entity, MoveRestriction.type)
         && !entity.moveRestriction(entity, destination)
-      ) return entity;
+      ) return Entity.detach(entity, Move.type);
 
       if (Entity.has(entity, MoveEvent.type)) {
         entity = entity.moveEvent(entity, destination);
