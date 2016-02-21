@@ -57,7 +57,7 @@ function getInitialModel() {
     state: {
       entities: getInitialEntities(world, 5000)
         .concat(Carl.create(carlPos)),
-      message: 'You are Carl, a time-traveling robot.',
+      messages: [],
       worldHeight,
       worldWidth
     },
@@ -198,10 +198,12 @@ function update(action, model) {
     entities = Entity.listReplace(entities, Carl.findFn, carl);
   }
 
-  state = Object.assign({}, model.state, { entities });
+  state = Object.assign({}, model.state, { entities, messages: [] });
   state = LogicSystem.run(Object.assign({}, model, { state }));
   state = MovementSystem.run(Object.assign({}, model, { state }));
   state = CombatSystem.run(Object.assign({}, model, { state }));
+
+  state.messages.forEach(message => logMessage(message));
 
   const newModel = {
     state: Object.assign({}, model.state, state),
