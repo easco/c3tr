@@ -1,6 +1,7 @@
 import Carl from 'entities/Carl';
 import Elevation from 'components/Elevation';
 import Entity from 'Entity';
+import Monster from 'entities/Monster';
 import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'entities/Tile';
@@ -41,6 +42,19 @@ function findEntities(model, fn) {
   return model.entities.filter(fn);
 }
 
+function getInitialEntities(model) {
+  const entityCount = 100;
+  const types = [Monster];
+  let entityPos, entities = [];
+
+  for (let i = 0; i < entityCount; i++) {
+    entityPos = randomLandPosition(model.world);
+    entities = entities.concat(Random.from(types).create(entityPos));
+  }
+
+  return entities;
+}
+
 function getInitialModel() {
   const world = World.generate(1024, 768);
 
@@ -57,6 +71,7 @@ function getInitialModel() {
 
 function init() {
   let model = getInitialModel();
+  model.entities = model.entities.concat(getInitialEntities(model));
 
   resizeField(window.innerWidth, window.innerHeight);
   renderView(model);
@@ -104,8 +119,8 @@ function load() {
 function randomLandPosition(world) {
   let tile, x, y;
   while (true) {
-    x = Random.integer(0, world.width);
-    y = Random.integer(0, world.height);
+    x = Random.integer(0, world.width - 1);
+    y = Random.integer(0, world.height - 1);
     tile = world.tiles[x][y];
 
     if (Elevation.isLand(tile)) {
