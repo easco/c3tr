@@ -17,6 +17,30 @@ body {
   margin: 2.5em auto;
   text-align: center;
   vertical-align: middle;
+  z-index: 0;
+}
+
+#Log {
+  background-color: #181818;
+  border-right: 1px solid #444;
+  display: none;
+  height: 100%;
+  max-width: 320px;
+  min-width: 128px;
+  overflow-y: scroll;
+  padding: 0 8px;
+  position: fixed;
+  width: 20%;
+  z-index: 10;
+}
+
+#Log.open {
+  display: block;
+}
+
+#Log > p:not(:last-of-type) {
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 16px;
 }
 
 #Message {
@@ -26,6 +50,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 5;
 }
 
 #Status {
@@ -35,6 +60,7 @@ body {
   padding: 8px 16px;
   position: fixed;
   width: 100%;
+  z-index: 5;
 }
 
 #Status > .stats > .cpu {

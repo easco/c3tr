@@ -74,6 +74,11 @@ function init() {
   window.addEventListener('keydown', event => {
     let action;
     switch (event.keyCode) {
+      case 77: // KeyM
+      case 81: // KeyQ
+        return toggleLog();
+        break;
+
       case 39: // ArrowRight
       case 76: // KeyL
         action = Action.MOVE_EAST;
@@ -155,6 +160,13 @@ function resizeField(width, height) {
 
 function save(state) {
   localStorage.setItem('state', JSON.stringify(state));
+}
+
+function toggleLog() {
+  const log = find('#Log');
+
+  if (log.classList.contains('open')) log.classList.remove('open');
+  else log.classList.add('open');
 }
 
 function update(action, model) {
