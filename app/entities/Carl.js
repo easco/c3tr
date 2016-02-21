@@ -6,6 +6,8 @@ import Entity from 'Entity';
 import Health from 'components/Health';
 import ID from 'components/ID';
 import Inventory from 'components/Inventory';
+import MoveEvent from 'components/MoveEvent';
+import MoveRestriction from 'components/MoveRestriction';
 import Position from 'components/Position';
 import Tile from 'Tile';
 
@@ -14,12 +16,10 @@ import Tile from 'Tile';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  canAffordMoveTo,
   create,
   find,
   findFn,
-  finishMove,
-  moveCost
+  finishMove
 };
 
 // Functions -------------------------------------------------------------------
@@ -37,6 +37,8 @@ function create(position) {
     Health.create(100),
     ID.create('CARL'),
     Inventory.create([]),
+    MoveEvent.create(finishMove),
+    MoveRestriction.create(canAffordMoveTo),
     Position.create(position.x, position.y)
   ]);
 }
