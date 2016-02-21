@@ -15,12 +15,17 @@ module.exports = {
 
 // Functions -------------------------------------------------------------------
 
-function create(level) {
-  return Entity.create([
+function create(level, position = null) {
+  let battery = [
     Avatar.create('%', '#ff0'),
-    Energy.create(level),
-    Position.create(1,1) //@TODO: randomize this
-  ]);
+    Energy.create(level)
+  ];
+
+  if ( position ) {
+    battery.push(Position.create(position.x, position.y));
+  }
+
+  return Entity.create(battery);
 }
 
 function generate() {
