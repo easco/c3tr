@@ -1,12 +1,17 @@
+import Entity from 'Entity';
 import Random from 'Random';
 
 // Data ------------------------------------------------------------------------
+
+const ID = 'ID';
 
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
   create,
-  generate
+  find,
+  generate,
+  type: ID
 };
 
 // Functions -------------------------------------------------------------------
@@ -16,6 +21,10 @@ function create(value) {
     type: ID,
     value
   };
+}
+
+function find(entities, id) {
+  return entities.find(entity => Entity.get(entity, ID) === id);
 }
 
 function generate() {

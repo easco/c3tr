@@ -1,3 +1,5 @@
+import Entity from 'Entity';
+import Position from 'components/Position';
 
 // Data ------------------------------------------------------------------------
 
@@ -15,6 +17,7 @@ const Direction = Object.freeze({
 module.exports = {
   Direction,
   create,
+  perform,
   type: MOVE
 };
 
@@ -27,10 +30,27 @@ function create(direction) {
   };
 }
 
-/*
-  dest = World.tileTo(world, World.Direction.EAST, carl.position);
-  if (Carl.canAffordMoveTo(carl, dest)) {
-    carl = Position.moveEast(carl);
-    carl = Carl.finishMove(carl, dest);
+function perform(entity) {
+  let position;
+  switch (entity.move) {
+    case Direction.EAST:
+      position = { x: entity.position.x + 1, y: entity.position.y };
+      break;
+
+    case Direction.NORTH:
+      position = { x: entity.position.x, y: entity.position.y - 1 };
+      break;
+
+    case Direction.SOUTH:
+      position = { x: entity.position.x, y: entity.position.y + 1 };
+      break;
+
+    case Direction.WEST:
+      position = { x: entity.position.x - 1, y: entity.position.y };
+      break;
   }
-*/
+
+  if (position) entity = Position.move(entity, position);
+
+  return Entity.detach(entity, MOVE);
+}

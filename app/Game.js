@@ -1,5 +1,7 @@
 import Carl from 'entities/Carl';
+import CombatSystem from 'systems/Combat';
 import Entity from 'Entity';
+import LogicSystem from 'systems/Logic';
 import Monster from 'entities/Monster';
 import Move from 'components/Move';
 import MovementSystem from 'systems/Movement';
@@ -49,8 +51,8 @@ function getInitialModel() {
 
   return {
     state: {
-      carl: Carl.create(carlPos),
-      entities: getInitialEntities(world, 5000),
+      entities: getInitialEntities(world, 5000)
+        .concat(Carl.create(carlPos)),
       message: 'You are Carl, a time-traveling robot.',
       worldHeight,
       worldWidth
@@ -137,35 +139,40 @@ function save(state) {
 
 function update(action, model) {
   let state = model.state;
-  let carl = state.carl;
+  let entities = state.entities;
+  let carl = Carl.find(state.entities);
+
   switch (action) {
     case Action.MOVE_EAST:
       carl = Entity.attach(carl, Move.create(Move.Direction.EAST));
+      entities = Entity.listReplace(entities, Carl.findFn, carl);
       break;
 
     case Action.MOVE_NORTH:
       carl = Entity.attach(carl, Move.create(Move.Direction.NORTH));
+      entities = Entity.listReplace(entities, Carl.findFn, carl);
       break;
 
     case Action.MOVE_SOUTH:
       carl = Entity.attach(carl, Move.create(Move.Direction.SOUTH));
+      entities = Entity.listReplace(entities, Carl.findFn, carl);
       break;
 
     case Action.MOVE_WEST:
       carl = Entity.attach(carl, Move.create(Move.Direction.WEST));
+      entities = Entity.listReplace(entities, Carl.findFn, carl);
       break;
   }
 
-  state = MovementSystem.run(model);
-
-  // TODO: Entities with Logic make decisions based on `model`
-
-  // TODO: Combat round(s)
+  // TODO: Improve passing state between systems
+  state = MovementSystem.run(Object.assign({}, model, {
+    state: Object.assign({}, model.state, { entities })
+  }));
+  state = LogicSystem.run(Object.assign({}, model, { state }));
+  state = CombatSystem.run(Object.assign({}, model, { state }));
 
   const newModel = {
-    state: Object.assign({}, state, {
-      carl
-    }),
+    state: Object.assign({}, model.state, state),
     world: model.world
   };
 

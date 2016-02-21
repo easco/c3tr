@@ -1,3 +1,4 @@
+import Carl from 'entities/Carl';
 import Entity from 'Entity';
 import World from 'World';
 import { find, html } from 'DOM';
@@ -21,7 +22,8 @@ export default function renderField({ state, world }) {
   fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
   fieldContext.font = '20px monospace';
 
-  const carlPos = state.carl.position;
+  const carl = Carl.find(state.entities);
+  const carlPos = carl.position;
 
   const remX = fieldCanvas.width % 20;
   const remY = fieldCanvas.height % 20;
@@ -36,9 +38,7 @@ export default function renderField({ state, world }) {
 
   const startPos = { x: carlPos.x - colSpan, y: carlPos.y - rowSpan };
   const endPos = { x: startPos.x + columns - 1, y: startPos.y + rows - 1 };
-  const visibleEntities = entitiesVisible(
-    state.entities.concat(state.carl), startPos, endPos
-  );
+  const visibleEntities = entitiesVisible(state.entities, startPos, endPos);
 
   const start = Date.now();
   let avatar, i, j, tile, visibleEntity, x, y;

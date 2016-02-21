@@ -7,9 +7,10 @@ import Format from 'Format';
 module.exports = {
   attach,
   create,
+  detach,
   get,
   has,
-  remove,
+  listReplace,
   update
 }
 
@@ -32,6 +33,16 @@ function attach(entity, component) {
   return Object.assign({}, entity, { [componentName]: component.value });
 }
 
+function detach(entity, componentType) {
+  const propName = Format.propName(componentType);
+
+  return Object.keys(entity)
+    .filter(prop => prop !== propName)
+    .reduce((newEntity, prop) => Object.assign({}, newEntity, {
+      [prop]: entity[prop]
+    }), {});
+}
+
 function get(entity, componentType) {
   return entity[Format.propName(componentType)];
 }
@@ -40,14 +51,8 @@ function has(entity, componentType) {
   return entity.hasOwnProperty(Format.propName(componentType));
 }
 
-function remove(entity, componentType) {
-  const propName = Format.propName(componentType);
-
-  return Object.keys(entity)
-    .filter(prop => prop !== propName)
-    .reduce((newEntity, prop) => Object.assign({}, newEntity, {
-      [prop]: entity[prop]
-    }), {});
+function listReplace(entities, findFn, replacement) {
+  return entities.map(entity => findFn(entity) ? replacement : entity);
 }
 
 function update(entity, componentType, fn) {

@@ -4,6 +4,7 @@ import CPUSlot from 'components/CPUSlot';
 import Energy from 'components/Energy';
 import Entity from 'Entity';
 import Health from 'components/Health';
+import ID from 'components/ID';
 import Inventory from 'components/Inventory';
 import Position from 'components/Position';
 import Tile from 'Tile';
@@ -15,6 +16,8 @@ import Tile from 'Tile';
 module.exports = {
   canAffordMoveTo,
   create,
+  find,
+  findFn,
   finishMove,
   moveCost
 };
@@ -32,9 +35,18 @@ function create(position) {
     CPUSlot.create(CPU.create(1.0)),
     Energy.create(6000),
     Health.create(100),
+    ID.create('CARL'),
     Inventory.create([]),
     Position.create(position.x, position.y)
   ]);
+}
+
+function find(entities) {
+  return entities.find(findFn);
+}
+
+function findFn(entity) {
+  return entity.id === 'CARL';
 }
 
 function finishMove(carl, tile) {
