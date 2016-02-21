@@ -13,11 +13,18 @@ import Tile from 'Tile';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
+  canAffordMoveTo,
   create,
-  finishMove
+  finishMove,
+  moveCost
 };
 
 // Functions -------------------------------------------------------------------
+
+function canAffordMoveTo(carl, tile) {
+  if (!Boolean(tile)) return false;
+  return carl.energy.current >= moveCost(tile);
+}
 
 function create(position) {
   return Entity.create([
@@ -31,7 +38,9 @@ function create(position) {
 }
 
 function finishMove(carl, tile) {
-  const energyCost = Tile.isLand(tile) ? 10 : 100;
+  return Energy.drain(carl, moveCost(tile));
+}
 
-  return Energy.drain(carl, energyCost);
+function moveCost(tile) {
+  return Tile.isLand(tile) ? 10 : 100;
 }

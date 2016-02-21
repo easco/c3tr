@@ -7,11 +7,20 @@ import Tile from 'Tile';
 
 // Data ------------------------------------------------------------------------
 
+const Direction = Object.freeze({
+  EAST: 'EAST',
+  NORTH: 'NORTH',
+  SOUTH: 'SOUTH',
+  WEST: 'WEST'
+});
+
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
+  Direction,
   generate,
-  tileAt
+  tileAt,
+  tileTo
 };
 
 // Functions -------------------------------------------------------------------
@@ -43,4 +52,34 @@ function generate(width, height) {
 
 function tileAt(world, { x, y }) {
   return world.tiles[x][y];
+}
+
+function tileTo(world, direction, source) {
+  let destination;
+  switch (direction) {
+    case Direction.EAST:
+      destination = { x: source.x, y: source.y + 1 };
+      break;
+
+    case Direction.NORTH:
+      destination = { x: source.x - 1, y: source.y };
+      break;
+
+    case Direction.SOUTH:
+      destination = { x: source.x + 1, y: source.y };
+      break;
+
+    case Direction.WEST:
+      destination = { x: source.x, y: source.y - 1 };
+      break;
+  }
+
+  if (
+    destination.x < 0 || destination.x >= world.width
+    || destination.y < 0 || destination.y >= world.height
+  ) {
+    return null;
+  }
+
+  return tileAt(world, destination);
 }
