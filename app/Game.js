@@ -152,7 +152,7 @@ function update(action, model) {
       dest = World.tileTo(model.world, World.Direction.EAST, carl.position);
       if (Carl.canAffordMoveTo(carl, dest)) {
         carl = Position.moveEast(carl);
-        carl = Carl.finishMove(carl, World.tileAt(model.world, carl.position));
+        carl = Carl.finishMove(carl, dest);
       }
       break;
 
@@ -160,7 +160,7 @@ function update(action, model) {
       dest = World.tileTo(model.world, World.Direction.NORTH, carl.position);
       if (Carl.canAffordMoveTo(carl, dest)) {
         carl = Position.moveNorth(carl);
-        carl = Carl.finishMove(carl, World.tileAt(model.world, carl.position));
+        carl = Carl.finishMove(carl, dest);
       }
       break;
 
@@ -168,7 +168,7 @@ function update(action, model) {
       dest = World.tileTo(model.world, World.Direction.SOUTH, carl.position);
       if (Carl.canAffordMoveTo(carl, dest)) {
         carl = Position.moveSouth(carl);
-        carl = Carl.finishMove(carl, World.tileAt(model.world, carl.position));
+        carl = Carl.finishMove(carl, dest);
       }
       break;
 
@@ -176,7 +176,7 @@ function update(action, model) {
       dest = World.tileTo(model.world, World.Direction.WEST, carl.position);
       if (Carl.canAffordMoveTo(carl, dest)) {
         carl = Position.moveWest(carl);
-        carl = Carl.finishMove(carl, World.tileAt(model.world, carl.position));
+        carl = Carl.finishMove(carl, dest);
       }
       break;
   }
