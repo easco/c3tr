@@ -5,7 +5,6 @@ import LogicSystem from 'systems/Logic';
 import Monster from 'entities/Monster';
 import Move from 'components/Move';
 import MovementSystem from 'systems/Movement';
-import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'Tile';
 import World from 'World';
@@ -30,10 +29,16 @@ const Action = Object.freeze({
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
+  entitiesAt,
   init
 };
 
 // Functions -------------------------------------------------------------------
+
+function entitiesAt(model, position) {
+  return model.state.entities
+    .filter(entity => entity.x === position.x && entity.y === position.y);
+}
 
 function getInitialEntities(world, count) {
   const types = [Monster];
