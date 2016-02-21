@@ -12,6 +12,13 @@ import { find, html, text } from 'DOM';
 
 // Data ------------------------------------------------------------------------
 
+const CarlAction = Object.freeze({
+  MOVE_EAST: 'MOVE_EAST',
+  MOVE_NORTH: 'MOVE_NORTH',
+  MOVE_SOUTH: 'MOVE_SOUTH',
+  MOVE_WEST: 'MOVE_WEST'
+});
+
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
@@ -55,8 +62,33 @@ function init() {
   renderView(model);
 
   window.addEventListener('keydown', event => {
-    model = update(event.code, model);
-    renderView(model);
+    let action;
+    switch (event.keyCode) {
+      case 39: // ArrowRight
+      case 76: // KeyL
+        action = CarlAction.MOVE_EAST;
+        break;
+
+      case 38: // ArrowUp
+      case 75: // KeyK
+        action = CarlAction.MOVE_NORTH;
+        break;
+
+      case 40: // ArrowDown
+      case 74: // KeyJ
+        action = CarlAction.MOVE_SOUTH;
+        break;
+
+      case 37: // ArrowLeft
+      case 72: // KeyH
+        action = CarlAction.MOVE_WEST;
+        break;
+    }
+
+    if (Boolean(action)) {
+      model = update(action, model);
+      renderView(model);
+    }
   });
 
   window.addEventListener('resize', () => {
@@ -100,9 +132,39 @@ function save(state) {
 }
 
 function update(action, model) {
-  // TODO: Define `newModel` based on `action`
-  // TODO: `save(newModel);`
-  // TODO: `return newModel;`
+  let carl = model.carl;
+  console.log(action, Entity.properties(carl).position);
+  switch (action) {
+    case CarlAction.MOVE_EAST:
+      carl = Position.moveEast(carl);
+      break;
 
-  return model; // FIXME: Temp
+    case CarlAction.MOVE_NORTH:
+      carl = Position.moveNorth(carl);
+      break;
+
+    case CarlAction.MOVE_SOUTH:
+      carl = Position.moveSouth(carl);
+      break;
+
+    case CarlAction.MOVE_WEST:
+      carl = Position.moveWest(carl);
+      break;
+  }
+  console.log(Entity.properties(carl).position);
+
+  // TODO: Entities with Logic make decisions based on `model`
+
+  // TODO: Combat round(s)
+
+  const newModel = {
+    carl,
+    entities: [carl],
+    message: model.message,
+    world: model.world
+  };
+
+  // TODO: save(newModel);
+
+  return newModel;
 }
