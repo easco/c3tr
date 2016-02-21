@@ -11,8 +11,7 @@ import World from 'World';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  create,
-  generate
+  create
 };
 
 // Functions -------------------------------------------------------------------
@@ -24,8 +23,4 @@ function create(position) {
     Inventory.create([]),
     Position.create(position.x, position.y)
   ]);
-}
-
-function generate(world) {
-  return create(World.emptyLandPosition(world));
 }
