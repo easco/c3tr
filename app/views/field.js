@@ -11,11 +11,11 @@ export default function renderField(model) {
   fieldContext.font = '20px monospace';
 
   const carlPos = Entity.get(model.carl, Position.type);
-  const centerX = fieldCanvas.width / 2;
-  const centerY = fieldCanvas.height / 2;
 
-  const offsetX = Math.floor(fieldCanvas.width % 20) - 10;
-  const offsetY = Math.floor(fieldCanvas.height % 20) - 10;
+  const remX = fieldCanvas.width % 20;
+  const remY = fieldCanvas.height % 20;
+  const offsetX = remX > 0 ? remX - 20 : 0;
+  const offsetY = remY > 0 ? remY - 20 : 0;
 
   const columns = Math.ceil(fieldCanvas.width / 20);
   const rows = Math.ceil(fieldCanvas.height / 20);
