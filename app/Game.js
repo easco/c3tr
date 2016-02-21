@@ -1,6 +1,7 @@
 import Carl from 'entities/Carl';
 import Elevation from 'components/Elevation';
 import Entity from 'Entity';
+import Monster from 'entities/Monster';
 import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'entities/Tile';
@@ -41,15 +42,29 @@ function findEntities(model, fn) {
   return model.entities.filter(fn);
 }
 
+function getInitialEntities(world, count) {
+  const types = [Monster];
+  let entityPos, entities = [];
+
+  for (let i = 0; i < count; i++) {
+    entityPos = randomLandPosition(world);
+    entities = entities.concat(Random.from(types).create(entityPos));
+  }
+
+  return entities;
+}
+
 function getInitialModel() {
   const world = World.generate(1024, 768);
 
   const carlPos = randomLandPosition(world);
   const carl = Carl.create(carlPos);
+  const initialEntities = getInitialEntities(world, 5000);
+  const entities = [].concat.call(carl, initialEntities);
 
   return {
     carl,
-    entities: [carl],
+    entities: entities,
     message: 'You are Carl, a time-traveling robot.',
     world
   };
@@ -104,8 +119,8 @@ function load() {
 function randomLandPosition(world) {
   let tile, x, y;
   while (true) {
-    x = Random.integer(0, world.width);
-    y = Random.integer(0, world.height);
+    x = Random.integer(0, world.width - 1);
+    y = Random.integer(0, world.height - 1);
     tile = world.tiles[x][y];
 
     if (Elevation.isLand(tile)) {
@@ -132,7 +147,9 @@ function save(state) {
 }
 
 function update(action, model) {
+  let entities;
   let carl = model.carl;
+  model.entities.shift();
   console.log(action, Entity.properties(carl).position);
   switch (action) {
     case CarlAction.MOVE_EAST:
@@ -153,13 +170,15 @@ function update(action, model) {
   }
   console.log(Entity.properties(carl).position);
 
+  entities = [].concat.call(carl, model.entities);
+
   // TODO: Entities with Logic make decisions based on `model`
 
   // TODO: Combat round(s)
 
   const newModel = {
     carl,
-    entities: [carl],
+    entities,
     message: model.message,
     world: model.world
   };

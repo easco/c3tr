@@ -3,6 +3,7 @@ import Energy from 'components/Energy';
 import Entity from 'Entity';
 import Health from 'components/Health';
 import Inventory from 'components/Inventory';
+import Logic from 'components/Logic';
 import Position from 'components/Position';
 import World from 'World';
 
@@ -11,8 +12,7 @@ import World from 'World';
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  create,
-  generate
+  create
 };
 
 // Functions -------------------------------------------------------------------
@@ -22,10 +22,7 @@ function create(position) {
     Avatar.create('e', '#e86b6b'),
     Health.create(100),
     Inventory.create([]),
+    Logic.create(Logic.Mode.HOSTILE),
     Position.create(position.x, position.y)
   ]);
-}
-
-function generate(world) {
-  return create(World.emptyLandPosition(world));
 }
