@@ -13,7 +13,8 @@ const waterBackgroundColor = BackgroundColor.create('#246').value;
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  create
+  create,
+  isLand
 };
 
 // Functions -------------------------------------------------------------------
@@ -26,4 +27,8 @@ function create(elevation) {
     avatar: isLand ? landAvatar : waterAvatar,
     elevation
   };
+}
+
+function isLand(tile) {
+  return tile.elevation > 0;
 }

@@ -20,15 +20,21 @@ function create(max) {
     type: ENERGY,
     value: {
       current: max,
-      max: max
+      max
     }
   };
 }
 
 function drain(entity, amount) {
-  return Entity.update(entity, ENERGY, value => Math.max(0, value.current - amount));
+  return Entity.update(entity, ENERGY, value => ({
+    current: Math.max(0, value.current - amount),
+    max: value.max
+  }));
 }
 
 function fill(entity, amount) {
-  return Entity.update(entity, ENERGY, value => Math.min(value.max, value.current + amount));
+  return Entity.update(entity, ENERGY, value => ({
+    current: Math.min(value.max, value.current + amount),
+    max: value.max
+  }));
 }

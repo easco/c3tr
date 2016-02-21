@@ -149,18 +149,22 @@ function update(action, model) {
   switch (action) {
     case CarlAction.MOVE_EAST:
       carl = Position.moveEast(carl);
+      carl = Carl.finishMove(carl, World.tileAt(model.world, carl.position));
       break;
 
     case CarlAction.MOVE_NORTH:
       carl = Position.moveNorth(carl);
+      carl = Carl.finishMove(carl, World.tileAt(model.world, carl.position));
       break;
 
     case CarlAction.MOVE_SOUTH:
       carl = Position.moveSouth(carl);
+      carl = Carl.finishMove(carl, World.tileAt(model.world, carl.position));
       break;
 
     case CarlAction.MOVE_WEST:
       carl = Position.moveWest(carl);
+      carl = Carl.finishMove(carl, World.tileAt(model.world, carl.position));
       break;
   }
 

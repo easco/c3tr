@@ -6,26 +6,32 @@ import Entity from 'Entity';
 import Health from 'components/Health';
 import Inventory from 'components/Inventory';
 import Position from 'components/Position';
+import Tile from 'Tile';
 
 // Data ------------------------------------------------------------------------
 
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  create
+  create,
+  finishMove
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(position) {
-  const maxEnergy = 60000;
-
   return Entity.create([
     Avatar.create('@', '#f8f8f8'),
     CPUSlot.create(CPU.create(1.0)),
-    Energy.create(maxEnergy),
+    Energy.create(10000),
     Health.create(100),
     Inventory.create([]),
     Position.create(position.x, position.y)
   ]);
+}
+
+function finishMove(carl, tile) {
+  const energyCost = Tile.isLand(tile) ? 10 : 1000;
+
+  return Energy.drain(carl, energyCost);
 }
