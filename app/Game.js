@@ -128,6 +128,13 @@ function init() {
   });
 }
 
+function logMessage(message) {
+  const log = find('#Log');
+  const messageP = html('p', {}, [message]);
+
+  log.insertBefore(messageP, log.firstChild);
+}
+
 function load() {
   return JSON.parse(localStorage.getItem('state'));
 }

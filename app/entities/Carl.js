@@ -18,8 +18,7 @@ import Tile from 'Tile';
 module.exports = {
   create,
   find,
-  findFn,
-  finishMove
+  findFn
 };
 
 // Functions -------------------------------------------------------------------
