@@ -1,17 +1,14 @@
-import Avatar from 'components/Avatar';
 import Entity from 'Entity';
-import Position from 'components/Position';
 import { find, html } from 'DOM';
 
-function entitiesVisible(entities, minPosition, maxPosition) {
+function entitiesVisible(entities, min, max) {
   return entities
     .filter(entity => {
-      const entityPosition = Entity.get(entity, Position.type);
+      if (!entity.hasOwnProperty('position')) return false;
+
+      const pos = entity.position;
       return (
-        entityPosition.x >= minPosition.x
-        && entityPosition.x <= maxPosition.x
-        && entityPosition.y >= minPosition.y
-        && entityPosition.y <= maxPosition.y
+        pos.x >= min.x && pos.x <= max.x && pos.y >= min.y && pos.y <= max.y
       );
     });
 }
@@ -23,7 +20,7 @@ export default function renderField(model) {
   fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
   fieldContext.font = '20px monospace';
 
-  const carlPos = Entity.get(model.carl, Position.type);
+  const carlPos = model.carl.position;
 
   const remX = fieldCanvas.width % 20;
   const remY = fieldCanvas.height % 20;
@@ -41,7 +38,7 @@ export default function renderField(model) {
   const visibleEntities = entitiesVisible(model.entities, startPos, endPos);
 
   const start = Date.now();
-  let avatar, i, j, tile, tileProps, x, y;
+  let avatar, i, j, tile, visibleEntity, x, y;
   for (let column = 0; column < columns; column++) {
     for (let row = 0; row < rows; row++) {
       x = carlPos.x + column - colSpan;
@@ -55,18 +52,17 @@ export default function renderField(model) {
       }
 
       tile = model.world.tiles[x][y];
-      tileProps = Entity.properties(tile);
 
-      fieldContext.fillStyle = tileProps.backgroundColor;
+      fieldContext.fillStyle = tile.backgroundColor;
       fieldContext.fillRect(i, j, 20, 20);
 
-      const visibleEntity = visibleEntities.find(entity =>
-        Position.match(Entity.get(entity, Position.type), { x, y })
+      visibleEntity = visibleEntities.find(entity =>
+        entity.position.x === x && entity.position.y === y
       );
 
       avatar = visibleEntity
-        ? Entity.get(visibleEntity, Avatar.type)
-        : tileProps.avatar;
+        ? visibleEntity.avatar
+        : tile.avatar;
 
       fieldContext.fillStyle = avatar.style;
       fieldContext.fillText(avatar.character, i + 4, j + 16);

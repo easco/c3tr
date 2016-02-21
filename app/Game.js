@@ -4,7 +4,7 @@ import Entity from 'Entity';
 import Monster from 'entities/Monster';
 import Position from 'components/Position';
 import Random from 'Random';
-import Tile from 'entities/Tile';
+import Tile from 'Tile';
 import World from 'World';
 import renderField from 'views/field';
 import renderMessage from 'views/message';
@@ -150,7 +150,6 @@ function update(action, model) {
   let entities;
   let carl = model.carl;
   model.entities.shift();
-  console.log(action, Entity.properties(carl).position);
   switch (action) {
     case CarlAction.MOVE_EAST:
       carl = Position.moveEast(carl);
@@ -168,7 +167,6 @@ function update(action, model) {
       carl = Position.moveWest(carl);
       break;
   }
-  console.log(Entity.properties(carl).position);
 
   entities = [].concat.call(carl, model.entities);
 

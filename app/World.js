@@ -3,7 +3,7 @@ import Entity from 'Entity';
 import FastSimplexNoise from 'fast-simplex-noise';
 import Position from 'components/Position';
 import Random from 'Random';
-import Tile from 'entities/Tile';
+import Tile from 'Tile';
 
 // Data ------------------------------------------------------------------------
 
@@ -24,13 +24,15 @@ function generate(width, height) {
     octaves: 8
   });
 
+  const start = Date.now();
   const tiles = new Array(width);
   for (let x = 0; x < width; x++) {
     tiles[x] = new Array(height);
     for (let y = 0; y < height; y++) {
-      tiles[x][y] = Tile.create({ x, y }, elevationNoise.in2D(x, y));
+      tiles[x][y] = Tile.create(elevationNoise.in2D(x, y));
     }
   }
+  console.log('World generation took', Date.now() - start, 'ms');
 
   return {
     height,

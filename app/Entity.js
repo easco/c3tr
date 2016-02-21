@@ -9,7 +9,6 @@ module.exports = {
   create,
   get,
   has,
-  properties,
   remove,
   update
 }
@@ -17,68 +16,45 @@ module.exports = {
 // Functions -------------------------------------------------------------------
 
 function create(components = []) {
-  // An entity should only have one component of each type, so filter to uniques
-  return {
-    components: components
-      .filter((component, index) =>
-        components.indexOf(components.find(cmp =>
-          cmp.type === component.type
-        )) === index
-      )
-  };
+  return components
+    .reduce((entity, component) => Object.assign({}, entity, {
+      [Format.propName(component.type)]: component.value
+    }), {});
 }
 
 function attach(entity, component) {
-  if (has(entity, component.type)) {
-    console.error(`The entity already has a ${component.type} component.`);
+  const componentName = Format.propName(component.type);
+  if (entity.hasOwnProperty(componentName)) {
+    console.error(`The entity already has a ${componentName} property.`);
     return entity;
   }
 
-  return Object.assign({}, entity, {
-    components: entity.components.concat(component)
-  });
+  return Object.assign({}, entity, { [componentName]: component.value });
 }
 
 function get(entity, componentType) {
-  return entity.components
-    .find(component => component.type === componentType)
-    .value;
+  return entity[Format.propName(componentType)];
 }
 
 function has(entity, componentType) {
-  return entity.components
-    .filter(component => component.type === componentType)
-    .length > 0;
-}
-
-function properties(entity) {
-  let props = {};
-
-  entity.components.forEach(component => {
-    props[Format.propName(component.type)] = component.value;
-  });
-
-  return props;
+  return entity.hasOwnProperty(Format.propName(componentType));
 }
 
 function remove(entity, componentType) {
-  return Object.assign({}, entity, {
-    components: entity.components
-      .filter(component => component.type !== componentType)
-  });
+  const propName = Format.propName(componentType);
+
+  return Object.keys(entity)
+    .filter(prop => prop !== propName)
+    .reduce((newEntity, prop) => Object.assign({}, newEntity, {
+      [prop]: entity[prop]
+    }), {});
 }
 
 function update(entity, componentType, fn) {
-  return Object.assign({}, entity, {
-    components: entity.components
-      .map(component => {
-        if (component.type === componentType) {
-          return Object.assign({}, component, {
-            value: fn(component.value)
-          });
-        }
+  const propName = Format.propName(componentType);
 
-        return component;
-      })
-  });
+  return Object.keys(entity)
+    .reduce((newEntity, prop) => Object.assign({}, newEntity, {
+      [prop]: prop === propName ? fn(entity[prop]) : entity[prop]
+    }), {});
 }

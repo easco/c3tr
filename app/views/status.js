@@ -3,8 +3,7 @@ import Format from 'Format';
 import { find, html, text } from 'DOM';
 
 export default function renderStatus(model) {
-  const carl = Entity.properties(model.carl);
-  const cpu = Entity.properties(carl.cpuSlot.cpu);
+  const carl = model.carl;
 
   const energySpan = html('span', { class: 'energy' });
   energySpan.style.width = `${100 * carl.energy.current / carl.energy.max}%`;
@@ -15,7 +14,7 @@ export default function renderStatus(model) {
       html('span', { class: 'cpu' }, [
         text('CPU:'),
       ]),
-      `${cpu.clockSpeed.toFixed(1)}GHz`
+      `${carl.cpuSlot.cpu.clockSpeed.toFixed(1)}GHz`
     ]),
     html('span', { class: 'energy-bar' }, [energySpan])
   ]);
