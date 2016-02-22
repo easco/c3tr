@@ -1,7 +1,7 @@
 import Carl from 'entities/Carl';
 import Entity from 'Entity';
 import World from 'World';
-import { find, html } from 'DOM';
+import DOM from 'DOM';
 
 function entitiesVisible(entities, min, max) {
   return entities
@@ -19,7 +19,7 @@ function entitiesVisible(entities, min, max) {
 }
 
 export default function renderField({ state, world }) {
-  const fieldCanvas = find('#Field');
+  const fieldCanvas = DOM.find('#Field');
   const fieldContext = fieldCanvas.getContext('2d');
 
   fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);

@@ -1,13 +1,13 @@
-import { find, html } from 'DOM';
+import DOM from 'DOM';
 
 export default function renderMessage(model) {
   const messages = model.state.messages;
 
-  const messageEl = html('div', { id: 'Message' }, [
+  const messageEl = DOM.html('div', { id: 'Message' }, [
     messages.length > 0
     ? messages[messages.length - 1]
-    : html('p', {})
+    : DOM.html('p', {})
   ]);
 
-  document.body.replaceChild(messageEl, find('#Message'));
+  document.body.replaceChild(messageEl, DOM.find('#Message'));
 }
