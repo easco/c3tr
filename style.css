@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111;
+  color: rgba(248,248,248, 0.85);
+  font-family: monospace;
+  font-size: 16px;
+  height: 100%;
+  line-height: 1.25em;
+  margin: 0;
+  width: 100%;
+}
+
+#Field {
+  margin: 2.5em auto;
+  text-align: center;
+  vertical-align: middle;
+  z-index: 0;
+}
+
+#Log {
+  background-color: #181818;
+  border-right: 1px solid #444;
+  display: none;
+  height: 100%;
+  max-width: 320px;
+  min-width: 128px;
+  overflow-y: scroll;
+  padding: 0 8px;
+  position: fixed;
+  width: 20%;
+  z-index: 10;
+}
+
+#Log.open {
+  display: block;
+}
+
+#Log > p:not(:last-of-type) {
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 16px;
+}
+
+#Message {
+  background-color: #181818;
+  border-bottom: 1px solid #444;
+  padding: 8px 16px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 5;
+}
+
+#Status {
+  background-color: #181818;
+  border-top: 1px solid #444;
+  bottom: 0;
+  padding: 8px 16px;
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+}
+
+#Status > .stats > .cpu {
+  margin-left: 16px;
+}
+
+#Status > .energy-bar {
+  border: 2px solid #EEE;
+  border-radius: 2px;
+  float: right;
+  height: 20px;
+  padding: 2px;
+  width: 96px;
+}
+
+#Status > .energy-bar > .energy {
+  background-color: #684;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
