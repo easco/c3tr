@@ -1,17 +1,10 @@
 import Battery from 'entities/Battery';
 import Carl from 'entities/Carl';
 import Entity from 'Entity';
-import Energy from 'components/Energy';
 import Model from 'Model';
 import Move from 'components/Move';
-import MoveAction from 'components/MoveAction';
-import MoveRestriction from 'components/MoveRestriction';
 import Position from 'components/Position';
-import Tile from 'Tile';
 import World from 'World';
-import Suckle from 'components/Suckle'
-
-// Data ------------------------------------------------------------------------
 
 // Exports ---------------------------------------------------------------------
 
@@ -43,7 +36,7 @@ function run(model) {
         Model.entitiesAt(model, destPosition)
           .filter(entity => entity.hasOwnProperty('name'))
           .forEach(entity => {
-            messages.push(`You encounter a ${entity.name}.`)
+            messages.push(`You encounter a ${entity.name}.`);
           });
       }
 

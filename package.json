@@ -2,6 +2,7 @@
   "name": "ss16-c3tr",
   "scripts": {
     "build": "webpack --optimize-minimize",
+    "lint": "eslint app",
     "watch": "webpack --progress --watch"
   },
   "devDependencies": {

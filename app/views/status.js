@@ -1,6 +1,4 @@
 import Carl from 'entities/Carl';
-import Entity from 'Entity';
-import Format from 'Format';
 import DOM from 'DOM';
 
 export default function renderStatus({ state }) {

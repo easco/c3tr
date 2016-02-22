@@ -1,5 +1,4 @@
 import Carl from 'entities/Carl';
-import Entity from 'Entity';
 import DOM from 'DOM';
 import World from 'World';
 
@@ -49,7 +48,7 @@ export default function renderField({ state, world }) {
       j = 20 * row + offsetY;
 
       // TODO: Handle horizontal wrapping of map
-      if ( x < 0 || x >= world.width || y < 0 || y >= world.height) {
+      if (x < 0 || x >= world.width || y < 0 || y >= world.height) {
         continue;
       }
 
@@ -61,7 +60,7 @@ export default function renderField({ state, world }) {
       presentEntities = visibleEntities
         .filter(e => e.position.x === x && e.position.y === y);
 
-      const visibleEntity = presentEntities.length > 0
+      visibleEntity = presentEntities.length > 0
         ? presentEntities.reduce((imp, e) =>
             e.avatar.importance > imp.avatar.importance ? e : imp
           )

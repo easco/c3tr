@@ -1,6 +1,5 @@
 import Avatar from 'components/Avatar';
 import BackgroundColor from 'components/BackgroundColor';
-import Entity from 'Entity';
 
 // Data ------------------------------------------------------------------------
 

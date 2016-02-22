@@ -15,16 +15,15 @@ export default {
 // Functions -------------------------------------------------------------------
 
 function randomLandPosition(world) {
-  let tile, x, y;
-  while (true) {
-    x = Random.integer(0, world.width - 1);
-    y = Random.integer(0, world.height - 1);
-    tile = world.tiles[x][y];
+  const x = Random.integer(0, world.width - 1);
+  const y = Random.integer(0, world.height - 1);
+  const tile = world.tiles[x][y];
 
-    if (Tile.isLand(tile)) {
-      return { x, y };
-    }
+  if (Tile.isLand(tile)) {
+    return { x, y };
   }
+
+  return randomLandPosition(world);
 }
 
 function tileAt(world, { x, y }) {

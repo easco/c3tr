@@ -13,7 +13,7 @@ export default {
   generate,
   populate,
   startingPosition
-}
+};
 
 // Functions ------------------------------------------------------------------
 
