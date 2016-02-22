@@ -5,7 +5,7 @@ const almostOne = 1 - 1e-16; // The highest float less than 1
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   character,
   float,
   from,

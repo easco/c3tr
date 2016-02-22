@@ -6,10 +6,9 @@ import Position from 'components/Position';
 
 const MOVE = 'MOVE';
 
-
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   perform,
   type: MOVE

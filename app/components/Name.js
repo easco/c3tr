@@ -5,7 +5,7 @@ const NAME = 'NAME';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   type: NAME
 };

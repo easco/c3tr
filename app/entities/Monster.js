@@ -4,6 +4,7 @@ import Entity from 'Entity';
 import Health from 'components/Health';
 import Inventory from 'components/Inventory';
 import Logic from 'components/Logic';
+import LogicMode from 'data/LogicMode';
 import Name from 'components/Name';
 import Position from 'components/Position';
 import World from 'World';
@@ -12,7 +13,7 @@ import World from 'World';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create
 };
 
@@ -23,7 +24,7 @@ function create(position) {
     Avatar.create('m', '#e86b6b'),
     Health.create(100),
     Inventory.create([]),
-    Logic.create(Logic.Mode.HOSTILE),
+    Logic.create(LogicMode.HOSTILE),
     Name.create('monster'),
     Position.create(position.x, position.y)
   ]);

@@ -7,7 +7,7 @@ const POSITION = 'POSITION';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   from,
   match,

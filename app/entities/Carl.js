@@ -17,7 +17,7 @@ import Suckle from 'components/Suckle';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   find,
   findFn

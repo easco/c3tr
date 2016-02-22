@@ -1,87 +1,34 @@
-import Battery from 'entities/Battery';
+import Action from 'data/Action';
 import Carl from 'entities/Carl';
-import CombatSystem from 'systems/Combat';
+import DOM from 'DOM';
+import DefaultWorld from 'worlds/Default';
 import Direction from 'data/Direction';
 import Entity from 'Entity';
-import LogicSystem from 'systems/Logic';
-import Monster from 'entities/Monster';
 import Move from 'components/Move';
 import MovementSystem from 'systems/Movement';
-import Random from 'Random';
-import Tile from 'Tile';
-import World from 'World';
 import renderField from 'views/field';
 import renderMessage from 'views/message';
 import renderStatus from 'views/status';
-import { find, html, text } from 'DOM';
 
 // Data ------------------------------------------------------------------------
 
-const Action = Object.freeze({
-  MOVE_EAST: 'MOVE_EAST',
-  MOVE_NORTH: 'MOVE_NORTH',
-  MOVE_NORTHEAST: 'MOVE_NORTHEAST',
-  MOVE_NORTHWEST: 'MOVE_NORTHWEST',
-  MOVE_SOUTH: 'MOVE_SOUTH',
-  MOVE_SOUTHEAST: 'MOVE_SOUTHEAST',
-  MOVE_SOUTHWEST: 'MOVE_SOUTHWEST',
-  MOVE_WEST: 'MOVE_WEST'
-});
-
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   init
 };
 
 // Functions -------------------------------------------------------------------
 
-function getInitialEntities(world, count) {
-  const types = [
-    {
-      type: Monster,
-      weight: 3
-    },
-    {
-      type: Battery,
-      weight: 1
-    }
-  ];
-  let entityPos, entities = [], type, weightedTypes = [];
-
-  types.forEach(item => {
-    for (let i = 0; i < item.weight; i++) {
-      weightedTypes = [].concat.call(weightedTypes, item.type);
-    }
-  });
-
-  for (let i = 0; i < count; i++) {
-    entityPos = randomLandPosition(world);
-    type = Random.from(weightedTypes);
-
-    switch (type) {
-      case Monster:
-        entities = entities.concat(Monster.create(entityPos));
-        break;
-      case Battery:
-        entities = entities.concat(Battery.generate(entityPos));
-        break;
-    }
-  }
-
-  return entities;
-}
-
 function getInitialModel() {
   const worldHeight = 768;
   const worldWidth = 1024;
-  const world = World.generate(worldWidth, worldHeight); // TODO: Pass seed
-  const carlPos = randomLandPosition(world);
+  const world = DefaultWorld.generate(worldWidth, worldHeight);
+  const carlPos = DefaultWorld.startingPosition(world);
 
   return {
     state: {
-      entities: getInitialEntities(world, 5000)
-        .concat(Carl.create(carlPos)),
+      entities: DefaultWorld.populate(world).concat(Carl.create(carlPos)),
       messages: [],
       worldHeight,
       worldWidth
@@ -154,27 +101,10 @@ function init() {
 }
 
 function logMessage(message) {
-  const log = find('#Log');
-  const messageP = html('p', {}, [message]);
+  const log = DOM.find('#Log');
+  const messageP = DOM.html('p', {}, [message]);
 
   log.insertBefore(messageP, log.firstChild);
-}
-
-function load() {
-  return JSON.parse(localStorage.getItem('state'));
-}
-
-function randomLandPosition(world) {
-  let tile, x, y;
-  while (true) {
-    x = Random.integer(0, world.width - 1);
-    y = Random.integer(0, world.height - 1);
-    tile = world.tiles[x][y];
-
-    if (Tile.isLand(tile)) {
-      return { x, y };
-    }
-  }
 }
 
 function renderView(model) {
@@ -184,18 +114,14 @@ function renderView(model) {
 }
 
 function resizeField(width, height) {
-  const field = find('#Field');
+  const field = DOM.find('#Field');
 
   field.setAttribute('width', width);
   field.setAttribute('height', height - 80);
 }
 
-function save(state) {
-  localStorage.setItem('state', JSON.stringify(state));
-}
-
 function toggleLog() {
-  const log = find('#Log');
+  const log = DOM.find('#Log');
 
   if (log.classList.contains('open')) log.classList.remove('open');
   else log.classList.add('open');
@@ -224,9 +150,9 @@ function update(action, model) {
   }
 
   state = Object.assign({}, model.state, { entities, messages: [] });
-  state = LogicSystem.run(Object.assign({}, model, { state }));
+  // TODO: LogicSystem.run
   state = MovementSystem.run(Object.assign({}, model, { state }));
-  state = CombatSystem.run(Object.assign({}, model, { state }));
+  // TODO: CombatSystem.run
 
   state.messages.forEach(message => logMessage(message));
 
@@ -234,8 +160,6 @@ function update(action, model) {
     state: Object.assign({}, model.state, state),
     world: model.world
   };
-
-  // TODO: save(newModel);
 
   return newModel;
 }

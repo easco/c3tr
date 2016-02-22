@@ -8,7 +8,7 @@ import Random from 'Random';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   generate
 };

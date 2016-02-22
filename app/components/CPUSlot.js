@@ -6,7 +6,7 @@ const CPU_SLOT = 'CPU_SLOT';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   empty,
   insert,

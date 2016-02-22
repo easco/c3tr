@@ -1,3 +1,3 @@
-import { init } from 'Game';
+import Game from 'Game';
 
-window.addEventListener('load', init);
+window.addEventListener('load', Game.init);

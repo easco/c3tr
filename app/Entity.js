@@ -4,7 +4,7 @@ import Format from 'Format';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   attach,
   create,
   detach,

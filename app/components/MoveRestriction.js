@@ -5,7 +5,7 @@ const MOVE_RESTRICTION = 'MOVE_RESTRICTION';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   type: MOVE_RESTRICTION
 };

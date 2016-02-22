@@ -7,7 +7,7 @@ const ID = 'ID';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   find,
   generate,

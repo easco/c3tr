@@ -6,7 +6,7 @@ const HEALTH = 'HEALTH';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   heal,
   hit,

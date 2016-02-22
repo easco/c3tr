@@ -1,24 +1,19 @@
+import LogicMode from 'data/LogicMode';
 
 // Data ------------------------------------------------------------------------
 
 const LOGIC = 'LOGIC';
 
-const Mode = Object.freeze({
-  HOSTILE: 'HOSTILE',
-  PASSIVE: 'PASSIVE'
-});
-
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
-  Mode,
+export default {
   create,
   type: LOGIC
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(mode) {
+function create(mode = LogicMode.PASSIVE) {
   return {
     type: LOGIC,
     value: {

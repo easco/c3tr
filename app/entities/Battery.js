@@ -11,7 +11,7 @@ const BATTERY = 'BATTERY';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   generate,
   type: BATTERY

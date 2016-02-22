@@ -6,7 +6,7 @@ const ENERGY = 'ENERGY';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   drain,
   fill,

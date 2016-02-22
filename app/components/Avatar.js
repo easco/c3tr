@@ -5,7 +5,7 @@ const AVATAR = 'AVATAR';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   type: AVATAR
 };

@@ -3,7 +3,7 @@
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   number,
   propName
 };

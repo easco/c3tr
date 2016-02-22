@@ -5,7 +5,7 @@ const BACKGROUND_COLOR = 'BACKGROUND_COLOR';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   type: BACKGROUND_COLOR
 };

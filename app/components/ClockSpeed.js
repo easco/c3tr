@@ -5,7 +5,7 @@ const CLOCK_SPEED = 'CLOCK_SPEED';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   type: CLOCK_SPEED
 };

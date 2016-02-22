@@ -5,7 +5,7 @@ const MOVE_EVENT = 'MOVE_EVENT';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   type: MOVE_EVENT
 };

@@ -6,7 +6,7 @@ const INVENTORY = 'INVENTORY';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   add,
   create,
   empty,

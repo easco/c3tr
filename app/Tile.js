@@ -12,7 +12,7 @@ const waterBackgroundColor = BackgroundColor.create('#246').value;
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   isLand
 };

@@ -1,5 +1,3 @@
-import Entity from 'Entity';
-import FastSimplexNoise from 'fast-simplex-noise';
 import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'Tile';
@@ -8,37 +6,25 @@ import Tile from 'Tile';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
-  generate,
+export default {
+  randomLandPosition,
   tileAt,
   tileTo
 };
 
 // Functions -------------------------------------------------------------------
 
-function generate(width, height) {
-  const elevationNoise = new FastSimplexNoise({
-    frequency: 0.03,
-    max: 10,
-    min: -10,
-    octaves: 8
-  });
+function randomLandPosition(world) {
+  let tile, x, y;
+  while (true) {
+    x = Random.integer(0, world.width - 1);
+    y = Random.integer(0, world.height - 1);
+    tile = world.tiles[x][y];
 
-  const start = Date.now();
-  const tiles = new Array(width);
-  for (let x = 0; x < width; x++) {
-    tiles[x] = new Array(height);
-    for (let y = 0; y < height; y++) {
-      tiles[x][y] = Tile.create(elevationNoise.in2D(x, y));
+    if (Tile.isLand(tile)) {
+      return { x, y };
     }
   }
-  console.log('World generation took', Date.now() - start, 'ms');
-
-  return {
-    height,
-    tiles,
-    width
-  };
 }
 
 function tileAt(world, { x, y }) {
@@ -48,12 +34,11 @@ function tileAt(world, { x, y }) {
 function tileTo(world, direction, source) {
   const destination = Position.from(source, direction);
 
-  if (
-    destination.x < 0 || destination.x >= world.width
-    || destination.y < 0 || destination.y >= world.height
-  ) {
-    return null;
-  }
+  if (destination.x < 0
+    || destination.x >= world.width
+    || destination.y < 0
+    || destination.y >= world.height
+  ) return null;
 
   return tileAt(world, destination);
 }

@@ -6,7 +6,7 @@ const SUCKLE = 'SUCKLE';
 
 // Exports ---------------------------------------------------------------------
 
-module.exports = {
+export default {
   create,
   type: SUCKLE
 };
