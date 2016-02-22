@@ -7,7 +7,7 @@ import Random from 'Random';
 
 // Data ------------------------------------------------------------------------
 
-const BATTERY = 'BATTERY';
+const BATTERY = 'Battery';
 
 // Exports ---------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ function create(level, position = null) {
     battery.push(Position.create(position.x, position.y));
   }
 
-  return Entity.create(battery);
+  return Entity.create(BATTERY, battery);
 }
 
 function generate(position = null) {

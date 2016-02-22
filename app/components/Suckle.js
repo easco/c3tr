@@ -2,20 +2,20 @@ import Entity from 'Entity';
 
 // Data ------------------------------------------------------------------------
 
-const SUCKLE = 'SUCKLE';
+const SUCKLE = 'suckle';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  type: SUCKLE
+  key: SUCKLE
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(fn) {
+function create(suckleFn) {
   return {
-    type: SUCKLE,
-    value: fn
+    key: SUCKLE,
+    value: suckleFn
   };
 }

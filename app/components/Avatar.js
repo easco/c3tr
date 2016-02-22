@@ -1,20 +1,20 @@
 
 // Data ------------------------------------------------------------------------
 
-const AVATAR = 'AVATAR';
+const AVATAR = 'avatar';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  type: AVATAR
+  key: AVATAR
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(character, style = '#ccc', importance = 0) {
   return {
-    type: AVATAR,
+    key: AVATAR,
     value: {
       character,
       importance,

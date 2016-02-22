@@ -2,7 +2,7 @@ import Entity from 'Entity';
 
 // Data ------------------------------------------------------------------------
 
-const ENERGY = 'ENERGY';
+const ENERGY = 'energy';
 
 // Exports ---------------------------------------------------------------------
 
@@ -10,14 +10,16 @@ export default {
   create,
   drain,
   fill,
-  type: ENERGY
+  isDrained,
+  isFull,
+  key: ENERGY
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(max) {
   return {
-    type: ENERGY,
+    key: ENERGY,
     value: {
       current: max,
       max
@@ -37,4 +39,14 @@ function fill(entity, amount) {
     current: Math.min(value.max, value.current + amount),
     max: value.max
   }));
+}
+
+function isDrained(entity) {
+  return Entity.get(entity, ENERGY).current <= 0;
+}
+
+function isFull(entity) {
+  const value = Entity.get(entity, ENERGY);
+
+  return value.current >= value.max;
 }

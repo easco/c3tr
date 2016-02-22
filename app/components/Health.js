@@ -2,7 +2,7 @@ import Entity from 'Entity';
 
 // Data ------------------------------------------------------------------------
 
-const HEALTH = 'HEALTH';
+const HEALTH = 'health';
 
 // Exports ---------------------------------------------------------------------
 
@@ -11,14 +11,15 @@ export default {
   heal,
   hit,
   isAlive,
-  type: HEALTH
+  isDead,
+  key: HEALTH
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(max) {
   return {
-    type: HEALTH,
+    key: HEALTH,
     value: {
       current: max,
       max
@@ -28,16 +29,22 @@ function create(max) {
 
 function heal(entity, amount) {
   return Entity.update(entity, HEALTH, value => ({
-    current: Math.min(value.max, value.current + amount)
+    current: Math.min(value.max, value.current + amount),
+    max: value.max
   }));
 }
 
 function hit(entity, amount) {
   return Entity.update(entity, HEALTH, value => ({
-    current: Math.max(0, value.current - amount)
+    current: Math.max(0, value.current - amount),
+    max: value.max
   }));
 }
 
 function isAlive(entity) {
   return Entity.get(entity, HEALTH) > 0;
+}
+
+function isDead(entity) {
+  return !isAlive(entity);
 }

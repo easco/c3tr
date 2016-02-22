@@ -3,28 +3,23 @@ import Random from 'Random';
 
 // Data ------------------------------------------------------------------------
 
-const ID = 'ID';
+const ID = 'id';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  find,
   generate,
-  type: ID
+  key: ID
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(value) {
+function create(id) {
   return {
-    type: ID,
-    value
+    key: ID,
+    value: id
   };
-}
-
-function find(entities, id) {
-  return entities.find(entity => Entity.get(entity, ID) === id);
 }
 
 function generate() {

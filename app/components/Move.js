@@ -4,33 +4,34 @@ import Position from 'components/Position';
 
 // Data ------------------------------------------------------------------------
 
-const MOVE = 'MOVE';
+const MOVE = 'move';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
   perform,
-  type: MOVE
+  key: MOVE
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(direction) {
   return {
-    type: MOVE,
+    key: MOVE,
     value: direction
   };
 }
 
 function perform(entity) {
-  const offset = Offset[entity.move];
+  const entityPosition = Entity.get(entity, Position.key);
+  const offset = Offset[Entity.get(entity, MOVE)];
   const position = {
-    x: entity.position.x + offset.x,
-    y: entity.position.y + offset.y
+    x: entityPosition.x + offset.x,
+    y: entityPosition.y + offset.y
   };
 
-  if (position) entity = Position.move(entity, position);
+  if (position) entity = Position.set(entity, position);
 
   return Entity.detach(entity, MOVE);
 }

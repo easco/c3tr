@@ -2,7 +2,7 @@ import Entity from 'Entity';
 
 // Data ------------------------------------------------------------------------
 
-const CPU_SLOT = 'CPU_SLOT';
+const CPU_SLOT = 'cpuSlot';
 
 // Exports ---------------------------------------------------------------------
 
@@ -11,24 +11,24 @@ export default {
   empty,
   insert,
   isEmpty,
-  type: CPU_SLOT
+  key: CPU_SLOT
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(cpu = null) {
   return {
-    type: CPU_SLOT,
+    key: CPU_SLOT,
     value: { cpu }
   };
 }
 
 function empty(entity) {
-  return Entity.update(entity, CPU_SLOT, () => ({ cpu: null }));
+  return Entity.update(entity, CPU_SLOT, () => { cpu: null });
 }
 
 function insert(entity, cpu) {
-  return Entity.update(entity, CPU_SLOT, () => ({ cpu }));
+  return Entity.update(entity, CPU_SLOT, () => { cpu });
 }
 
 function isEmpty(entity) {

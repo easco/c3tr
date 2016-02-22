@@ -1,20 +1,20 @@
 
 // Data ------------------------------------------------------------------------
 
-const NAME = 'NAME';
+const NAME = 'name';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  type: NAME
+  key: NAME
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(value) {
+function create(name) {
   return {
-    type: NAME,
-    value
+    key: NAME,
+    value: name
   };
 }

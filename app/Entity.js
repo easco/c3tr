@@ -1,6 +1,3 @@
-import Format from 'Format';
-
-// Data ------------------------------------------------------------------------
 
 // Exports ---------------------------------------------------------------------
 
@@ -10,51 +7,83 @@ export default {
   detach,
   get,
   has,
+  hasAll,
+  is,
+  set,
   update
 }
 
 // Functions -------------------------------------------------------------------
 
-function create(components = []) {
+function keyOf(component) {
+  return typeof component === 'string' ? component : component.key;
+}
+
+function create(type, components = []) {
   return components
-    .reduce((entity, component) => Object.assign({}, entity, {
-      [Format.propName(component.type)]: component.value
-    }), {});
+    .reduce((entity, { key, value }) => Object.assign({}, entity, {
+      [key]: value
+    }), { type });
 }
 
 function attach(entity, component) {
-  const componentName = Format.propName(component.type);
-  if (entity.hasOwnProperty(componentName)) {
-    console.error(`The entity already has a ${componentName} property.`);
+  if (entity.hasOwnProperty(component.key)) {
+    console.error(`The ${entity.type} entity already has a "${component.key}" property.`);
     return entity;
   }
 
-  return Object.assign({}, entity, { [componentName]: component.value });
+  return Object.assign({}, entity, { [component.key]: component.value });
 }
 
-function detach(entity, componentType) {
-  const propName = Format.propName(componentType);
+function detach(entity, component) {
+  const componentKey = keyOf(component);
+  if (!entity.hasOwnProperty(componentKey)) {
+    console.error(`The ${entity.type} entity does not have a "${componentKey}" property.`);
+    return entity;
+  }
 
   return Object.keys(entity)
-    .filter(prop => prop !== propName)
-    .reduce((newEntity, prop) => Object.assign({}, newEntity, {
-      [prop]: entity[prop]
+    .filter(key => key !== componentKey)
+    .reduce((newEntity, key) => Object.assign({}, newEntity, {
+      [key]: entity[key]
     }), {});
 }
 
-function get(entity, componentType) {
-  return entity[Format.propName(componentType)];
+function get(entity, component) {
+  const componentKey = keyOf(component);
+  if (!entity.hasOwnProperty(componentKey)) {
+    console.error(`The ${entity.type} entity does not have a "${componentKey}" property.`);
+    return null;
+  }
+
+  return entity[componentKey];
 }
 
-function has(entity, componentType) {
-  return entity.hasOwnProperty(Format.propName(componentType));
+function has(entity, component) {
+  return entity.hasOwnProperty(keyOf(component));
 }
 
-function update(entity, componentType, fn) {
-  const propName = Format.propName(componentType);
+function hasAll(entity, components) {
+  return components.reduce((yes, c) => yes && has(entity, c), true);
+}
+
+function is(entity, type) {
+  return entity.type === (typeof type === 'string' ? type : type.type);
+}
+
+function set(entity, component, value) {
+  return update(entity, component, () => value);
+}
+
+function update(entity, component, fn) {
+  const componentKey = keyOf(component);
+  if (!entity.hasOwnProperty(componentKey)) {
+    console.error(`The entity does not have a "${componentKey}" property.`);
+    return entity;
+  }
 
   return Object.keys(entity)
-    .reduce((newEntity, prop) => Object.assign({}, newEntity, {
-      [prop]: prop === propName ? fn(entity[prop]) : entity[prop]
+    .reduce((newEntity, key) => Object.assign({}, newEntity, {
+      [key]: key === componentKey ? fn(entity[key]) : entity[key]
     }), {});
 }

@@ -2,27 +2,20 @@ import LogicMode from 'data/LogicMode';
 
 // Data ------------------------------------------------------------------------
 
-const LOGIC = 'LOGIC';
+const LOGIC = 'logic';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  type: LOGIC
+  key: LOGIC
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(mode = LogicMode.PASSIVE) {
   return {
-    type: LOGIC,
-    value: {
-      action: null,
-      mode
-    }
+    key: LOGIC,
+    value: mode
   };
-}
-
-function decide(entity, model) {
-  // TODO: Update entity's LOGIC action based on its mode and the (world) model
 }

@@ -3,23 +3,23 @@ import Offset from 'data/Offset';
 
 // Data ------------------------------------------------------------------------
 
-const POSITION = 'POSITION';
+const POSITION = 'position';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
   from,
+  key: POSITION,
   match,
-  move,
-  type: POSITION
+  set
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(x, y) {
   return {
-    type: POSITION,
+    key: POSITION,
     value: { x, y }
   };
 }
@@ -37,6 +37,6 @@ function match(a, b) {
   return a.x === b.x && a.y === b.y;
 }
 
-function move(entity, { x, y }) {
+function set(entity, { x, y }) {
   return Entity.update(entity, POSITION, () => ({ x, y }));
 }

@@ -1,20 +1,25 @@
 
 // Data ------------------------------------------------------------------------
 
-const MOVE_EVENT = 'MOVE_EVENT';
+const MOVE_ACTION = 'moveAction';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  type: MOVE_EVENT
+  key: MOVE_ACTION,
+  perform
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(eventFn) {
+function create(actionFn) {
   return {
-    type: MOVE_EVENT,
-    value: eventFn
+    key: MOVE_ACTION,
+    value: actionFn
   };
+}
+
+function perform(entity, tile) {
+  return Entity.get(entity, MOVE_ACTION)(entity, tile);
 }

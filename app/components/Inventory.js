@@ -2,28 +2,28 @@ import Entity from 'Entity';
 
 // Data ------------------------------------------------------------------------
 
-const INVENTORY = 'INVENTORY';
+const INVENTORY = 'inventory';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
-  add,
+  addItem,
   create,
   empty,
   isEmpty,
-  remove,
-  type: INVENTORY
+  key: INVENTORY,
+  removeItem
 };
 
 // Functions -------------------------------------------------------------------
 
-function add(entity, item) {
+function addItem(entity, item) {
   return Entity.update(entity, INVENTORY, contents => contents.concat(item));
 }
 
 function create(contents = []) {
   return {
-    type: INVENTORY,
+    key: INVENTORY,
     value: contents
   };
 }
@@ -36,8 +36,8 @@ function isEmpty(entity) {
   return Entity.get(entity, INVENTORY).length === 0;
 }
 
-function remove(entity, item) {
-  return Entity.update(entity, INVENTORY, contents =>
+function removeItem(entity, item) {
+  return Entity.set(entity, INVENTORY, contents =>
     contents.filter(thing => thing !== item)
   );
 }

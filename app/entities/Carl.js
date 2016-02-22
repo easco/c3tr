@@ -6,7 +6,7 @@ import Entity from 'Entity';
 import Health from 'components/Health';
 import ID from 'components/ID';
 import Inventory from 'components/Inventory';
-import MoveEvent from 'components/MoveEvent';
+import MoveAction from 'components/MoveAction';
 import MoveRestriction from 'components/MoveRestriction';
 import Name from 'components/Name';
 import Position from 'components/Position';
@@ -15,28 +15,31 @@ import Suckle from 'components/Suckle';
 
 // Data ------------------------------------------------------------------------
 
+const CARL = 'Carl';
+
 // Exports ---------------------------------------------------------------------
 
 export default {
-  create
+  create,
+  type: CARL
 };
 
 // Functions -------------------------------------------------------------------
 
-function canAffordMoveTo(carl, tile) {
+function canAffordMoveTo(tile) {
   if (!Boolean(tile)) return false;
-  return carl.energy.current >= moveCost(tile);
+  return this.energy.current >= moveCost(tile);
 }
 
 function create(position) {
-  return Entity.create([
+  return Entity.create(CARL, [
     Avatar.create('@', '#f8f8f8', 100),
     CPUSlot.create(CPU.create(1.0)),
     Energy.create(6000),
     Health.create(100),
     ID.create('CARL'),
     Inventory.create(),
-    MoveEvent.create(finishMove),
+    MoveAction.create(drainEnergyFromMoveTo),
     MoveRestriction.create(canAffordMoveTo),
     Name.create('Carl'),
     Position.create(position.x, position.y),
@@ -44,14 +47,14 @@ function create(position) {
   ]);
 }
 
-function finishMove(carl, tile) {
-  return Energy.drain(carl, moveCost(tile));
+function drainEnergyFromMoveTo(tile) {
+  return Energy.drain(this, moveCost(tile));
 }
 
 function moveCost(tile) {
   return Tile.isLand(tile) ? 10 : 100;
 }
 
-function suckleFn(carl, battery) {
-  return Energy.fill(carl, battery.energy.current);
+function suckleFn(battery) {
+  return Energy.fill(this, battery.energy.current);
 }

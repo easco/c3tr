@@ -11,16 +11,19 @@ import World from 'World';
 
 // Data ------------------------------------------------------------------------
 
+const MONSTER = 'Monster';
+
 // Exports ---------------------------------------------------------------------
 
 export default {
-  create
+  create,
+  type: MONSTER
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(position) {
-  return Entity.create([
+  return Entity.create(MONSTER, [
     Avatar.create('m', '#e86b6b'),
     Health.create(100),
     Inventory.create([]),

@@ -1,20 +1,25 @@
 
 // Data ------------------------------------------------------------------------
 
-const MOVE_RESTRICTION = 'MOVE_RESTRICTION';
+const MOVE_RESTRICTION = 'moveRestriction';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
+  check,
   create,
-  type: MOVE_RESTRICTION
+  key: MOVE_RESTRICTION
 };
 
 // Functions -------------------------------------------------------------------
 
+function check(entity, tile) {
+  return Entity.get(entity, MOVE_RESTRICTION)(entity, tile);
+}
+
 function create(predicateFn) {
   return {
-    type: MOVE_RESTRICTION,
+    key: MOVE_RESTRICTION,
     value: predicateFn
   };
 }

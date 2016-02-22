@@ -6,17 +6,20 @@ import Random from 'Random';
 
 // Data ------------------------------------------------------------------------
 
+const CPU = 'CPU';
+
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  generate
+  generate,
+  type: CPU
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(clockSpeed) {
-  return Entity.create([
+  return Entity.create(CPU, [
     Avatar.create('#', '#CC6'),
     ClockSpeed.create(clockSpeed),
     Name.create('CPU')

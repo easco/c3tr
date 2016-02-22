@@ -1,20 +1,20 @@
 
 // Data ------------------------------------------------------------------------
 
-const BACKGROUND_COLOR = 'BACKGROUND_COLOR';
+const BACKGROUND_COLOR = 'backgroundColor';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  type: BACKGROUND_COLOR
+  key: BACKGROUND_COLOR
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(color) {
+function create(value) {
   return {
-    type: BACKGROUND_COLOR,
-    value: color
+    key: BACKGROUND_COLOR,
+    value
   };
 }
