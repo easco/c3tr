@@ -1,4 +1,5 @@
 import Entity from 'Entity';
+import Offset from 'data/Offset';
 
 // Data ------------------------------------------------------------------------
 
@@ -8,6 +9,7 @@ const POSITION = 'POSITION';
 
 module.exports = {
   create,
+  from,
   match,
   move,
   type: POSITION
@@ -19,6 +21,15 @@ function create(x, y) {
   return {
     type: POSITION,
     value: { x, y }
+  };
+}
+
+function from(source, direction) {
+  const offset = Offset[direction];
+
+  return {
+    x: source.x + offset.x,
+    y: source.y + offset.y
   };
 }
 

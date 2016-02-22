@@ -1,0 +1,10 @@
+export default Object.freeze({
+  EAST: 'EAST',
+  NORTH: 'NORTH',
+  NORTHEAST: 'NORTHEAST',
+  NORTHWEST: 'NORTHWEST',
+  SOUTH: 'SOUTH',
+  SOUTHEAST: 'SOUTHEAST',
+  SOUTHWEST: 'SOUTHWEST',
+  WEST: 'WEST'
+});

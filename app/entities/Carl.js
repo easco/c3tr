@@ -8,6 +8,7 @@ import ID from 'components/ID';
 import Inventory from 'components/Inventory';
 import MoveEvent from 'components/MoveEvent';
 import MoveRestriction from 'components/MoveRestriction';
+import Name from 'components/Name';
 import Position from 'components/Position';
 import Tile from 'Tile';
 import Suckle from 'components/Suckle';
@@ -39,6 +40,7 @@ function create(position) {
     Inventory.create([]),
     MoveEvent.create(finishMove),
     MoveRestriction.create(canAffordMoveTo),
+    Name.create('Carl'),
     Position.create(position.x, position.y),
     Suckle.create(suckleFn)
   ]);

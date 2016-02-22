@@ -1,6 +1,7 @@
 import Battery from 'entities/Battery';
 import Carl from 'entities/Carl';
 import CombatSystem from 'systems/Combat';
+import Direction from 'data/Direction';
 import Entity from 'Entity';
 import LogicSystem from 'systems/Logic';
 import Monster from 'entities/Monster';
@@ -30,16 +31,10 @@ const Action = Object.freeze({
 // Exports ---------------------------------------------------------------------
 
 module.exports = {
-  entitiesAt,
   init
 };
 
 // Functions -------------------------------------------------------------------
-
-function entitiesAt(model, position) {
-  return model.state.entities
-    .filter(entity => entity.x === position.x && entity.y === position.y);
-}
 
 function getInitialEntities(world, count) {
   const types = [
@@ -213,14 +208,14 @@ function update(action, model) {
 
   let moveDirection;
   switch (action) {
-    case Action.MOVE_EAST: moveDirection = Move.Direction.EAST; break;
-    case Action.MOVE_NORTH: moveDirection = Move.Direction.NORTH; break;
-    case Action.MOVE_NORTHEAST: moveDirection = Move.Direction.NORTHEAST; break;
-    case Action.MOVE_NORTHWEST: moveDirection = Move.Direction.NORTHWEST; break;
-    case Action.MOVE_SOUTH: moveDirection = Move.Direction.SOUTH; break;
-    case Action.MOVE_SOUTHEAST: moveDirection = Move.Direction.SOUTHEAST; break;
-    case Action.MOVE_SOUTHWEST: moveDirection = Move.Direction.SOUTHWEST; break;
-    case Action.MOVE_WEST: moveDirection = Move.Direction.WEST; break;
+    case Action.MOVE_EAST: moveDirection = Direction.EAST; break;
+    case Action.MOVE_NORTH: moveDirection = Direction.NORTH; break;
+    case Action.MOVE_NORTHEAST: moveDirection = Direction.NORTHEAST; break;
+    case Action.MOVE_NORTHWEST: moveDirection = Direction.NORTHWEST; break;
+    case Action.MOVE_SOUTH: moveDirection = Direction.SOUTH; break;
+    case Action.MOVE_SOUTHEAST: moveDirection = Direction.SOUTHEAST; break;
+    case Action.MOVE_SOUTHWEST: moveDirection = Direction.SOUTHWEST; break;
+    case Action.MOVE_WEST: moveDirection = Direction.WEST; break;
   }
 
   if (moveDirection) {

@@ -4,6 +4,7 @@ import Entity from 'Entity';
 import Health from 'components/Health';
 import Inventory from 'components/Inventory';
 import Logic from 'components/Logic';
+import Name from 'components/Name';
 import Position from 'components/Position';
 import World from 'World';
 
@@ -23,6 +24,7 @@ function create(position) {
     Health.create(100),
     Inventory.create([]),
     Logic.create(Logic.Mode.HOSTILE),
+    Name.create('monster'),
     Position.create(position.x, position.y)
   ]);
 }

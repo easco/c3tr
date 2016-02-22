@@ -1,6 +1,7 @@
 import Avatar from 'components/Avatar';
 import ClockSpeed from 'components/ClockSpeed';
 import Entity from 'Entity';
+import Name from 'components/Name';
 import Random from 'Random';
 
 // Data ------------------------------------------------------------------------
@@ -17,7 +18,8 @@ module.exports = {
 function create(clockSpeed) {
   return Entity.create([
     Avatar.create('#', '#CC6'),
-    ClockSpeed.create(clockSpeed)
+    ClockSpeed.create(clockSpeed),
+    Name.create('CPU')
   ]);
 }
 

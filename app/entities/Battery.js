@@ -1,6 +1,7 @@
 import Avatar from 'components/Avatar';
 import Energy from 'components/Energy';
 import Entity from 'Entity';
+import Name from 'components/Name';
 import Position from 'components/Position';
 import Random from 'Random';
 
@@ -21,7 +22,8 @@ module.exports = {
 function create(level, position = null) {
   let battery = [
     Avatar.create('%', '#E6E69C'),
-    Energy.create(level)
+    Energy.create(level),
+    Name.create('battery')
   ];
 
   if (position) {

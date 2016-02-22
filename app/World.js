@@ -1,6 +1,5 @@
 import Entity from 'Entity';
 import FastSimplexNoise from 'fast-simplex-noise';
-import Move from 'components/Move';
 import Position from 'components/Position';
 import Random from 'Random';
 import Tile from 'Tile';
@@ -47,11 +46,7 @@ function tileAt(world, { x, y }) {
 }
 
 function tileTo(world, direction, source) {
-  const offset = Move.Offset[direction];
-  const destination = {
-    x: source.x + offset.x,
-    y: source.y + offset.y
-  };
+  const destination = Position.from(source, direction);
 
   if (
     destination.x < 0 || destination.x >= world.width
