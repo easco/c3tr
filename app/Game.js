@@ -7,6 +7,7 @@ import Entity from 'Entity';
 import Move from 'components/Move';
 import MovementSystem from 'systems/Movement';
 import renderField from 'views/field';
+import renderInventory from 'views/inventory';
 import renderMessage from 'views/message';
 import renderStatus from 'views/status';
 
@@ -41,7 +42,7 @@ function init() {
   let model = getInitialModel();
 
   resizeField(window.innerWidth, window.innerHeight);
-  renderView(model);
+  renderViews(model);
 
   window.addEventListener('keydown', event => {
     let action;
@@ -49,7 +50,9 @@ function init() {
       case 77: // KeyM
       case 81: // KeyQ
         return toggleLog();
-        break;
+
+      case 73: // KeyI
+        return toggleInventory();
 
       case 39: // ArrowRight
       case 76: // KeyL
@@ -90,13 +93,13 @@ function init() {
 
     if (Boolean(action)) {
       model = update(action, model);
-      renderView(model);
+      renderViews(model);
     }
   });
 
   window.addEventListener('resize', () => {
     resizeField(window.innerWidth, window.innerHeight);
-    renderView(model);
+    renderViews(model);
   });
 }
 
@@ -107,9 +110,10 @@ function logMessage(message) {
   log.insertBefore(messageP, log.firstChild);
 }
 
-function renderView(model) {
+function renderViews(model) {
   renderMessage(model);
   renderField(model);
+  renderInventory(model);
   renderStatus(model);
 }
 
@@ -120,17 +124,23 @@ function resizeField(width, height) {
   field.setAttribute('height', height - 80);
 }
 
-function toggleLog() {
-  const log = DOM.find('#Log');
+function toggleInventory() {
+  togglePanel(DOM.find('#Inventory'));
+}
 
-  if (log.classList.contains('open')) log.classList.remove('open');
-  else log.classList.add('open');
+function toggleLog() {
+  togglePanel(DOM.find('#Log'));
+}
+
+function togglePanel(panel) {
+  if (panel.classList.contains('open')) panel.classList.remove('open');
+  else panel.classList.add('open');
 }
 
 function update(action, model) {
   let state = model.state;
   let entities = state.entities;
-  let carl = Carl.find(state.entities);
+  let carl = state.entities.find(e => e.id === 'CARL');
 
   let moveDirection;
   switch (action) {
@@ -146,7 +156,7 @@ function update(action, model) {
 
   if (moveDirection) {
     carl = Entity.attach(carl, Move.create(moveDirection));
-    entities = Entity.listReplace(entities, Carl.findFn, carl);
+    entities = entities.map(e => e.id === 'CARL' ? carl : e);
   }
 
   state = Object.assign({}, model.state, { entities, messages: [] });

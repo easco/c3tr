@@ -18,9 +18,7 @@ import Suckle from 'components/Suckle';
 // Exports ---------------------------------------------------------------------
 
 export default {
-  create,
-  find,
-  findFn
+  create
 };
 
 // Functions -------------------------------------------------------------------
@@ -37,21 +35,13 @@ function create(position) {
     Energy.create(6000),
     Health.create(100),
     ID.create('CARL'),
-    Inventory.create([]),
+    Inventory.create(),
     MoveEvent.create(finishMove),
     MoveRestriction.create(canAffordMoveTo),
     Name.create('Carl'),
     Position.create(position.x, position.y),
     Suckle.create(suckleFn)
   ]);
-}
-
-function find(entities) {
-  return entities.find(findFn);
-}
-
-function findFn(entity) {
-  return entity.id === 'CARL';
 }
 
 function finishMove(carl, tile) {

@@ -15,7 +15,14 @@ function find(selector, context = document) {
   return context.querySelector(selector);
 }
 
-function html(type, attributes, children = []) {
+function html(type, attributes = {}, children = []) {
+  if (typeof attributes !== 'object' || Array.isArray(attributes)) {
+    children = attributes;
+    attributes = {};
+  }
+
+  if (!Array.isArray(children)) children = [children];
+
   const element = document.createElement(type);
 
   Object.keys(attributes).forEach(name => {
@@ -24,7 +31,8 @@ function html(type, attributes, children = []) {
 
   children.map(
     child =>
-      typeof child === 'number' || typeof child === 'string'
+      typeof child === 'number'
+      || typeof child === 'string'
       ? text(child)
       : child
     )

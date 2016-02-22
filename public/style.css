@@ -20,6 +20,25 @@ body {
   z-index: 0;
 }
 
+#Inventory {
+  background-color: #181818;
+  border-left: 1px solid #444;
+  display: none;
+  height: 100%;
+  max-width: 320px;
+  min-width: 128px;
+  overflow-y: scroll;
+  padding: 0 8px;
+  position: fixed;
+  right: 0;
+  width: 20%;
+  z-index: 10;
+}
+
+#Inventory.open {
+  display: block;
+}
+
 #Log {
   background-color: #181818;
   border-right: 1px solid #444;

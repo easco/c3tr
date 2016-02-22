@@ -10,7 +10,6 @@ export default {
   detach,
   get,
   has,
-  listReplace,
   update
 }
 
@@ -49,10 +48,6 @@ function get(entity, componentType) {
 
 function has(entity, componentType) {
   return entity.hasOwnProperty(Format.propName(componentType));
-}
-
-function listReplace(entities, findFn, replacement) {
-  return entities.map(entity => findFn(entity) ? replacement : entity);
 }
 
 function update(entity, componentType, fn) {

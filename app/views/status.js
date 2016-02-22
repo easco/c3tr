@@ -1,10 +1,9 @@
-import Carl from 'entities/Carl';
 import Entity from 'Entity';
 import Format from 'Format';
 import DOM from 'DOM';
 
 export default function renderStatus({ state }) {
-  const carl = Carl.find(state.entities);
+  const carl = state.entities.find(e => e.id === 'CARL');
 
   const energySpan = DOM.html('span', { class: 'energy' });
   energySpan.style.width = `${100 * carl.energy.current / carl.energy.max}%`;

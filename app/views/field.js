@@ -1,4 +1,3 @@
-import Carl from 'entities/Carl';
 import Entity from 'Entity';
 import World from 'World';
 import DOM from 'DOM';
@@ -25,7 +24,7 @@ export default function renderField({ state, world }) {
   fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
   fieldContext.font = '20px monospace';
 
-  const carl = Carl.find(state.entities);
+  const carl = state.entities.find(e => e.id === 'CARL');
   const carlPos = carl.position;
 
   const remX = fieldCanvas.width % 20;
