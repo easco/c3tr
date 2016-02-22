@@ -20,7 +20,7 @@ module.exports = {
 // Functions -------------------------------------------------------------------
 
 function run(model) {
-  let messages = [];
+  let messages = [], removeEntities = [];
   const entities = model.state.entities
     .map(entity => {
       if (!entity.move || !entity.position) return entity;
@@ -53,16 +53,22 @@ function run(model) {
       if (Entity.has(entity, Suckle.type)) {
         const entitiesAtTile = Model.entitiesAt(model, entity.position);
 
+        //@TODO: This assumes the first entity on a tile has to be the
+        //battery. This could be problematic if there were multiple
+        //things on a tile.
         if (
-          entitiesAtTile.length > 1
-          && Entity.has(entitiesAtTile[1], Energy.type)
+          entitiesAtTile.length
+          && Entity.has(entitiesAtTile[0], Energy.type)
         ) {
-          entity = entity.suckle(entity, entitiesAtTile[1]);
+          entity = entity.suckle(entity, entitiesAtTile[0]);
+          removeEntities = removeEntities.concat(entitiesAtTile[0]);
         }
       }
 
       return entity;
-    });
+    }).filter(entity => !removeEntities.includes(entity));
+
+
 
   return Object.assign({}, model.state, {
     entities,

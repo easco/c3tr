@@ -63,5 +63,5 @@ function moveCost(tile) {
 }
 
 function suckleFn(carl, battery) {
-  Energy.fill(carl, battery.energy.current);
+  return Energy.fill(carl, battery.energy.current);
 }
