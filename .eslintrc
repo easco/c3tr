@@ -87,7 +87,6 @@
     "no-implied-eval": 2,
     "no-inner-declarations": 2,
     "no-invalid-regexp": 2,
-    "no-invalid-this": 2,
     "no-irregular-whitespace": 2,
     "no-iterator": 2,
     "no-labels": 2,

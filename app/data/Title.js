@@ -18,6 +18,6 @@ const nouns = [
 
 export default {
   adjectives,
-  format,
+  formats,
   nouns
 };

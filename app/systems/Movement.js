@@ -24,10 +24,11 @@ function run(model) {
 
       const destTile = World.tileTo(model.world, entity.move, entity.position);
 
-      if (destTile === null) return Entity.detach(entity, Move.key);
-
-      if (entity.moveRestriction && !entity.moveRestriction(destTile)) {
-        return Entity.detach(entity, Move);
+      if (
+        destTile === null
+        || (entity.moveRestriction && !entity.moveRestriction(destTile))
+      ) {
+        return Entity.detach(entity, 'move');
       }
 
       if (Entity.is(entity, Carl)) {
