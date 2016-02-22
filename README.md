@@ -1,4 +1,4 @@
-# SS16 | C3TR : A roguelike adventure
+# C3TR : A roguelike adventure
 
 **C**ARL **t**he **T**ime-**T**raveling **R**obot
 
