@@ -1,23 +1,17 @@
-import Entity from 'Entity';
 import Random from 'Random';
-
-// Data ------------------------------------------------------------------------
-
-const ID = 'id';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  generate,
-  key: ID
+  generate
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(id) {
   return {
-    key: ID,
+    key: 'id',
     value: id
   };
 }

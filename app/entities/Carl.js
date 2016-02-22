@@ -21,6 +21,7 @@ const CARL = 'Carl';
 
 export default {
   create,
+  findIn,
   type: CARL
 };
 
@@ -49,6 +50,10 @@ function create(position) {
 
 function drainEnergyFromMoveTo(tile) {
   return Energy.drain(this, moveCost(tile));
+}
+
+function findIn(entities) {
+  return entities.find(e => e.id === 'CARL');
 }
 
 function moveCost(tile) {

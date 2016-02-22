@@ -1,9 +1,5 @@
 import Entity from 'Entity';
 
-// Data ------------------------------------------------------------------------
-
-const ENERGY = 'energy';
-
 // Exports ---------------------------------------------------------------------
 
 export default {
@@ -11,15 +7,14 @@ export default {
   drain,
   fill,
   isDrained,
-  isFull,
-  key: ENERGY
+  isFull
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(max) {
   return {
-    key: ENERGY,
+    key: 'energy',
     value: {
       current: max,
       max
@@ -28,25 +23,27 @@ function create(max) {
 }
 
 function drain(entity, amount) {
-  return Entity.update(entity, ENERGY, value => ({
-    current: Math.max(0, value.current - amount),
-    max: value.max
-  }));
+  return Entity.update(entity, {
+    energy: value => ({
+      current: Math.max(0, value.current - amount),
+      max: value.max
+    })
+  });
 }
 
 function fill(entity, amount) {
-  return Entity.update(entity, ENERGY, value => ({
-    current: Math.min(value.max, value.current + amount),
-    max: value.max
-  }));
+  return Entity.update(entity, {
+    energy: value => ({
+      current: Math.min(value.max, value.current + amount),
+      max: value.max
+    })
+  });
 }
 
 function isDrained(entity) {
-  return Entity.get(entity, ENERGY).current <= 0;
+  return entity.energy.current <= 0;
 }
 
 function isFull(entity) {
-  const value = Entity.get(entity, ENERGY);
-
-  return value.current >= value.max;
+  return entity.energy.current >= 0;
 }

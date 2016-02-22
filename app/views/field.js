@@ -1,14 +1,12 @@
+import Carl from 'entities/Carl';
 import Entity from 'Entity';
-import World from 'World';
 import DOM from 'DOM';
+import World from 'World';
 
 function entitiesVisible(entities, min, max) {
   return entities
     .filter(entity => {
-      if (
-        !entity.hasOwnProperty('avatar')
-        || !entity.hasOwnProperty('position')
-      ) return false;
+      if (!entity.avatar || !entity.position) return false;
 
       const pos = entity.position;
       return (
@@ -24,7 +22,7 @@ export default function renderField({ state, world }) {
   fieldContext.clearRect(0, 0, fieldCanvas.width, fieldCanvas.height);
   fieldContext.font = '20px monospace';
 
-  const carl = state.entities.find(e => e.id === 'CARL');
+  const carl = Carl.findIn(state.entities);
   const carlPos = carl.position;
 
   const remX = fieldCanvas.width % 20;

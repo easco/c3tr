@@ -1,20 +1,15 @@
 
-// Data ------------------------------------------------------------------------
-
-const CLOCK_SPEED = 'clockSpeed';
-
 // Exports ---------------------------------------------------------------------
 
 export default {
-  create,
-  key: CLOCK_SPEED
+  create
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(value) {
+function create(clockSpeed) {
   return {
-    key: CLOCK_SPEED,
-    value
+    key: 'clockSpeed',
+    value: clockSpeed
   };
 }

@@ -1,23 +1,18 @@
 import Random from 'Random';
 import TitleData from 'data/Title';
 
-// Data ------------------------------------------------------------------------
-
-const TITLE = 'title';
-
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  generate,
-  key: TITLE
+  generate
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(title) {
   return {
-    key: TITLE,
+    key: 'title',
     value: title
   };
 }

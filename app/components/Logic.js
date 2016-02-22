@@ -1,21 +1,16 @@
 import LogicMode from 'data/LogicMode';
 
-// Data ------------------------------------------------------------------------
-
-const LOGIC = 'logic';
-
 // Exports ---------------------------------------------------------------------
 
 export default {
-  create,
-  key: LOGIC
+  create
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(mode = LogicMode.PASSIVE) {
   return {
-    key: LOGIC,
+    key: 'logic',
     value: mode
   };
 }

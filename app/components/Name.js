@@ -1,20 +1,15 @@
 
-// Data ------------------------------------------------------------------------
-
-const NAME = 'name';
-
 // Exports ---------------------------------------------------------------------
 
 export default {
-  create,
-  key: NAME
+  create
 };
 
 // Functions -------------------------------------------------------------------
 
 function create(name) {
   return {
-    key: NAME,
+    key: 'name',
     value: name
   };
 }

@@ -1,16 +1,11 @@
 import Entity from 'Entity';
 import Offset from 'data/Offset';
 
-// Data ------------------------------------------------------------------------
-
-const POSITION = 'position';
-
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
   from,
-  key: POSITION,
   match,
   set
 };
@@ -19,7 +14,7 @@ export default {
 
 function create(x, y) {
   return {
-    key: POSITION,
+    key: 'position',
     value: { x, y }
   };
 }
@@ -38,5 +33,7 @@ function match(a, b) {
 }
 
 function set(entity, { x, y }) {
-  return Entity.update(entity, POSITION, () => ({ x, y }));
+  return Entity.update(entity, {
+    position: () => ({ x, y })
+  });
 }

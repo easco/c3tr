@@ -22,8 +22,8 @@ export default {
 // Functions -------------------------------------------------------------------
 
 function run(model) {
-  let messages = [];
-  let removeEntities = [];
+  const messages = [];
+  const removeEntities = [];
 
   const entities = model.state.entities
     .map(entity => {
@@ -43,7 +43,7 @@ function run(model) {
         Model.entitiesAt(model, destPosition)
           .filter(entity => entity.hasOwnProperty('name'))
           .forEach(entity => {
-            messages = messages.concat(`You encounter a ${entity.name}.`)
+            messages.push(`You encounter a ${entity.name}.`)
           });
       }
 
