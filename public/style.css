@@ -83,22 +83,61 @@ body {
   z-index: 5;
 }
 
-#Status > .stats > .cpu {
+#Status > section {
+  display: inline-block;
+  width: calc(100% / 3);
+}
+
+#Status > section.-center {
+  text-align: center;
+}
+
+#Status > section.-left {
+}
+
+#Status > section.-left > .stat:not(:first-of-type) {
   margin-left: 16px;
 }
 
-#Status > .energy-bar {
+#Status > section.-right {
+  text-align: right;
+}
+
+#Status > section.-right > .stat {
+  margin-right: 16px;
+}
+
+#Status .energy-bar {
   border: 2px solid #EEE;
   border-radius: 2px;
-  float: right;
+  display: inline-block;
   height: 20px;
   padding: 2px;
+  vertical-align: bottom;
   width: 96px;
 }
 
-#Status > .energy-bar > .energy {
+#Status .energy-bar > .energy {
   background-color: #684;
   display: block;
   height: 100%;
   width: 100%;
+}
+
+#Status .energy-bar > .energy.-critical {
+  background-color: #C66;
+}
+
+#Status .energy-bar > .energy.-low {
+  background-color: #CC6;
+}
+
+#Status .sep {
+  color: rgba(248,248,248, 0.5);
+  margin: 0 2px;
+}
+
+#Status .unit {
+  color: rgba(248,248,248, 0.5);
+  margin-left: 4px;
 }
