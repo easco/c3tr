@@ -1,6 +1,7 @@
 import Carl from 'entities/Carl';
 import DOM from 'DOM';
 import Position from 'components/Position';
+import Tile from 'Tile';
 import World from 'World';
 
 function entitiesVisible(entities, min, max) {
@@ -51,7 +52,7 @@ export default function renderField({ state, world }) {
 
   const visibleEntities = entitiesVisible(state.entities, startPos, endPos);
 
-  let avatar, i, j, presentEntities, tile, x, y;
+  let avatar, i, j, presentEntities, tile, tileValue, x, y;
   for (let column = 0; column <= columns; column++) {
     for (let row = 0; row <= rows; row++) {
       x = carlPos.x + column - colSpan;
@@ -64,8 +65,9 @@ export default function renderField({ state, world }) {
       if (x >= world.width) x -= world.width;
 
       tile = World.tileAt(world, { x, y });
+      tileValue = Tile.value(tile);
 
-      fieldContext.fillStyle = tile.backgroundColor;
+      fieldContext.fillStyle = tileValue.backgroundColor;
       fieldContext.fillRect(i, j, 20, 20);
 
       presentEntities = visibleEntities
@@ -75,7 +77,7 @@ export default function renderField({ state, world }) {
         ? presentEntities.reduce((top, entity) =>
             entity.avatar.importance > top.avatar.importance ? entity : top
           ).avatar
-        : tile.avatar;
+        : tileValue.avatar;
 
       fieldContext.fillStyle = avatar.style;
       fieldContext.fillText(avatar.character, i + 4, j + 16);

@@ -6,6 +6,7 @@ import Direction from 'data/Direction';
 import Entity from 'Entity';
 import Move from 'components/Move';
 import MovementSystem from 'systems/Movement';
+import Util from 'Util';
 import renderField from 'views/field';
 import renderInventory from 'views/inventory';
 import renderMessage from 'views/message';
@@ -25,9 +26,9 @@ function getInitialModel() {
   const worldHeight = 768;
   const worldWidth = 1024;
 
-  const start = Date.now();
-  const world = DefaultWorld.generate(worldWidth, worldHeight);
-  console.log('World generation took', Date.now() - start, 'ms');
+  const world = Util.logTime('World generation',
+    () => DefaultWorld.generate(worldWidth, worldHeight)
+  );
 
   const carlPos = DefaultWorld.startingPosition(world);
 
@@ -43,10 +44,13 @@ function getInitialModel() {
 }
 
 function init() {
+  let frame = null;
   let model = getInitialModel();
 
-  resizeField(window.innerWidth, window.innerHeight);
-  renderViews(model);
+  function draw() {
+    if (frame) window.cancelAnimationFrame(frame);
+    frame = window.requestAnimationFrame(renderViews.bind(null, model));
+  }
 
   window.addEventListener('keydown', event => {
     let action;
@@ -97,14 +101,17 @@ function init() {
 
     if (Boolean(action)) {
       model = update(action, model);
-      renderViews(model);
+      draw();
     }
   });
 
   window.addEventListener('resize', () => {
     resizeField(window.innerWidth, window.innerHeight);
-    renderViews(model);
+    draw();
   });
+
+  resizeField(window.innerWidth, window.innerHeight);
+  Util.logTime('Initial render', () => renderViews(model));
 }
 
 function logMessage(message) {

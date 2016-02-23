@@ -36,7 +36,7 @@ function create(position) {
   return Entity.create(CARL, [
     Avatar.create('@', '#f8f8f8', 100),
     CPUSlot.create(CPU.create(1.0)),
-    Energy.create(6000),
+    Energy.create(60000),
     Health.create(100),
     ID.create('CARL'),
     Inventory.create(),
@@ -57,7 +57,7 @@ function findIn(entities) {
 }
 
 function moveCost(tile) {
-  return Tile.isLand(tile) ? 10 : 100;
+  return Tile.isWater(tile) ? 100 : 10;
 }
 
 function suckleFn(battery) {

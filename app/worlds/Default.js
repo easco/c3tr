@@ -1,8 +1,9 @@
 import Battery from 'entities/Battery';
-import FastSimplexNoise from 'fast-simplex-noise';
+import FSN from 'fast-simplex-noise';
 import Monster from 'entities/Monster';
 import Random from 'Random';
 import Tile from 'Tile';
+import TileType from 'data/TileType';
 import World from 'World';
 
 // Data -----------------------------------------------------------------------
@@ -18,20 +19,27 @@ export default {
 // Functions ------------------------------------------------------------------
 
 function generate(width, height) {
-  const elevationNoise = new FastSimplexNoise({
-    frequency: 0.03,
-    max: 10,
-    min: -10,
-    octaves: 8
-  });
+  const caveGen = new FSN({ frequency: 0.05, octaves: 6 });
+  const mountainGen = new FSN({ frequency: 0.01, octaves: 12 });
+  const terrainGen = new FSN({ frequency: 0.008, octaves: 8 });
 
-  const tiles = new Array(width);
-  for (let x = 0; x < width; x++) {
-    tiles[x] = new Array(height);
-    for (let y = 0; y < height; y++) {
-      tiles[x][y] = Tile.create(elevationNoise.cylindrical2D(width, x, y));
+  const cave = (x, y) => Math.abs(caveGen.cylindrical2D(width, x, y));
+  const mountain = (x, y) => mountainGen.cylindrical2D(width, x, y);
+  const terrain = (x, y) => terrainGen.cylindrical2D(width, x, y);
+
+  const tiles = Tile.generateGrid(width, height, (x, y) => {
+    const t = terrain(x, y);
+
+    if (t > 0.15) {
+      if (t > 0.3 && mountain(x, y) > 0.3) {
+        return cave(x, y) < 0.08 ? TileType.CAVE : TileType.MOUNTAIN;
+      }
+
+      return TileType.LAND;
     }
-  }
+
+    return TileType.WATER;
+  });
 
   return {
     height,

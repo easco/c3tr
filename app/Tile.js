@@ -1,33 +1,82 @@
 import Avatar from 'components/Avatar';
 import BackgroundColor from 'components/BackgroundColor';
+import Type from 'data/TileType';
 
 // Data ------------------------------------------------------------------------
 
-const landAvatar = Avatar.create('.', '#462').value;
-const landBackgroundColor = BackgroundColor.create('#240').value;
+const Value = Object.assign({
+  [Type.CAVE]: {
+    avatar: Avatar.create('.', '#753').value,
+    backgroundColor: BackgroundColor.create('#642').value
+  },
 
-const waterAvatar = Avatar.create('~', '#68A').value;
-const waterBackgroundColor = BackgroundColor.create('#246').value;
+  [Type.LAND]: {
+    avatar: Avatar.create('.', '#351').value,
+    backgroundColor: BackgroundColor.create('#240').value
+  },
+
+  [Type.MOUNTAIN]: {
+    avatar: Avatar.create('X', '#555').value,
+    backgroundColor: BackgroundColor.create('#444').value
+  },
+
+  [Type.WATER]: {
+    avatar: Avatar.create('~', '#357').value,
+    backgroundColor: BackgroundColor.create('#246').value
+  }
+});
 
 // Exports ---------------------------------------------------------------------
 
 export default {
   create,
-  isLand
+  generateGrid,
+  isCave,
+  isLand,
+  isMountain,
+  isPassable,
+  isWater,
+  value
 };
 
 // Functions -------------------------------------------------------------------
 
-function create(elevation) {
-  const isLand = elevation > 0;
+function create(type) {
+  return type;
+}
 
-  return {
-    backgroundColor: isLand ? landBackgroundColor : waterBackgroundColor,
-    avatar: isLand ? landAvatar : waterAvatar,
-    elevation
-  };
+function generateGrid(columns, rows, typeFn) {
+  const tiles = new Array(columns);
+  for (let x = 0; x < columns; x++) {
+    tiles[x] = new Array(rows);
+    for (let y = 0; y < rows; y++) {
+      tiles[x][y] = create(typeFn(x, y));
+    }
+  }
+
+  return tiles;
+}
+
+function isCave(tile) {
+  return tile === Type.CAVE;
 }
 
 function isLand(tile) {
-  return tile.elevation > 0;
+  return tile === Type.LAND;
+}
+
+function isMountain(tile) {
+  return tile === Type.MOUNTAIN;
+}
+
+function isPassable(tile) {
+  return tile !== Type.MOUNTAIN;
+}
+
+function isWater(tile) {
+  return tile === Type.WATER;
+}
+
+function value(tile) {
+  return Value[tile];
 }

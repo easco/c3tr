@@ -4,6 +4,7 @@ import Entity from 'Entity';
 import Model from 'Model';
 import Move from 'components/Move';
 import Position from 'components/Position';
+import Tile from 'Tile';
 import World from 'World';
 
 // Exports ---------------------------------------------------------------------
@@ -28,6 +29,7 @@ function run(model) {
 
       if (
         destTile === null
+        || !Tile.isPassable(destTile)
         || (entity.moveRestriction && !entity.moveRestriction(destTile))
       ) {
         return Entity.detach(entity, 'move');
