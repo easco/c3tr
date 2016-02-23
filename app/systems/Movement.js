@@ -2,8 +2,6 @@ import Battery from 'entities/Battery';
 import Carl from 'entities/Carl';
 import Entity from 'Entity';
 import Model from 'Model';
-import Move from 'components/Move';
-import Position from 'components/Position';
 import Tile from 'Tile';
 import World from 'World';
 
