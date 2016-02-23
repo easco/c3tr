@@ -29,7 +29,7 @@ function generate(width, height) {
   for (let x = 0; x < width; x++) {
     tiles[x] = new Array(height);
     for (let y = 0; y < height; y++) {
-      tiles[x][y] = Tile.create(elevationNoise.in2D(x, y));
+      tiles[x][y] = Tile.create(elevationNoise.cylindrical2D(width, x, y));
     }
   }
 

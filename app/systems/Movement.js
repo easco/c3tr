@@ -17,12 +17,14 @@ export default {
 function run(model) {
   const messages = [];
   const removeEntities = [];
+  const world = model.world;
 
   const entities = model.state.entities
     .map(entity => {
       if (!entity.move || !entity.position) return entity;
 
-      const destTile = World.tileTo(model.world, entity.move, entity.position);
+      const destPos = World.positionTo(world, entity.position, entity.move);
+      const destTile = World.tileAt(world, destPos);
 
       if (
         destTile === null
@@ -32,9 +34,7 @@ function run(model) {
       }
 
       if (Entity.is(entity, Carl)) {
-        const destPosition = Position.from(entity.position, entity.move);
-
-        Model.entitiesAt(model, destPosition)
+        Model.entitiesAt(model, destPos)
           .filter(entity => entity.hasOwnProperty('name'))
           .forEach(entity => {
             messages.push(`You encounter a ${entity.name}.`);
@@ -43,7 +43,8 @@ function run(model) {
 
       if (entity.moveAction) entity = entity.moveAction(destTile);
 
-      entity = Move.perform(entity);
+      entity = Entity.update(entity, { position: () => destPos });
+      entity = Entity.detach(entity, 'move');
 
       if (entity.suckle) {
         Model.entitiesAt(model, entity.position)

@@ -24,7 +24,11 @@ export default {
 function getInitialModel() {
   const worldHeight = 768;
   const worldWidth = 1024;
+
+  const start = Date.now();
   const world = DefaultWorld.generate(worldWidth, worldHeight);
+  console.log('World generation took', Date.now() - start, 'ms');
+
   const carlPos = DefaultWorld.startingPosition(world);
 
   return {

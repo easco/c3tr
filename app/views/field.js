@@ -1,15 +1,17 @@
 import Carl from 'entities/Carl';
 import DOM from 'DOM';
+import Position from 'components/Position';
 import World from 'World';
 
 function entitiesVisible(entities, min, max) {
   return entities
+    .filter(e => e.avatar && e.position)
     .filter(entity => {
-      if (!entity.avatar || !entity.position) return false;
-
-      const pos = entity.position;
+      const { x, y } = entity.position;
       return (
-        pos.x >= min.x && pos.x <= max.x && pos.y >= min.y && pos.y <= max.y
+        (x >= min.x || x <= max.x)
+        && y >= min.y
+        && y <= max.y
       );
     });
 }
@@ -29,28 +31,37 @@ export default function renderField({ state, world }) {
   const offsetX = remX > 0 ? remX - 20 : 0;
   const offsetY = remY > 0 ? remY - 20 : 0;
 
-  const columns = Math.ceil(fieldCanvas.width / 20);
-  const rows = Math.ceil(fieldCanvas.height / 20);
+  const columns = Math.floor(fieldCanvas.width / 20);
+  const rows = Math.floor(fieldCanvas.height / 20);
 
-  const colSpan = Math.ceil((columns - 1) / 2);
-  const rowSpan = Math.ceil((rows - 1) / 2);
+  const colSpan = Math.ceil(columns / 2);
+  const rowSpan = Math.ceil(rows / 2);
 
-  const startPos = { x: carlPos.x - colSpan, y: carlPos.y - rowSpan };
-  const endPos = { x: startPos.x + columns - 1, y: startPos.y + rows - 1 };
+  const startX = carlPos.x - colSpan;
+  const startPos = {
+    x: startX < 0 ? startX + world.width : startX,
+    y: carlPos.y - rowSpan
+  };
+
+  const endX = startX + columns;
+  const endPos = {
+    x: endX > world.width ? endX - world.width : endX,
+    y: startPos.y + rows
+  };
+
   const visibleEntities = entitiesVisible(state.entities, startPos, endPos);
 
-  let avatar, i, j, presentEntities, tile, visibleEntity, x, y;
-  for (let column = 0; column < columns; column++) {
-    for (let row = 0; row < rows; row++) {
+  let avatar, i, j, presentEntities, tile, x, y;
+  for (let column = 0; column <= columns; column++) {
+    for (let row = 0; row <= rows; row++) {
       x = carlPos.x + column - colSpan;
       y = carlPos.y + row - rowSpan;
       i = 20 * column + offsetX;
       j = 20 * row + offsetY;
 
-      // TODO: Handle horizontal wrapping of map
-      if (x < 0 || x >= world.width || y < 0 || y >= world.height) {
-        continue;
-      }
+      if (y < 0 || y >= world.height) continue;
+      if (x < 0) x += world.width;
+      if (x >= world.width) x -= world.width;
 
       tile = World.tileAt(world, { x, y });
 
@@ -58,15 +69,14 @@ export default function renderField({ state, world }) {
       fieldContext.fillRect(i, j, 20, 20);
 
       presentEntities = visibleEntities
-        .filter(e => e.position.x === x && e.position.y === y);
+        .filter(e => Position.match(e.position, { x, y }));
 
-      visibleEntity = presentEntities.length > 0
-        ? presentEntities.reduce((imp, e) =>
-            e.avatar.importance > imp.avatar.importance ? e : imp
-          )
-        : null;
+      avatar = presentEntities.length > 0
+        ? presentEntities.reduce((top, entity) =>
+            entity.avatar.importance > top.avatar.importance ? entity : top
+          ).avatar
+        : tile.avatar;
 
-      avatar = visibleEntity ? visibleEntity.avatar : tile.avatar;
       fieldContext.fillStyle = avatar.style;
       fieldContext.fillText(avatar.character, i + 4, j + 16);
     }

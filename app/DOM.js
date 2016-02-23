@@ -23,7 +23,13 @@ function html(type, attributes = {}, children = []) {
 
   if (!Array.isArray(children)) children = [children];
 
-  const element = document.createElement(type);
+  const classes = type.match(/\.[a-z\-]*/g);
+  if (classes) attributes['class'] = classes.map(c => c.slice(1)).join(' ');
+
+  const id = type.match(/#[A-Za-z]*/g);
+  if (id) attributes['id'] = id[0].slice(1);
+
+  const element = document.createElement(type.match(/^[a-z]*/g));
 
   Object.keys(attributes).forEach(name => {
     element.setAttribute(name, attributes[name]);
@@ -31,8 +37,7 @@ function html(type, attributes = {}, children = []) {
 
   children.map(
     child =>
-      typeof child === 'number'
-      || typeof child === 'string'
+      typeof child === 'number' || typeof child === 'string'
       ? text(child)
       : child
     )
