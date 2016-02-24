@@ -19,17 +19,16 @@ export default function renderStatus({ state, world }) {
   const statusEl = DOM.html('div#Status', [
     DOM.html('section.-left', [
       stat([
-        'HP', sep(':'),
-        carl.health.current, sep('/'), carl.health.max
+        `HP:${carl.health.current}(${carl.health.max})`
       ]),
       stat([
-        'CPU', sep(':'),
-        carl.cpuSlot.cpu.clockSpeed.toFixed(1), unit('GHz')
+        `CPU:${carl.cpuSlot.cpu.clockSpeed.toFixed(1)}`,
+        unit('GHz')
       ])
     ]),
     DOM.html('section.-center', [
       `(${carl.position.x + 1}, ${carl.position.y + 1}) `,
-      sep(Text.capitalize(World.tileAt(world, carl.position)))
+      Text.capitalize(World.tileAt(world, carl.position))
     ]),
     DOM.html('section.-right', [
       stat([
