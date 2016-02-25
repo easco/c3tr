@@ -35,7 +35,7 @@ body {
   z-index: 10;
 }
 
-#Inventory.open {
+#Inventory.-open {
   display: block;
 }
 
@@ -53,7 +53,7 @@ body {
   z-index: 10;
 }
 
-#Log.open {
+#Log.-open {
   display: block;
 }
 

@@ -3,7 +3,8 @@
 
 export default {
   constrain,
-  logTime
+  logTime,
+  merge
 };
 
 // Functions -------------------------------------------------------------------
@@ -30,4 +31,8 @@ function logTime(task, fn, rateFn) {
 
   console.log(`${task} took`, total, `ms${rateString}`);
   return value;
+}
+
+function merge(a, b) {
+  return Object.assign({}, a, b);
 }

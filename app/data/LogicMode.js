@@ -1,4 +1,4 @@
-export default Object.freeze({
+export default {
   HOSTILE: 'HOSTILE',
   PASSIVE: 'PASSIVE'
-});
+};

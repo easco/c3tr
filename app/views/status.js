@@ -3,7 +3,6 @@ import DOM from 'DOM';
 import Text from 'Text';
 import World from 'World';
 
-const sep = t => DOM.html('span.sep', [DOM.text(t)]);
 const stat = c => DOM.html('span.stat', c);
 const unit = t => DOM.html('span.unit', [DOM.text(t)]);
 

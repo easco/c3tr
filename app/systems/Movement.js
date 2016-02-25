@@ -3,6 +3,7 @@ import Carl from 'entities/Carl';
 import Entity from 'Entity';
 import Model from 'Model';
 import Tile from 'Tile';
+import Util from 'Util';
 import World from 'World';
 
 // Exports ---------------------------------------------------------------------
@@ -59,7 +60,7 @@ function run(model) {
     })
     .filter(entity => !removeEntities.includes(entity));
 
-  return Object.assign({}, model.state, {
+  return Util.merge(model.state, {
     entities,
     messages: model.state.messages.concat(messages)
   });

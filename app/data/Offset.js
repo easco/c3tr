@@ -1,4 +1,4 @@
-export default Object.freeze({
+export default {
   EAST: { x: +1, y: 0 },
   NORTH: { x: 0, y: -1 },
   NORTHEAST: { x: +1, y: -1 },
@@ -7,4 +7,4 @@ export default Object.freeze({
   SOUTHEAST: { x: +1, y: +1 },
   SOUTHWEST: { x: -1, y: +1 },
   WEST: { x: -1, y: 0 }
-});
+};
