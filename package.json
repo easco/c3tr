@@ -1,5 +1,5 @@
 {
-  "name": "ss16-c3tr",
+  "name": "c3tr",
   "scripts": {
     "build": "webpack --optimize-minimize",
     "lint": "eslint app",
@@ -9,8 +9,9 @@
     "babel-core": "6.5.2",
     "babel-loader": "6.2.3",
     "babel-preset-es2015": "6.5.0",
+    "eslint": "2.2.0",
     "fast-simplex-noise": "2.1.0",
-    "webpack": "1.12.13"
+    "webpack": "1.12.14"
   },
   "private": true
 }
