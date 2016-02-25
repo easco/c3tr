@@ -3,6 +3,7 @@
   "scripts": {
     "build": "webpack --optimize-minimize",
     "lint": "eslint app",
+    "sync": "npm install; npm prune",
     "watch": "webpack --progress --watch"
   },
   "devDependencies": {
