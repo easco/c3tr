@@ -10,14 +10,11 @@ export default {
 // Functions -------------------------------------------------------------------
 
 function run(model) {
-  model.state.messages.forEach(m => logMessage(m));
+  const messageLog = DOM.find('#Log .content');
+
+  model.state.messages
+    .map(m => DOM.html('p', [m]))
+    .forEach(p => messageLog.insertBefore(p, messageLog.firstChild));
 
   return Util.merge(model.state, { messages: [] });
-}
-
-function logMessage(message) {
-  const log = DOM.find('#Log');
-  const messageP = DOM.html('p', {}, [message]);
-
-  log.insertBefore(messageP, log.firstChild);
 }

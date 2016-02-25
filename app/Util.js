@@ -4,7 +4,8 @@
 export default {
   constrain,
   logTime,
-  merge
+  merge,
+  process
 };
 
 // Functions -------------------------------------------------------------------
@@ -25,9 +26,7 @@ function logTime(task, fn, rateFn) {
   const end = Date.now();
   const total = end - start;
 
-  const rateString = rateFn
-    ? ` ${rateFn(total)}`
-    : '';
+  const rateString = rateFn ? ` ${rateFn(total)}` : '';
 
   console.log(`${task} took`, total, `ms${rateString}`);
   return value;
@@ -35,4 +34,9 @@ function logTime(task, fn, rateFn) {
 
 function merge(a, b) {
   return Object.assign({}, a, b);
+}
+
+function process(value, tasks) {
+  tasks.forEach(task => value = task(value));
+  return value;
 }

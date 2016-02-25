@@ -29,11 +29,12 @@ function getInitialModel() {
     () => DefaultWorld.generate(worldWidth, worldHeight)
   );
 
-  const carlPos = DefaultWorld.startingPosition(world);
+  const entities = DefaultWorld.populate(world);
+  const carlPos = DefaultWorld.startingPosition(world, entities);
 
   return {
     state: {
-      entities: DefaultWorld.populate(world).concat(Carl.create(carlPos)),
+      entities: entities.concat(Carl.create({ position: carlPos })),
       focus: Focus.GAME,
       keydown: null,
       messages: [],
@@ -79,16 +80,18 @@ function resizeField(width, height) {
   const field = DOM.find('#Field');
 
   field.setAttribute('width', width);
-  field.setAttribute('height', height - 80);
+  field.setAttribute('height', height - 74);
 }
 
 function update(model) {
-  let state = Util.merge(model.state, { messages: [] });
+  let state = UserActionSystem.run(model);
 
-  state = UserActionSystem.run(Util.merge(model, { state }));
-  // state = LogicSystem.run(Util.merge(model, { state }));
-  state = MovementSystem.run(Util.merge(model, { state }));
-  // state = CombatSystem.run(Util.merge(model, { state }));
+  if (model.state.focus === Focus.GAME) {
+    // state = LogicSystem.run(Util.merge(model, { state }));
+    state = MovementSystem.run(Util.merge(model, { state }));
+    // state = CombatSystem.run(Util.merge(model, { state }));
+  }
+
   state = LogSystem.run(Util.merge(model, { state }));
 
   return {

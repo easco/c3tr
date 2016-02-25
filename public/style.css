@@ -13,26 +13,43 @@ body {
   width: 100%;
 }
 
+.panel {
+  background-color: #181818;
+  display: none;
+  height: 100%;
+  max-width: 320px;
+  min-width: 128px;
+  position: fixed;
+  width: 20%;
+  z-index: 10;
+}
+
+.panel.-open {
+  display: block;
+}
+
+.panel > .title {
+  font-weight: lighter;
+  text-align: center;
+}
+
+.panel > .content {
+  overflow-y: scroll;
+  padding: 8px;
+  height: calc(100% - 20px);
+}
+
 #Field {
-  margin: 2.5em auto;
+  margin: 37px auto;
   text-align: center;
   vertical-align: middle;
   z-index: 0;
 }
 
 #Inventory {
-  background-color: #181818;
   border-left: 1px solid #444;
-  display: none;
-  height: 100%;
-  max-width: 320px;
-  min-width: 128px;
-  overflow-y: scroll;
-  padding: 0 8px;
-  position: fixed;
   right: 0;
   width: 20%;
-  z-index: 10;
 }
 
 #Inventory.-open {
@@ -40,31 +57,13 @@ body {
 }
 
 #Log {
-  background-color: #181818;
   border-right: 1px solid #444;
-  display: none;
-  height: 100%;
-  max-width: 320px;
-  min-width: 128px;
-  overflow-y: scroll;
-  padding: 0 8px;
-  position: fixed;
+  left: 0;
   width: 20%;
-  z-index: 10;
-}
-
-#Log.-open {
-  display: block;
-}
-
-#Log > p:not(:last-of-type) {
-  border-bottom: 1px solid #aaa;
-  padding-bottom: 16px;
 }
 
 #Message {
   background-color: #181818;
-  border-bottom: 1px solid #444;
   height: 37px;
   padding: 8px 16px;
   position: fixed;
@@ -75,7 +74,6 @@ body {
 
 #Status {
   background-color: #181818;
-  border-top: 1px solid #444;
   bottom: 0;
   padding: 8px 16px;
   position: fixed;
@@ -130,11 +128,6 @@ body {
 
 #Status .energy-bar > .energy.-low {
   background-color: #CC6;
-}
-
-#Status .sep {
-  color: rgba(248,248,248, 0.5);
-  margin: 0 2px;
 }
 
 #Status .unit {

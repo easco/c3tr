@@ -1,9 +1,11 @@
 import Battery from 'entities/Battery';
+import CPU from 'entities/CPU';
 import FSN from 'fast-simplex-noise';
 import Monster from 'entities/Monster';
 import Random from 'Random';
 import Tile from 'Tile';
 import TileType from 'data/TileType';
+import Util from 'Util';
 import World from 'World';
 
 // Data -----------------------------------------------------------------------
@@ -48,42 +50,14 @@ function generate(width, height) {
   };
 }
 
-function populate(world, count = 5000) {
-  const types = [
-    {
-      type: Monster,
-      weight: 3
-    },
-    {
-      type: Battery,
-      weight: 1
-    }
-  ];
-  let entityPos, entities = [], type, weightedTypes = [];
-
-  types.forEach(item => {
-    for (let i = 0; i < item.weight; i++) {
-      weightedTypes = [].concat.call(weightedTypes, item.type);
-    }
-  });
-
-  for (let i = 0; i < count; i++) {
-    entityPos = World.randomLandPosition(world);
-    type = Random.from(weightedTypes);
-
-    switch (type) {
-      case Monster:
-        entities = entities.concat(Monster.create(entityPos));
-        break;
-      case Battery:
-        entities = entities.concat(Battery.generate(entityPos));
-        break;
-    }
-  }
-
-  return entities;
+function populate(world) {
+  return Util.process([], [
+    e => World.placeEntity(world, e, Random.integer(3000, 4000), Monster),
+    e => World.placeEntity(world, e, Random.integer(150, 250), Battery),
+    e => World.placeEntity(world, e, Random.integer(10, 50), CPU)
+  ]);
 }
 
-function startingPosition(world) {
-  return World.randomLandPosition(world);
+function startingPosition(world, entities) {
+  return World.randomEmptyPosition(world, entities, [TileType.LAND]);
 }

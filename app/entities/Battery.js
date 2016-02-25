@@ -19,9 +19,9 @@ export default {
 
 // Functions -------------------------------------------------------------------
 
-function create(level, position = null) {
+function create({ level, position }) {
   let battery = [
-    Avatar.create('%', '#E6E69C'),
+    Avatar.create('θ', '#CCC'),
     Energy.create(level),
     Name.create('battery')
   ];

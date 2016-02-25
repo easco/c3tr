@@ -31,6 +31,7 @@ const Value = Object.assign({
 export default {
   create,
   generateGrid,
+  is,
   isCave,
   isLand,
   isMountain,
@@ -55,6 +56,10 @@ function generateGrid(columns, rows, typeFn) {
   }
 
   return tiles;
+}
+
+function is(tile, tileType) {
+  return tile === tileType;
 }
 
 function isCave(tile) {

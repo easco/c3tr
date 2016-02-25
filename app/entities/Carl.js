@@ -1,4 +1,5 @@
 import Avatar from 'components/Avatar';
+import Collision from 'components/Collision';
 import CPU from 'entities/CPU';
 import CPUSlot from 'components/CPUSlot';
 import Energy from 'components/Energy';
@@ -32,10 +33,11 @@ function canAffordMoveTo(tile) {
   return this.energy.current >= moveCost(tile);
 }
 
-function create(position) {
+function create({ position }) {
   return Entity.create(CARL, [
     Avatar.create('@', '#f8f8f8', 100),
-    CPUSlot.create(CPU.create(1.0)),
+    Collision.create(),
+    CPUSlot.create(CPU.create({ clockSpeed: 1.0 })),
     Energy.create(60000),
     Health.create(100),
     ID.create('CARL'),

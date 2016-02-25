@@ -6,9 +6,7 @@ export default function renderInventory({ state }) {
   const items = Carl.findIn(state.entities).inventory
     .map(item => DOM.html('p', item.name));
 
-  const inventoryEl = DOM.html('div#Inventory', {
-    'class': state.focus === Focus.INVENTORY ? '-open' : ''
-  }, items);
+  const content = DOM.html('div.content', items);
 
-  document.body.replaceChild(inventoryEl, DOM.find('#Inventory'));
+  DOM.find('#Inventory').replaceChild(content, DOM.find('#Inventory .content'));
 }

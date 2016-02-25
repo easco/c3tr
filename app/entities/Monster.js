@@ -1,4 +1,5 @@
 import Avatar from 'components/Avatar';
+import Collision from 'components/Collision';
 import Entity from 'Entity';
 import Health from 'components/Health';
 import Inventory from 'components/Inventory';
@@ -20,9 +21,10 @@ export default {
 
 // Functions -------------------------------------------------------------------
 
-function create(position) {
+function create({ position }) {
   return Entity.create(MONSTER, [
     Avatar.create('m', '#e86b6b'),
+    Collision.create(),
     Health.create(100),
     Inventory.create([]),
     Logic.create(LogicMode.HOSTILE),

@@ -91,20 +91,11 @@ function run(model) {
       break;
 
     case Action.TOGGLE_INVENTORY:
-      focus = focus === Focus.GAME ? Focus.INVENTORY : Focus.GAME;
+      focus = togglePanel('Inventory') ? Focus.INVENTORY : Focus.GAME;
       break;
 
     case Action.TOGGLE_LOG:
-      const log = DOM.find('#Log');
-
-      if (log.classList.contains('-open')) {
-        log.classList.remove('-open');
-        focus = Focus.GAME;
-      }
-      else {
-        log.classList.add('-open');
-        focus = Focus.LOG;
-      }
+      focus = togglePanel('Log') ? Focus.LOG : Focus.GAME;
       break;
   }
 
@@ -113,4 +104,16 @@ function run(model) {
     focus,
     keydown: null
   });
+}
+
+function togglePanel(id) {
+  const panel = DOM.find(`#${id}`);
+
+  if (panel.classList.contains('-open')) {
+    panel.classList.remove('-open');
+    return false;
+  }
+
+  panel.classList.add('-open');
+  return true;
 }
