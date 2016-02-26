@@ -52,9 +52,9 @@ function generate(width, height) {
 
 function populate(world) {
   return Util.process([], [
-    e => World.placeEntity(world, e, Random.integer(3000, 4000), Monster),
-    e => World.placeEntity(world, e, Random.integer(150, 250), Battery),
-    e => World.placeEntity(world, e, Random.integer(10, 50), CPU)
+    e => World.placeEntity(world, e, Monster, Random.integer(3000, 4000)),
+    e => World.placeEntity(world, e, Battery, Random.integer(150, 250)),
+    e => World.placeEntity(world, e, CPU, Random.integer(10, 50))
   ]);
 }
 

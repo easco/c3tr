@@ -2,20 +2,8 @@ import Carl from 'entities/Carl';
 import DOM from 'DOM';
 import Position from 'components/Position';
 import Tile from 'Tile';
+import Util from 'Util';
 import World from 'World';
-
-function entitiesVisible(entities, min, max) {
-  return entities
-    .filter(e => e.avatar && e.position)
-    .filter(entity => {
-      const { x, y } = entity.position;
-      return (
-        (x >= min.x || x <= max.x)
-        && y >= min.y
-        && y <= max.y
-      );
-    });
-}
 
 export default function renderField({ state, world }) {
   const fieldCanvas = DOM.find('#Field');
@@ -38,35 +26,44 @@ export default function renderField({ state, world }) {
   const colSpan = Math.ceil(columns / 2);
   const rowSpan = Math.ceil(rows / 2);
 
-  const startX = carlPos.x - colSpan;
-  const startPos = {
-    x: startX < 0 ? startX + world.width : startX,
-    y: carlPos.y - rowSpan
-  };
+  const minY = carlPos.y - rowSpan;
+  const maxY = carlPos.y + rowSpan;
 
-  const endX = startX + columns;
-  const endPos = {
-    x: endX > world.width ? endX - world.width : endX,
-    y: startPos.y + rows
-  };
+  let filterPos, minX;
+  if (carlPos.x + colSpan > world.width || carlPos.x < colSpan) {
+    minX = Util.constrain(carlPos.x - colSpan, 0, world.width);
+    const maxX = Util.constrain(carlPos.x + colSpan, 0, world.width);
+    filterPos = a => (
+      (
+        a.position.x >= minX && a.position.x <= world.width
+        && a.position.y >= minY && a.position.y <= maxY
+      )
+      || (
+        a.position.x >= 0 && a.position.x <= maxX
+        && a.position.y >= minY && a.position.y <= maxY
+      )
+    );
+  }
+  else {
+    minX = Math.max(carlPos.x - colSpan, 0);
+    const maxX = Math.min(carlPos.x + colSpan, world.width);
+    filterPos = a => (
+      a.position.x >= minX && a.position.x <= maxX
+      && a.position.y >= minY && a.position.y <= maxY
+    );
+  }
 
-  console.log(startPos, endPos);
-
-  const visibleEntities = entitiesVisible(state.entities, startPos, endPos);
+  const visibleEntities = state.entities
+    .filter(e => e.avatar && e.position)
+    .filter(filterPos);
 
   const visibleTiles = world.tiles
-    .filter(t =>
-      (t.position.x >= startPos.x || t.position.x <= endPos.x)
-      && t.position.y >= startPos.y
-      && t.position.y <= endPos.y
-    );
-
-  console.log(visibleTiles.length, 'visible tiles');
+    .filter(filterPos);
 
   let avatar, i, j, presentEntities, tileValue;
   visibleTiles.forEach(tile => {
-    i = 20 * (tile.position.x - startPos.x) + offsetX;
-    j = 20 * (tile.position.y - startPos.y) + offsetY;
+    i = 20 * Util.constrain(tile.position.x - minX, 0, world.width) + offsetX;
+    j = 20 * Util.constrain(tile.position.y - minY, 0, world.height) + offsetY;
 
     tileValue = Tile.value(tile);
 

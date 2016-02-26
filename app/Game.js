@@ -71,12 +71,10 @@ function init() {
 }
 
 function renderViews(model) {
-  Util.logTime('Render', () => {
-    renderMessage(model);
-    renderField(model);
-    renderInventory(model);
-    renderStatus(model);
-  });
+  renderMessage(model);
+  renderInventory(model);
+  renderStatus(model);
+  renderField(model);
 }
 
 function resizeField(width, height) {

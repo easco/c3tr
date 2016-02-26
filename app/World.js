@@ -20,16 +20,14 @@ export default {
 // Functions -------------------------------------------------------------------
 
 function placeEntity(world, entities, entity, count = 1, tileTypes = [TileType.LAND]) {
-  const tiles = world.tiles.filter(t => tileTypes.indexOf(t) > -1);
+  const tiles = world.tiles.filter(t => tileTypes.indexOf(t.type) > -1);
   const total = entities.length + count;
 
   let randomPos;
   while (entities.length < total) {
     randomPos = Random.from(tiles).position;
     if (entities.filter(e => Position.match(e.position, randomPos)).length === 0) {
-      entities = entities.concat(
-        entity.create({ position: Random.from(tiles).position })
-      );
+      entities = entities.concat(entity.create({ position: randomPos }));
     }
   }
 
@@ -61,7 +59,7 @@ function randomEmptyPosition(world, entities, tileTypes) {
 }
 
 function randomPosition(world, tileTypes) {
-  return Random.from(world.tiles.filter(t => tileTypes.indexOf(t) > -1));
+  return Random.from(world.tiles.filter(t => tileTypes.indexOf(t.type) > -1));
 }
 
 function tileAt(world, { x, y }) {
