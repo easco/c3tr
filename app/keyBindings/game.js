@@ -6,7 +6,7 @@ export default [
   { key: Key.LEFT, action: Action.MOVE_WEST },
   { key: Key.RIGHT, action: Action.MOVE_EAST },
   { key: Key.UP, action: Action.MOVE_NORTH },
-  { key: Key.b, action: Action.MOVE_SOUTWEST },
+  { key: Key.b, action: Action.MOVE_SOUTHWEST },
   { key: Key.h, action: Action.MOVE_WEST },
   { key: Key.i, action: Action.TOGGLE_INVENTORY },
   { key: Key.j, action: Action.MOVE_SOUTH },
