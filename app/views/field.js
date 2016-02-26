@@ -50,37 +50,39 @@ export default function renderField({ state, world }) {
     y: startPos.y + rows
   };
 
+  console.log(startPos, endPos);
+
   const visibleEntities = entitiesVisible(state.entities, startPos, endPos);
 
-  let avatar, i, j, presentEntities, tile, tileValue, x, y;
-  for (let column = 0; column <= columns; column++) {
-    for (let row = 0; row <= rows; row++) {
-      x = carlPos.x + column - colSpan;
-      y = carlPos.y + row - rowSpan;
-      i = 20 * column + offsetX;
-      j = 20 * row + offsetY;
+  const visibleTiles = world.tiles
+    .filter(t =>
+      (t.position.x >= startPos.x || t.position.x <= endPos.x)
+      && t.position.y >= startPos.y
+      && t.position.y <= endPos.y
+    );
 
-      if (y < 0 || y >= world.height) continue;
-      if (x < 0) x += world.width;
-      if (x >= world.width) x -= world.width;
+  console.log(visibleTiles.length, 'visible tiles');
 
-      tile = World.tileAt(world, { x, y });
-      tileValue = Tile.value(tile);
+  let avatar, i, j, presentEntities, tileValue;
+  visibleTiles.forEach(tile => {
+    i = 20 * (tile.position.x - startPos.x) + offsetX;
+    j = 20 * (tile.position.y - startPos.y) + offsetY;
 
-      fieldContext.fillStyle = tileValue.backgroundColor;
-      fieldContext.fillRect(i, j, 20, 20);
+    tileValue = Tile.value(tile);
 
-      presentEntities = visibleEntities
-        .filter(e => Position.match(e.position, { x, y }));
+    fieldContext.fillStyle = tileValue.backgroundColor;
+    fieldContext.fillRect(i, j, 20, 20);
 
-      avatar = presentEntities.length > 0
-        ? presentEntities.reduce((top, entity) =>
-            entity.avatar.importance > top.avatar.importance ? entity : top
-          ).avatar
-        : tileValue.avatar;
+    presentEntities = visibleEntities
+      .filter(e => Position.match(e.position, tile.position));
 
-      fieldContext.fillStyle = avatar.style;
-      fieldContext.fillText(avatar.character, i + 4, j + 16);
-    }
-  }
+    avatar = presentEntities.length > 0
+      ? presentEntities.reduce((top, entity) =>
+          entity.avatar.importance > top.avatar.importance ? entity : top
+        ).avatar
+      : tileValue.avatar;
+
+    fieldContext.fillStyle = avatar.style;
+    fieldContext.fillText(avatar.character, i + 4, j + 16);
+  });
 }

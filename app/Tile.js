@@ -42,16 +42,16 @@ export default {
 
 // Functions -------------------------------------------------------------------
 
-function create(type) {
-  return type;
+function create({ position, type }) {
+  return { position, type };
 }
 
 function generateGrid(columns, rows, typeFn) {
-  const tiles = new Array(columns);
+  const tiles = [];
+
   for (let x = 0; x < columns; x++) {
-    tiles[x] = new Array(rows);
     for (let y = 0; y < rows; y++) {
-      tiles[x][y] = create(typeFn(x, y));
+      tiles.push(create({ position: { x, y }, type: typeFn(x, y) }));
     }
   }
 
@@ -59,29 +59,29 @@ function generateGrid(columns, rows, typeFn) {
 }
 
 function is(tile, tileType) {
-  return tile === tileType;
+  return tile.type === tileType;
 }
 
 function isCave(tile) {
-  return tile === Type.CAVE;
+  return is(tile, Type.CAVE);
 }
 
 function isLand(tile) {
-  return tile === Type.LAND;
+  return is(tile, Type.LAND);
 }
 
 function isMountain(tile) {
-  return tile === Type.MOUNTAIN;
+  return is(tile, Type.MOUNTAIN);
 }
 
 function isPassable(tile) {
-  return tile !== Type.MOUNTAIN;
+  return !is(tile, Type.MOUNTAIN);
 }
 
 function isWater(tile) {
-  return tile === Type.WATER;
+  return is(tile, Type.WATER);
 }
 
 function value(tile) {
-  return Value[tile];
+  return Value[tile.type];
 }

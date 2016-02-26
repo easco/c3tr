@@ -11,8 +11,6 @@ import renderInventory from 'views/inventory';
 import renderMessage from 'views/message';
 import renderStatus from 'views/status';
 
-// Data ------------------------------------------------------------------------
-
 // Exports ---------------------------------------------------------------------
 
 export default {
@@ -25,11 +23,14 @@ function getInitialModel() {
   const worldHeight = 768;
   const worldWidth = 1024;
 
-  const world = Util.logTime('World generation',
-    () => DefaultWorld.generate(worldWidth, worldHeight)
+  const world = Util.logTime('World generation', () =>
+    DefaultWorld.generate(worldWidth, worldHeight)
   );
 
-  const entities = DefaultWorld.populate(world);
+  const entities = Util.logTime('World population', () =>
+    DefaultWorld.populate(world)
+  );
+
   const carlPos = DefaultWorld.startingPosition(world, entities);
 
   return {
@@ -70,10 +71,12 @@ function init() {
 }
 
 function renderViews(model) {
-  renderMessage(model);
-  renderField(model);
-  renderInventory(model);
-  renderStatus(model);
+  Util.logTime('Render', () => {
+    renderMessage(model);
+    renderField(model);
+    renderInventory(model);
+    renderStatus(model);
+  });
 }
 
 function resizeField(width, height) {
