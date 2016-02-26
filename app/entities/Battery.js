@@ -13,7 +13,6 @@ const BATTERY = 'Battery';
 
 export default {
   create,
-  generate,
   type: BATTERY
 };
 
@@ -22,7 +21,7 @@ export default {
 function create({ level, position }) {
   let battery = [
     Avatar.create('θ', '#CCC'),
-    Energy.create(level),
+    Energy.create(level || Random.integer(600, 1800)),
     Name.create('battery')
   ];
 
@@ -31,8 +30,4 @@ function create({ level, position }) {
   }
 
   return Entity.create(BATTERY, battery);
-}
-
-function generate(position = null) {
-  return create(Random.integer(600, 1800), position);
 }

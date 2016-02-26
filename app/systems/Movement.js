@@ -1,7 +1,7 @@
 import Battery from 'entities/Battery';
 import Carl from 'entities/Carl';
 import Entity from 'Entity';
-import Model from 'Model';
+import Position from 'components/Position';
 import Tile from 'Tile';
 import Util from 'Util';
 import World from 'World';
@@ -19,46 +19,48 @@ function run(model) {
   const removeEntities = [];
   const world = model.world;
 
-  const entities = model.state.entities
-    .map(entity => {
-      if (!entity.move || !entity.position) return entity;
+  let entities = model.state.entities;
 
-      const destPos = World.positionTo(world, entity.position, entity.move);
-      const destTile = World.tileAt(world, destPos);
+  entities = entities.map(entity => {
+    if (!entity.move || !entity.position) return entity;
 
-      if (
-        destTile === null
-        || !Tile.isPassable(destTile)
-        || (entity.moveRestriction && !entity.moveRestriction(destTile))
-      ) {
-        return Entity.detach(entity, 'move');
-      }
+    const destPos = World.positionTo(world, entity.position, entity.move);
+    const destTile = World.tileAt(world, destPos);
 
-      if (Entity.is(entity, Carl)) {
-        Model.entitiesAt(model, destPos)
-          .filter(entity => entity.hasOwnProperty('name'))
-          .forEach(entity => {
-            messages.push(`You encounter a ${entity.name}.`);
-          });
-      }
+    if (
+      destTile === null
+      || !Tile.isPassable(destTile)
+      || (entity.moveRestriction && !entity.moveRestriction(destTile))
+    ) {
+      return Entity.detach(entity, 'move');
+    }
 
-      if (entity.moveAction) entity = entity.moveAction(destTile);
+    const destEntities = entities
+      .filter(e => e.position)
+      .filter(e => Position.match(e.position, destPos));
 
-      entity = Entity.update(entity, { position: () => destPos });
-      entity = Entity.detach(entity, 'move');
+    if (Entity.is(entity, Carl)) {
+      destEntities
+        .filter(e => e.name)
+        .forEach(e => messages.push(`You encounter a ${e.name}.`));
+    }
 
-      if (entity.suckle) {
-        Model.entitiesAt(model, entity.position)
-          .filter(e => Entity.is(e, Battery))
-          .forEach(battery => {
-            entity = entity.suckle(battery);
-            removeEntities.push(battery);
-          });
-      }
+    if (entity.moveAction) entity = entity.moveAction(destTile);
 
-      return entity;
-    })
-    .filter(entity => !removeEntities.includes(entity));
+    entity = Entity.update(entity, { position: () => destPos });
+    entity = Entity.detach(entity, 'move');
+
+    if (entity.suckle) {
+      destEntities
+        .filter(e => Entity.is(e, Battery))
+        .forEach(battery => {
+          entity = entity.suckle(battery);
+          removeEntities.push(battery);
+        });
+    }
+
+    return entity;
+  }).filter(entity => !removeEntities.includes(entity));
 
   return Util.merge(model.state, {
     entities,
