@@ -16,5 +16,5 @@ function run(model) {
     .map(m => DOM.html('p', [m]))
     .forEach(p => messageLog.insertBefore(p, messageLog.firstChild));
 
-  return Util.merge(model.state, { messages: [] });
+  return model.state;
 }

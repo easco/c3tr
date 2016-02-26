@@ -85,6 +85,9 @@ function resizeField(width, height) {
 }
 
 function update(model) {
+  model = Util.merge(model, {
+    state: Util.merge(model.state, { messages: [] })
+  });
   let state = UserActionSystem.run(model);
 
   if (model.state.focus === Focus.GAME) {
