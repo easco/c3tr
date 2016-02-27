@@ -2,13 +2,18 @@
 // Exports ---------------------------------------------------------------------
 
 export default {
+  compose,
   constrain,
   logTime,
-  merge,
-  process
+  merge
 };
 
 // Functions -------------------------------------------------------------------
+
+function compose(value, tasks) {
+  tasks.forEach(task => value = task(value));
+  return value;
+}
 
 function constrain(number, min, max) {
   if (min >= max) throw new Error('`min` must be less than `max`');
@@ -34,9 +39,4 @@ function logTime(task, fn, rateFn) {
 
 function merge(a, b) {
   return Object.assign({}, a, b);
-}
-
-function process(value, tasks) {
-  tasks.forEach(task => value = task(value));
-  return value;
 }

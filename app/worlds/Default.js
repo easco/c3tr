@@ -51,7 +51,7 @@ function generate(width, height) {
 }
 
 function populate(world) {
-  return Util.process([], [
+  return Util.compose([], [
     e => World.placeEntity(world, e, Monster, Random.integer(3000, 4000)),
     e => World.placeEntity(world, e, Battery, Random.integer(150, 250)),
     e => World.placeEntity(world, e, CPU, Random.integer(10, 50))
