@@ -55,11 +55,17 @@ function init() {
     drawFrame = window.requestAnimationFrame(renderViews.bind(null, model));
   }
 
-  window.addEventListener('keydown', keydown => {
+  function handleKey(keydown) {
+    window.removeEventListener('keydown', handleKey);
     model = Util.merge(model, { state: Util.merge(model.state, { keydown }) });
     model = update(model);
     renderViews(model);
-  });
+    window.requestAnimationFrame(() => {
+      window.addEventListener('keydown', handleKey);
+    });
+  }
+
+  window.addEventListener('keydown', handleKey);
 
   window.addEventListener('resize', () => {
     resizeField(window.innerWidth, window.innerHeight);
