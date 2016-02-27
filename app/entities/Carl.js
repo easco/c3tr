@@ -12,6 +12,7 @@ import MoveRestriction from 'components/MoveRestriction';
 import Name from 'components/Name';
 import Position from 'components/Position';
 import Tile from 'Tile';
+import TileType from 'data/TileType';
 import Suckle from 'components/Suckle';
 
 // Data ------------------------------------------------------------------------
@@ -59,7 +60,7 @@ function findIn(entities) {
 }
 
 function moveCost(tile) {
-  return Tile.isWater(tile) ? 100 : 10;
+  return Tile.is(tile, TileType.WATER) ? 100 : 10;
 }
 
 function suckleFn(battery) {

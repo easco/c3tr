@@ -10,9 +10,19 @@ const Value = Object.assign({
     backgroundColor: BackgroundColor.create('#642').value
   },
 
+  [Type.ICE]: {
+    avatar: Avatar.create('#', '#9BD').value,
+    backgroundColor: BackgroundColor.create('#8AC').value
+  },
+
   [Type.LAND]: {
     avatar: Avatar.create('.', '#351').value,
     backgroundColor: BackgroundColor.create('#240').value
+  },
+
+  [Type.LAVA]: {
+    avatar: Avatar.create('~', '#B55').value,
+    backgroundColor: BackgroundColor.create('#A44').value
   },
 
   [Type.MOUNTAIN]: {
@@ -32,11 +42,8 @@ export default {
   create,
   generateGrid,
   is,
-  isCave,
   isLand,
-  isMountain,
   isPassable,
-  isWater,
   value
 };
 
@@ -62,24 +69,12 @@ function is(tile, tileType) {
   return tile.type === tileType;
 }
 
-function isCave(tile) {
-  return is(tile, Type.CAVE);
-}
-
 function isLand(tile) {
   return is(tile, Type.LAND);
 }
 
-function isMountain(tile) {
-  return is(tile, Type.MOUNTAIN);
-}
-
 function isPassable(tile) {
-  return !is(tile, Type.MOUNTAIN);
-}
-
-function isWater(tile) {
-  return is(tile, Type.WATER);
+  return !is(tile, Type.LAVA) && !is(tile, Type.MOUNTAIN);
 }
 
 function value(tile) {

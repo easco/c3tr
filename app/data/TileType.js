@@ -1,6 +1,8 @@
 export default {
-  CAVE: 'cave',
-  LAND: 'land',
-  MOUNTAIN: 'mountain',
-  WATER: 'water'
+  CAVE: 'CAVE',
+  ICE: 'ICE',
+  LAND: 'LAND',
+  LAVA: 'LAVA',
+  MOUNTAIN: 'MOUNTAIN',
+  WATER: 'WATER'
 };
