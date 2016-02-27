@@ -1,6 +1,5 @@
 import Position from 'components/Position';
 import Random from 'Random';
-import Tile from 'Tile';
 import TileType from 'data/TileType';
 import Util from 'Util';
 

@@ -1,5 +1,4 @@
 import DOM from 'DOM';
-import Util from 'Util';
 
 // Exports ---------------------------------------------------------------------
 

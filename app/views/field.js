@@ -3,7 +3,6 @@ import DOM from 'DOM';
 import Position from 'components/Position';
 import Tile from 'Tile';
 import Util from 'Util';
-import World from 'World';
 
 export default function renderField({ state, world }) {
   const fieldCanvas = DOM.find('#Field');

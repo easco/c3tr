@@ -1,6 +1,5 @@
 import Carl from 'entities/Carl';
 import DOM from 'DOM';
-import Focus from 'data/Focus';
 
 export default function renderInventory({ state }) {
   const items = Carl.findIn(state.entities).inventory
