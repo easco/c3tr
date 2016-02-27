@@ -27,7 +27,7 @@ export default function renderStatus({ state, world }) {
     ]),
     DOM.html('section.-center', [
       `(${carl.position.x + 1}, ${carl.position.y + 1}) `,
-      Text.capitalize(World.tileAt(world, carl.position))
+      Text.capitalize(World.tileAt(world, carl.position).type)
     ]),
     DOM.html('section.-right', [
       stat([
