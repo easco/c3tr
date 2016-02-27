@@ -77,10 +77,18 @@ function init() {
 }
 
 function renderViews(model) {
+  switch (model.state.focus) {
+    case Focus.INVENTORY:
+      renderInventory(model);
+      break;
+
+    case Focus.GAME:
+      renderField(model);
+      break;
+  }
+
   renderMessage(model);
-  renderInventory(model);
   renderStatus(model);
-  renderField(model);
 }
 
 function resizeField(width, height) {
