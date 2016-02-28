@@ -83,7 +83,7 @@ export default function renderField({ state, world }) {
         : tileValue.avatar;
 
       fieldContext.fillStyle = avatar.style;
-      fieldContext.fillText(avatar.character, i + 4, j + 16);
+      fieldContext.fillText(avatar.character, i + 4, j + 17);
     }
   }
 }

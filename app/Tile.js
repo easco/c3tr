@@ -6,7 +6,7 @@ import TileType from 'data/TileType';
 
 const Value = Object.assign({
   [TileType.CAVE]: {
-    avatar: Avatar.create('.', '#753').value,
+    avatar: Avatar.create('•', '#6C4C2A').value,
     backgroundColor: BackgroundColor.create('#642').value
   },
 
@@ -16,22 +16,22 @@ const Value = Object.assign({
   },
 
   [TileType.LAND]: {
-    avatar: Avatar.create('.', '#351').value,
+    avatar: Avatar.create('•', '#2A4C08').value,
     backgroundColor: BackgroundColor.create('#240').value
   },
 
   [TileType.LAVA]: {
-    avatar: Avatar.create('~', '#B55').value,
+    avatar: Avatar.create('≈', '#B55').value,
     backgroundColor: BackgroundColor.create('#A44').value
   },
 
   [TileType.MOUNTAIN]: {
-    avatar: Avatar.create('×', '#555').value,
+    avatar: Avatar.create('×', '#505050').value,
     backgroundColor: BackgroundColor.create('#444').value
   },
 
   [TileType.WATER]: {
-    avatar: Avatar.create('~', '#357').value,
+    avatar: Avatar.create('≈', '#357').value,
     backgroundColor: BackgroundColor.create('#246').value
   }
 });
