@@ -66,15 +66,6 @@ function run(model) {
     entity = Entity.update(entity, { position: () => destPos });
     entity = Entity.detach(entity, 'move');
 
-    if (entity.suckle) {
-      destEntities
-        .filter(e => Entity.is(e, Battery))
-        .forEach(battery => {
-          entity = entity.suckle(battery);
-          removeEntities.push(battery);
-        });
-    }
-
     return entity;
   }).filter(entity => !removeEntities.includes(entity));
 

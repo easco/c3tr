@@ -1,7 +1,8 @@
-import Key from 'data/Key';
 import Action from 'data/Action';
+import Key from 'data/Key';
 
 export default [
+  { key: Key.COMMA, action: Action.TOGGLE_ITEMS },
   { key: Key.DOWN, action: Action.MOVE_SOUTH },
   { key: Key.LEFT, action: Action.MOVE_WEST },
   { key: Key.RIGHT, action: Action.MOVE_EAST },

@@ -19,7 +19,7 @@ export default {
 
 function create({ position }) {
   return Entity.create(TREE, [
-    Avatar.create('¥', '#8A6'),
+    Avatar.create('▲', '#8A6'),
     Collision.create(),
     Name.create('tree'),
     Position.create(position.x, position.y)

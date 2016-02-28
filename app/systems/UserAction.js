@@ -5,6 +5,7 @@ import Direction from 'data/Direction';
 import Entity from 'Entity';
 import Focus from 'data/Focus';
 import Move from 'components/Move';
+import Position from 'components/Position';
 import Util from 'Util';
 import gameKeyBindings from 'keyBindings/game';
 import inventoryKeyBindings from 'keyBindings/inventory';
@@ -92,6 +93,15 @@ function run(model) {
 
     case Action.TOGGLE_INVENTORY:
       focus = togglePanel('Inventory') ? Focus.INVENTORY : Focus.GAME;
+      break;
+
+    case Action.TOGGLE_ITEMS:
+      if (model.state.entities.filter(e =>
+        e.position && !Entity.is(e, Carl)
+        && Position.match(e.position, carl.position)
+      ).length > 0) {
+        focus = togglePanel('Items') ? Focus.ITEMS : Focus.GAME;
+      }
       break;
 
     case Action.TOGGLE_LOG:

@@ -13,7 +13,6 @@ import Name from 'components/Name';
 import Position from 'components/Position';
 import Tile from 'Tile';
 import TileType from 'data/TileType';
-import Suckle from 'components/Suckle';
 
 // Data ------------------------------------------------------------------------
 
@@ -46,8 +45,7 @@ function create({ position }) {
     MoveAction.create(drainEnergyFromMoveTo),
     MoveRestriction.create(canAffordMoveTo),
     Name.create('Carl'),
-    Position.create(position.x, position.y),
-    Suckle.create(suckleFn)
+    Position.create(position.x, position.y)
   ]);
 }
 
@@ -61,8 +59,4 @@ function findIn(entities) {
 
 function moveCost(tile) {
   return Tile.is(tile, TileType.WATER) ? 100 : 10;
-}
-
-function suckleFn(battery) {
-  return Energy.fill(this, battery.energy.current);
 }
