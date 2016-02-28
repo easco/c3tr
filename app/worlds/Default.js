@@ -51,11 +51,13 @@ function generate(width, height) {
 }
 
 function populate(world) {
-  return Util.compose([], [
-    e => World.placeEntity(world, e, Monster, Random.integer(3000, 4000)),
-    e => World.placeEntity(world, e, Battery, Random.integer(150, 250)),
-    e => World.placeEntity(world, e, CPU, Random.integer(10, 50))
-  ]);
+  const tt = [TileType.LAND];
+
+  return Util.compose([
+    e => World.placeEntity(world, e, tt, Monster, Random.integer(3000, 4000)),
+    e => World.placeEntity(world, e, tt, Battery, Random.integer(150, 250)),
+    e => World.placeEntity(world, e, tt, CPU, Random.integer(10, 50))
+  ], []);
 }
 
 function startingPosition(world, entities) {

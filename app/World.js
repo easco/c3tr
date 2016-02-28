@@ -1,9 +1,6 @@
 import Position from 'components/Position';
 import Random from 'Random';
-import TileType from 'data/TileType';
 import Util from 'Util';
-
-// Data ------------------------------------------------------------------------
 
 // Exports ---------------------------------------------------------------------
 
@@ -18,16 +15,13 @@ export default {
 
 // Functions -------------------------------------------------------------------
 
-function placeEntity(world, entities, entity, count = 1, tileTypes = [TileType.LAND]) {
-  const tiles = world.tiles.filter(t => tileTypes.indexOf(t.type) > -1);
+function placeEntity(world, entities, tileTypes, entity, count = 1) {
   const total = entities.length + count;
 
-  let randomPos;
   while (entities.length < total) {
-    randomPos = Random.from(tiles).position;
-    if (entities.filter(e => Position.match(e.position, randomPos)).length === 0) {
-      entities = entities.concat(entity.create({ position: randomPos }));
-    }
+    entities = entities.concat(entity.create({
+      position: randomEmptyPosition(world, entities, tileTypes)
+    }));
   }
 
   return entities;
@@ -42,28 +36,26 @@ function positionTo(world, source, direction) {
 }
 
 function randomEmptyPosition(world, entities, tileTypes) {
-  const tiles = world.tiles.filter(t => tileTypes.indexOf(t.type) > -1);
-  const collisionEntities = entities.filter(e => e.position && e.collision);
+  const randomPos = randomPosition(world, tileTypes);
 
-  let okay = false;
-  let randomPos;
-  while (!okay) {
-    randomPos = Random.from(tiles).position;
-    okay = collisionEntities
-      .filter(e => Position.match(e.position, randomPos))
-      .length === 0;
-  }
-
-  return randomPos;
+  return entities.find(e => Position.match(e.position, randomPos))
+    ? randomEmptyPosition(world, entities, tileTypes)
+    : randomPos;
 }
 
 function randomPosition(world, tileTypes) {
-  return Random.from(world.tiles.filter(t => tileTypes.indexOf(t.type) > -1));
+  const x = Random.integer(0, world.width - 1);
+  const y = Random.integer(0, world.height - 1);
+  const tile = world.tiles[x][y];
+
+  return tileTypes.indexOf(tile) > -1
+    ? { x, y }
+    : randomPosition(world, tileTypes);
 }
 
 function tileAt(world, { x, y }) {
   if (x < 0 || x >= world.width || y < 0 || y >= world.height) return null;
-  return world.tiles.find(t => t.position.x === x && t.position.y === y);
+  return world.tiles[x][y];
 }
 
 function tileTo(world, direction, source) {

@@ -3,6 +3,7 @@ import DOM from 'DOM';
 import Position from 'components/Position';
 import Tile from 'Tile';
 import Util from 'Util';
+import World from 'World';
 
 export default function renderField({ state, world }) {
   const fieldCanvas = DOM.find('#Field');
@@ -28,10 +29,10 @@ export default function renderField({ state, world }) {
   const minY = carlPos.y - rowSpan;
   const maxY = carlPos.y + rowSpan;
 
-  let filterPos, minX;
+  let filterPos, maxX, minX;
   if (carlPos.x + colSpan > world.width || carlPos.x < colSpan) {
     minX = Util.constrain(carlPos.x - colSpan, 0, world.width);
-    const maxX = Util.constrain(carlPos.x + colSpan, 0, world.width);
+    maxX = Util.constrain(carlPos.x + colSpan, 0, world.width);
     filterPos = a => (
       (
         a.position.x >= minX && a.position.x <= world.width
@@ -45,7 +46,7 @@ export default function renderField({ state, world }) {
   }
   else {
     minX = Math.max(carlPos.x - colSpan, 0);
-    const maxX = Math.min(carlPos.x + colSpan, world.width);
+    maxX = Math.min(carlPos.x + colSpan, world.width);
     filterPos = a => (
       a.position.x >= minX && a.position.x <= maxX
       && a.position.y >= minY && a.position.y <= maxY
@@ -56,29 +57,33 @@ export default function renderField({ state, world }) {
     .filter(e => e.avatar && e.position)
     .filter(filterPos);
 
-  const visibleTiles = world.tiles
-    .filter(filterPos);
+  let avatar, i, j, presentEntities, tile, tileValue, x, y;
+  for (let column = 0; column <= columns; column++) {
+    for (let row = 0; row <= rows; row++) {
+      x = Util.constrain(carlPos.x + column - colSpan, 0, world.width);
+      y = carlPos.y + row - rowSpan;
+      i = 20 * column + offsetX;
+      j = 20 * row + offsetY;
 
-  let avatar, i, j, presentEntities, tileValue;
-  visibleTiles.forEach(tile => {
-    i = 20 * Util.constrain(tile.position.x - minX, 0, world.width) + offsetX;
-    j = 20 * Util.constrain(tile.position.y - minY, 0, world.height) + offsetY;
+      if (y < 0 || y >= world.height) continue;
 
-    tileValue = Tile.value(tile);
+      tile = World.tileAt(world, { x, y });
+      tileValue = Tile.value(tile);
 
-    fieldContext.fillStyle = tileValue.backgroundColor;
-    fieldContext.fillRect(i, j, 20, 20);
+      fieldContext.fillStyle = tileValue.backgroundColor;
+      fieldContext.fillRect(i, j, 20, 20);
 
-    presentEntities = visibleEntities
-      .filter(e => Position.match(e.position, tile.position));
+      presentEntities = visibleEntities
+        .filter(e => Position.match(e.position, { x, y }));
 
-    avatar = presentEntities.length > 0
-      ? presentEntities.reduce((top, entity) =>
-          entity.avatar.importance > top.avatar.importance ? entity : top
-        ).avatar
-      : tileValue.avatar;
+      avatar = presentEntities.length > 0
+        ? presentEntities.reduce((top, entity) =>
+            entity.avatar.importance > top.avatar.importance ? entity : top
+          ).avatar
+        : tileValue.avatar;
 
-    fieldContext.fillStyle = avatar.style;
-    fieldContext.fillText(avatar.character, i + 4, j + 16);
-  });
+      fieldContext.fillStyle = avatar.style;
+      fieldContext.fillText(avatar.character, i + 4, j + 16);
+    }
+  }
 }

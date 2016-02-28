@@ -1,6 +1,7 @@
 import Carl from 'entities/Carl';
 import DOM from 'DOM';
 import Text from 'Text';
+import Tile from 'Tile';
 import World from 'World';
 
 const stat = c => DOM.html('span.stat', c);
@@ -27,7 +28,7 @@ export default function renderStatus({ state, world }) {
     ]),
     DOM.html('section.-center', [
       `(${carl.position.x + 1}, ${carl.position.y + 1}) `,
-      Text.capitalize(World.tileAt(world, carl.position).type)
+      Tile.typeString(World.tileAt(world, carl.position))
     ]),
     DOM.html('section.-right', [
       stat([

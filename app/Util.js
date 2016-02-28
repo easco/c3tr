@@ -10,7 +10,7 @@ export default {
 
 // Functions -------------------------------------------------------------------
 
-function compose(value, tasks) {
+function compose(tasks, value) {
   tasks.forEach(task => value = task(value));
   return value;
 }
