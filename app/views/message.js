@@ -5,7 +5,7 @@ export default function renderMessage(model) {
 
   const messageEl = DOM.html('div', { id: 'Message' }, [
     messages.length > 0
-    ? messages[messages.length - 1]
+    ? messages[messages.length - 1].text
     : DOM.html('p', {})
   ]);
 

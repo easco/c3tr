@@ -29,14 +29,16 @@ body {
 }
 
 .panel > .title {
+  border-bottom: 1px solid #444;
   font-weight: lighter;
+  margin: 0;
+  padding: 16px 0;
   text-align: center;
 }
 
 .panel > .content {
   overflow-y: scroll;
-  padding: 8px;
-  height: calc(100% - 20px);
+  height: calc(100% - 53px);
 }
 
 #Field {
@@ -58,6 +60,18 @@ body {
 #Log {
   border-right: 1px solid #444;
   left: 0;
+}
+
+#Log p {
+  border-bottom: 1px solid #222;
+  font-size: 14px;
+  margin: 0;
+  padding: 8px;
+}
+
+#Log .position {
+  color: #888;
+  display: block;
 }
 
 #Message {

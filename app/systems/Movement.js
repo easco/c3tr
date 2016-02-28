@@ -42,7 +42,10 @@ function run(model) {
     if (Entity.is(entity, Carl)) {
       const collidingEntity = destEntities.find(e => e.collision);
       if (collidingEntity) {
-        messages.push(`You bump into a ${collidingEntity.name}.`);
+        messages.push({
+          position: destPos,
+          text: `You bump into a ${collidingEntity.name}.`
+        });
         return Entity.detach(entity, 'move');
       }
 
@@ -51,7 +54,10 @@ function run(model) {
           .filter(e => e.name)
           .map(e => `a ${e.name}`)
           .join(', ');
-        messages.push(`You see ${entityNames}.`);
+        messages.push({
+          position: destPos,
+          text: `You see ${entityNames}.`
+        });
       }
     }
 
