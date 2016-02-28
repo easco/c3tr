@@ -5,6 +5,7 @@ import Monster from 'entities/Monster';
 import Random from 'Random';
 import Tile from 'Tile';
 import TileType from 'data/TileType';
+import Tree from 'entities/Tree';
 import Util from 'Util';
 import World from 'World';
 
@@ -54,9 +55,10 @@ function populate(world) {
   const tt = [TileType.LAND];
 
   return Util.compose([
-    e => World.placeEntity(world, e, tt, Monster, Random.integer(3000, 4000)),
     e => World.placeEntity(world, e, tt, Battery, Random.integer(150, 250)),
-    e => World.placeEntity(world, e, tt, CPU, Random.integer(10, 50))
+    e => World.placeEntity(world, e, tt, CPU, Random.integer(10, 50)),
+    e => World.placeEntity(world, e, tt, Monster, Random.integer(1000, 2000)),
+    e => World.placeEntity(world, e, tt, Tree, Random.integer(3000, 4000))
   ], []);
 }
 

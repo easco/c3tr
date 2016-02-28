@@ -38,7 +38,7 @@ function positionTo(world, source, direction) {
 function randomEmptyPosition(world, entities, tileTypes) {
   const randomPos = randomPosition(world, tileTypes);
 
-  return entities.find(e => Position.match(e.position, randomPos))
+  return entities.find(e => e.position && Position.match(e.position, randomPos))
     ? randomEmptyPosition(world, entities, tileTypes)
     : randomPos;
 }

@@ -1,18 +1,27 @@
+import Avatar from 'components/Avatar';
 import Collision from 'components/Collision';
 import Entity from 'Entity';
+import Name from 'components/Name';
+import Position from 'components/Position';
+
+// Data ------------------------------------------------------------------------
+
+const TREE = 'Tree';
 
 // Exports ---------------------------------------------------------------------
 
 export default {
-  create
+  create,
+  type: TREE
 };
 
 // Functions -------------------------------------------------------------------
 
 function create({ position }) {
-  return Entity.create([
-    Avatar.create('*', '#8A6'),
+  return Entity.create(TREE, [
+    Avatar.create('¥', '#8A6'),
     Collision.create(),
-    Position.create(position)
+    Name.create('tree'),
+    Position.create(position.x, position.y)
   ]);
 }
