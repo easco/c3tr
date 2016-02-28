@@ -29,8 +29,8 @@ export default {
 
 // Functions -------------------------------------------------------------------
 
-function canAffordMoveTo(tile) {
-  if (!tile) return false;
+function canAffordMoveTo(tile = null) {
+  if (tile === null) return false;
   return this.energy.current >= moveCost(tile);
 }
 

@@ -26,7 +26,7 @@ const Value = Object.assign({
   },
 
   [TileType.MOUNTAIN]: {
-    avatar: Avatar.create('X', '#555').value,
+    avatar: Avatar.create('×', '#555').value,
     backgroundColor: BackgroundColor.create('#444').value
   },
 

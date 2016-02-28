@@ -40,9 +40,19 @@ function run(model) {
       .filter(e => Position.match(e.position, destPos));
 
     if (Entity.is(entity, Carl)) {
-      destEntities
-        .filter(e => e.name)
-        .forEach(e => messages.push(`You encounter a ${e.name}.`));
+      const collidingEntity = destEntities.find(e => e.collision);
+      if (collidingEntity) {
+        messages.push(`You bump into a ${collidingEntity.name}.`);
+        return Entity.detach(entity, 'move');
+      }
+
+      if (destEntities.length > 0) {
+        const entityNames = destEntities
+          .filter(e => e.name)
+          .map(e => `a ${e.name}`)
+          .join(', ');
+        messages.push(`You see ${entityNames}.`);
+      }
     }
 
     if (entity.moveAction) entity = entity.moveAction(destTile);
