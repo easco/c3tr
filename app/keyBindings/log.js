@@ -2,6 +2,6 @@ import Action from 'data/Action';
 import Key from 'data/Key';
 
 export default [
-  { key: Key.ESC, action: Action.CLOSE_PANELS },
-  { key: Key.m, action: Action.TOGGLE_LOG }
+  { key: Key.ESCAPE, action: Action.FOCUS_GAME },
+  { key: Key.LOWER_M, action: Action.FOCUS_GAME }
 ];

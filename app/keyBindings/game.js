@@ -2,19 +2,19 @@ import Action from 'data/Action';
 import Key from 'data/Key';
 
 export default [
-  { key: Key.COMMA, action: Action.TOGGLE_ITEMS },
+  { key: Key.COMMA, action: Action.FOCUS_ITEMS },
   { key: Key.DOWN, action: Action.MOVE_SOUTH },
   { key: Key.LEFT, action: Action.MOVE_WEST },
+  { key: Key.LOWER_B, action: Action.MOVE_SOUTHWEST },
+  { key: Key.LOWER_H, action: Action.MOVE_WEST },
+  { key: Key.LOWER_I, action: Action.FOCUS_INVENTORY },
+  { key: Key.LOWER_J, action: Action.MOVE_SOUTH },
+  { key: Key.LOWER_K, action: Action.MOVE_NORTH },
+  { key: Key.LOWER_L, action: Action.MOVE_EAST },
+  { key: Key.LOWER_M, action: Action.FOCUS_LOG },
+  { key: Key.LOWER_N, action: Action.MOVE_SOUTHEAST },
+  { key: Key.LOWER_U, action: Action.MOVE_NORTHEAST },
+  { key: Key.LOWER_Y, action: Action.MOVE_NORTHWEST },
   { key: Key.RIGHT, action: Action.MOVE_EAST },
-  { key: Key.UP, action: Action.MOVE_NORTH },
-  { key: Key.b, action: Action.MOVE_SOUTHWEST },
-  { key: Key.h, action: Action.MOVE_WEST },
-  { key: Key.i, action: Action.TOGGLE_INVENTORY },
-  { key: Key.j, action: Action.MOVE_SOUTH },
-  { key: Key.k, action: Action.MOVE_NORTH },
-  { key: Key.l, action: Action.MOVE_EAST },
-  { key: Key.m, action: Action.TOGGLE_LOG },
-  { key: Key.n, action: Action.MOVE_SOUTHEAST },
-  { key: Key.u, action: Action.MOVE_NORTHEAST },
-  { key: Key.y, action: Action.MOVE_NORTHWEST }
+  { key: Key.UP, action: Action.MOVE_NORTH }
 ];

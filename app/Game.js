@@ -8,6 +8,7 @@ import UserActionSystem from 'systems/UserAction';
 import Util from 'Util';
 import renderField from 'views/field';
 import renderInventory from 'views/inventory';
+import renderItems from 'views/items';
 import renderMessage from 'views/message';
 import renderStatus from 'views/status';
 
@@ -78,12 +79,16 @@ function init() {
 
 function renderViews(model) {
   switch (model.state.focus) {
+    case Focus.GAME:
+      renderField(model);
+      break;
+
     case Focus.INVENTORY:
       renderInventory(model);
       break;
 
-    case Focus.GAME:
-      renderField(model);
+    case Focus.ITEMS:
+      renderItems(model);
       break;
   }
 

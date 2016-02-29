@@ -9,6 +9,7 @@ import Position from 'components/Position';
 import Util from 'Util';
 import gameKeyBindings from 'keyBindings/game';
 import inventoryKeyBindings from 'keyBindings/inventory';
+import itemsKeyBindings from 'keyBindings/items';
 import logKeyBindings from 'keyBindings/log';
 
 // Exports ---------------------------------------------------------------------
@@ -44,6 +45,10 @@ function run(model) {
       action = boundAction(inventoryKeyBindings, model.state.keydown);
       break;
 
+    case Focus.ITEMS:
+      action = boundAction(itemsKeyBindings, model.state.keydown);
+      break;
+
     case Focus.LOG:
       action = boundAction(logKeyBindings, model.state.keydown);
       break;
@@ -53,10 +58,32 @@ function run(model) {
   let focus = model.state.focus;
 
   switch (action) {
-    case Action.CLOSE_PANELS:
+    case Action.FOCUS_GAME:
       DOM.find('#Inventory').classList.remove('-open');
+      DOM.find('#Items').classList.remove('-open');
       DOM.find('#Log').classList.remove('-open');
       focus = Focus.GAME;
+      break;
+
+    case Action.FOCUS_INVENTORY:
+      DOM.find('#Inventory').classList.add('-open');
+      focus = Focus.INVENTORY;
+      break;
+
+    case Action.FOCUS_ITEMS:
+      if (model.state.entities.filter(e =>
+        e.position && !Entity.is(e, Carl)
+        && Position.match(e.position, carl.position)
+      ).length > 0) {
+        focus = togglePanel('Items') ? Focus.ITEMS : Focus.GAME;
+      }
+      DOM.find('#Items').classList.add('-open');
+      focus = Focus.ITEMS;
+      break;
+
+    case Action.FOCUS_LOG:
+      DOM.find('#Log').classList.add('-open');
+      focus = Focus.LOG;
       break;
 
     case Action.MOVE_EAST:
@@ -89,23 +116,6 @@ function run(model) {
 
     case Action.MOVE_WEST:
       carl = move(carl, Direction.WEST);
-      break;
-
-    case Action.TOGGLE_INVENTORY:
-      focus = togglePanel('Inventory') ? Focus.INVENTORY : Focus.GAME;
-      break;
-
-    case Action.TOGGLE_ITEMS:
-      if (model.state.entities.filter(e =>
-        e.position && !Entity.is(e, Carl)
-        && Position.match(e.position, carl.position)
-      ).length > 0) {
-        focus = togglePanel('Items') ? Focus.ITEMS : Focus.GAME;
-      }
-      break;
-
-    case Action.TOGGLE_LOG:
-      focus = togglePanel('Log') ? Focus.LOG : Focus.GAME;
       break;
   }
 

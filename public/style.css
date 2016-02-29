@@ -57,6 +57,21 @@ body {
   display: block;
 }
 
+#Items {
+  background-color: #181818;
+  display: none;
+  height: 200px;
+  left: 15%;
+  margin-top: -100px;
+  position: absolute;
+  top: 50%;
+  width: 200px;
+}
+
+#Items.-open {
+  display: block;
+}
+
 #Log {
   border-right: 1px solid #444;
   left: 0;
