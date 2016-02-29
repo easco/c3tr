@@ -1,4 +1,3 @@
-import Battery from 'entities/Battery';
 import Carl from 'entities/Carl';
 import Entity from 'Entity';
 import Position from 'components/Position';
