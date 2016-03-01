@@ -20,7 +20,7 @@ export default {
 
 function create({ level, position }) {
   let battery = [
-    Avatar.create('θ', '#CCC'),
+    Avatar.create('⍠', '#9DD'),
     Energy.create(level || Random.integer(600, 1800)),
     Name.create('battery')
   ];

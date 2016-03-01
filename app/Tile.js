@@ -6,8 +6,8 @@ import TileType from 'data/TileType';
 
 const Value = Object.assign({
   [TileType.CAVE]: {
-    avatar: Avatar.create('•', '#6C4C2A').value,
-    backgroundColor: BackgroundColor.create('#642').value
+    avatar: Avatar.create('•', '#504030').value,
+    backgroundColor: BackgroundColor.create('#4A3A2A').value
   },
 
   [TileType.ICE]: {
@@ -21,7 +21,7 @@ const Value = Object.assign({
   },
 
   [TileType.LAVA]: {
-    avatar: Avatar.create('≈', '#B55').value,
+    avatar: Avatar.create('~', '#B55').value,
     backgroundColor: BackgroundColor.create('#A44').value
   },
 
@@ -31,7 +31,7 @@ const Value = Object.assign({
   },
 
   [TileType.WATER]: {
-    avatar: Avatar.create('≈', '#357').value,
+    avatar: Avatar.create('~', '#357').value,
     backgroundColor: BackgroundColor.create('#246').value
   }
 });

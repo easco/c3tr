@@ -24,7 +24,7 @@ export default {
 function generate(width, height) {
   const caveGen = new FSN({ frequency: 0.05, octaves: 6 });
   const mountainGen = new FSN({ frequency: 0.01, octaves: 12 });
-  const terrainGen = new FSN({ frequency: 0.008, octaves: 8 });
+  const terrainGen = new FSN({ frequency: 0.01, octaves: 8 });
 
   const cave = (x, y) => Math.abs(caveGen.cylindrical2D(width, x, y));
   const mountain = (x, y) => mountainGen.cylindrical2D(width, x, y);
@@ -35,7 +35,7 @@ function generate(width, height) {
 
     if (t > 0.15) {
       if (t > 0.3 && mountain(x, y) > 0.3) {
-        return cave(x, y) < 0.08 ? TileType.CAVE : TileType.MOUNTAIN;
+        return cave(x, y) < 0.1 ? TileType.CAVE : TileType.MOUNTAIN;
       }
 
       return TileType.LAND;
@@ -52,14 +52,18 @@ function generate(width, height) {
 }
 
 function populate(world) {
-  const tt = [TileType.LAND];
+  const place = (entity, count) => {
+    return entities => (
+      World.placeEntity(world, entities, [TileType.LAND], entity, count)
+    );
+  };
 
-  return Util.compose([
-    e => World.placeEntity(world, e, tt, Battery, Random.integer(150, 250)),
-    e => World.placeEntity(world, e, tt, CPU, Random.integer(10, 50)),
-    e => World.placeEntity(world, e, tt, Monster, Random.integer(1000, 2000)),
-    e => World.placeEntity(world, e, tt, Tree, Random.integer(3000, 4000))
-  ], []);
+  return Util.pipe([], [
+    place(Battery, Random.integer(150, 250)),
+    place(CPU, Random.integer(10, 50)),
+    place(Monster, Random.integer(1000, 2000)),
+    place(Tree, Random.integer(3000, 4000))
+  ]);
 }
 
 function startingPosition(world, entities) {
