@@ -38,10 +38,9 @@ function html(type, attributes = {}, children = []) {
   children.map(
     child =>
       typeof child === 'number' || typeof child === 'string'
-      ? text(child)
-      : child
-    )
-    .forEach(child => element.appendChild(child));
+        ? text(child)
+        : child
+  ).forEach(child => element.appendChild(child));
 
   return element;
 }

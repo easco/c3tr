@@ -1,24 +1,27 @@
+const path = require('path');
+
 module.exports = {
-  entry: './app/index',
+  entry: './app/index.js',
 
   module: {
-    loaders: [
+    rules: [
       {
-        include: /app/,
-        loader: 'babel',
-        test: /\.js$/
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+            loader: 'babel-loader'
+        }
       }
     ]
   },
 
   output: {
     filename: 'application.js',
-    path: './public'
+    path: path.resolve(__dirname, './public')
   },
 
   resolve: {
-    extensions: ['', '.js'],
-    modulesDirectories: ['app', 'node_modules'],
-    root: __dirname
+    extensions: ['.js'],
+    modules: ['app', 'node_modules'],
   }
 };

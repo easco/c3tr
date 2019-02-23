@@ -78,8 +78,8 @@ export default function renderField({ state, world }) {
 
       avatar = presentEntities.length > 0
         ? presentEntities.reduce((top, entity) =>
-            entity.avatar.importance > top.avatar.importance ? entity : top
-          ).avatar
+          entity.avatar.importance > top.avatar.importance ? entity : top
+        ).avatar
         : tileValue.avatar;
 
       fieldContext.fillStyle = avatar.style;
